@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Đăng Ký</h2>
+<form autocomplete="off">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tài khoản</mat-label>
+        <input type="text" matInput>
+    </mat-form-field> &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Họ tên</mat-label>
+        <input type="text" matInput>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Giới tính</mat-label>
+        <mat-select>
+            <mat-option [value]="1">Nam</mat-option>
+            <mat-option [value]="0">Nữ</mat-option>
+            <mat-option [value]="2">Khác</mat-option>
+        </mat-select>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="fill">
+        <mat-label>Ngày sinh</mat-label>
+        <input type="date" matInput >
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Mật khẩu</mat-label>
+        <input type="password" matInput>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nhập lại mật khẩu</mat-label>
+        <input type="password" matInput>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>CMND/CCCD</mat-label>
+        <input type="text" matInput>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field appearance="fill">
+        <mat-label>Số điện thoại</mat-label>
+        <input type="text" matInput>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill" [style.width.%]=100>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput>
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill" [style.width.%]=100>
+        <mat-label>Địa chỉ</mat-label>
+        <input type="email" matInput>
+    </mat-form-field>
+
+
+    <div class="text-center">
+        <button type="button" mat-raised-button color="warn">Đăng ký</button> &nbsp;
+        <button type="reset" mat-raised-button>Nhập lại</button>
+    </div>
+
+</form>

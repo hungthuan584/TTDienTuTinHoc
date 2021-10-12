@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Đăng Nhập</h2>
+<form [formGroup]="loginForm" autocomplete="off" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+        <mat-label>Tài khoản</mat-label>
+        <input matInput type="text" formControlName="username">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <div class="text-center">
+        <button mat-raised-button color="warn" type="submit">Đăng nhập</button> &nbsp;
+        <button mat-raised-button type="reset">Nhập lại</button>
+    </div>
+</form>

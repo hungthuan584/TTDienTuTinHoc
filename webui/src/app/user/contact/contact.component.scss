@@ -1,0 +1,25 @@
+.container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    h2{
+        width: 100%;
+        background-color: #30336b;
+        color: #ffffff;
+        padding: 15px;
+    }
+}
+
+.contact-info{
+    background-color: #ffffff;
+    form{
+        padding: 15px;
+    }
+    table{
+        padding: 15px;
+    }
+}
+
+.required{
+    color: #ff0000;
+    font-style: italic;
+}

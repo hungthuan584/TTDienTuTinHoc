@@ -1,0 +1,21 @@
+.mat-toolbar{
+    background-color: #021420;
+    color: #ffffff;
+    a{
+        margin: 5px;
+        color: #ffffff;
+        text-decoration: none;
+    }
+    input{
+        width: 300px;
+    }
+    
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+a:hover{
+    text-decoration: none;
+}

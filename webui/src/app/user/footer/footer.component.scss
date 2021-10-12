@@ -1,0 +1,42 @@
+.footer-box {
+    margin: 0;
+    width: 100%;
+    background-color: #021420;
+    color: #ffffff;
+    padding: 20px 20px ;
+    h4{
+        margin-bottom: 0;
+    }
+
+    span{
+        font-size: 13px;
+    }
+    li{
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+    
+}
+
+.contact{
+    a:hover{
+        text-decoration: none;
+    }
+}
+
+.title{
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+#fanpage{
+    background-color: blue;
+    border: none;
+    padding: 5px 9px;
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+#fanpage:hover{
+    background-color: #0a3d62;
+}

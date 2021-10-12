@@ -1,0 +1,37 @@
+<div class="educate-box">
+    <div class="heading">
+        <button mat-raised-button color="primary" (click)="addEducate()">
+            <mat-icon>add_circle</mat-icon> Thêm mới
+        </button>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>CreateDate</th>
+                <th>UpdateDate</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of educates">
+                <td>{{ e.id }}</td>
+                <td>{{ e.name }}</td>
+                <td>{{ e.price | currency:'VND'}}</td>
+                <td>{{ e.createDate }}</td>
+                <td>{{ e.updateDate }}</td>
+                <td>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

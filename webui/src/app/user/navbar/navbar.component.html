@@ -1,0 +1,19 @@
+<mat-toolbar>
+    <div class="spacer"></div>
+    <a mat-button routerLink="home">
+        Trang chủ
+    </a>
+    <a mat-button routerLink="introduce">Giới Thiệu</a>
+    <a mat-button routerLink="admission">Chiêu Sinh</a>
+    <a mat-button routerLink="educate">Đào Tạo</a>
+    <a mat-button [matMenuTriggerFor]="menu">Giáo Vụ</a>
+    <a mat-button routerLink="contact">Liên Hệ</a>
+    <a mat-raised-button (click)="showLogin();" color="warn">Đăng nhập</a>
+    <a mat-raised-button color="warn" (click)="showRegister();">Đăng ký</a>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="score">Tra cứu điểm thi</button>
+        <button mat-menu-item routerLink="certificate">Tra cứu văn bằng</button>
+        <button mat-menu-item routerLink="notification">Thông báo</button>
+        <button mat-menu-item routerLink="rate">Đánh giá cuối khoá học</button>
+    </mat-menu>
+</mat-toolbar>
