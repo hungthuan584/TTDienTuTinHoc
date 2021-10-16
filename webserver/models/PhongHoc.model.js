@@ -1,18 +1,18 @@
 var dbConnect = require('../db.config');
 
-var Course = function (Course) {
-    this.course_name = Course.course_name;
-    this.course_fee = Course.course_fee;
-    this.course_createDate = new Date();
-    this.course_updateDate = new Date();
-    this.course_isDelete = Course.course_isDelete;
-    this.course_deleteDate = new Date();
+var PhongHoc = function (PhongHoc) {
+    this.PH_Ten = PhongHoc.PH_Ten;
+    this.PH_SucChua = PhongHoc.PH_SucChua;
+    this.PH_CreateDate = new Date();
+    this.PH_UpdateDate = new Date();
+    this.PH_IsDelete = PhongHoc.PH_IsDelete;
+    this.PH_DeleteDate = new Date();
 }
 
 // Get all
-Course.getAllCourse = (result) => {
+PhongHoc.getAllPhongHoc = (result) => {
     dbConnect.query(
-        `SELECT * FROM course WHERE course_isDelete != 1`,
+        `SELECT * FROM phonghoc WHERE PH_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -27,9 +27,9 @@ Course.getAllCourse = (result) => {
 }
 
 // Get by Id
-Course.getCourseById = (id, result) => {
+PhongHoc.getPhongHocById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM course WHERE course_isDelete != 1 AND course_id = ${id}`,
+        `SELECT * FROM phonghoc WHERE PH_IsDelete != 1 AND PH_Id = ${id}`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -44,10 +44,10 @@ Course.getCourseById = (id, result) => {
 }
 
 // Create
-Course.createCourse = (CourseReqData, result) => {
+PhongHoc.addPhongHoc = (PhongHocReqData, result) => {
     dbConnect.query(
-        `INSERT INTO course SET ? `,
-        CourseReqData,
+        `INSERT INTO phonghoc SET ? `,
+        PhongHocReqData,
         (err, res) => {
             if (err) {
                 console.log('Error While Creating New Data', err);
@@ -62,12 +62,12 @@ Course.createCourse = (CourseReqData, result) => {
 }
 
 // Update
-Course.updateCourseById = (id, CourseReqData, result) => {
+PhongHoc.updatePhongHocById = (id, PhongHocReqData, result) => {
     dbConnect.query(
-        `UPDATE course SET course_name = ?, course_fee = ?, course_updateDate = current_timestamp() WHERE course_id = ?`,
+        `UPDATE phonghoc SET PH_Ten = ?, PH_SucChua = ?, PH_UpdateDate = CURRENT_TIMESTAMP() WHERE PH_Id = ?`,
         [
-            CourseReqData.course_name,
-            CourseReqData.course_fee,
+            PhongHocReqData.PH_Ten,
+            PhongHocReqData.PH_SucChua,
             id
         ], (err, res) => {
             if (err) {
@@ -81,9 +81,9 @@ Course.updateCourseById = (id, CourseReqData, result) => {
 }
 
 // Delete
-Course.deleteCourseById = (id, result) => {
+PhongHoc.deletePhongHocById = (id, result) => {
     dbConnect.query(
-        `UPDATE Course SET course_isDelete = 1, course_deleteDate = current_timestamp() WHERE course_id = ${id}`,
+        `UPDATE phonghoc SET PH_IsDelete = 1, PH_DeleteDate = CURRENT_TIMESTAMP() WHERE PH_Id = ${id}`,
         (err, res) => {
             if (err) {
                 console.log('Error While Deleting Data');
@@ -96,4 +96,4 @@ Course.deleteCourseById = (id, result) => {
     );
 }
 
-module.exports = Course;
+module.exports = PhongHoc;

@@ -10,11 +10,6 @@ const bodyParser = require('body-parser');
 const port = 3000;
 
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-});
-
-
 // parse request data content type application/x-www-form-rulencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -24,14 +19,12 @@ app.use(bodyParser.json());
 app.use(cors({ origin: 'http://localhost:4200' }));
 
 // ******************* IMPORT ROUTE ***********************************
-const courseRoute = require('./routes/Course.route');
-const roomRoute = require('./routes/Room.route');
+const phonghocRoute = require('./routes/PhongHoc.route');
 
 
 
 // ******************* USE ROUTE ***********************************
-app.use('/api/course', courseRoute);
-app.use('/api/room', roomRoute);
+app.use('/api/phonghoc', phonghocRoute);
 
 // ********************************************************************
 app.listen(port, () => {
