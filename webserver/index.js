@@ -20,11 +20,13 @@ app.use(cors({ origin: 'http://localhost:4200' }));
 
 // ******************* IMPORT ROUTE ***********************************
 const phonghocRoute = require('./routes/PhongHoc.route');
-
-
+const capDoTaiKhoanRoute = require('./routes/CapDoTaiKhoan.route');
+const taiKhoanRoute = require('./routes/TaiKhoan.route');
 
 // ******************* USE ROUTE ***********************************
 app.use('/api/phonghoc', phonghocRoute);
+app.use('/api/capdotaikhoan', capDoTaiKhoanRoute);
+app.use('/api/taikhoan', taiKhoanRoute);
 
 // ********************************************************************
 app.listen(port, () => {
