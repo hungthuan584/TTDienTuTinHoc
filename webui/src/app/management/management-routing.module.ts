@@ -9,8 +9,8 @@ import { ExamComponent } from './exam/exam.component';
 import { FunctionComponent } from './function/function.component';
 import { HomeComponent } from './home/home.component';
 import { LicenseComponent } from './license/license.component';
+import { LoginComponent } from './login/login.component';
 import { ManagementComponent } from './management.component';
-import { PostCategoryComponent } from './post-category/post-category.component';
 import { PostComponent } from './post/post.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { StudentComponent } from './student/student.component';
@@ -21,7 +21,8 @@ const routes: Routes = [
     component: ManagementComponent,
     children:
       [
-        { path: '', redirectTo: 'home', pathMatch: 'full' },
+        { path: '', redirectTo: 'login', pathMatch: 'full' },
+        { path: 'login', component: LoginComponent },
         { path: 'home', component: HomeComponent },
         { path: 'post', component: PostComponent },
         { path: 'license', component: LicenseComponent },
@@ -32,7 +33,7 @@ const routes: Routes = [
         { path: 'student', component: StudentComponent },
         { path: 'exam', component: ExamComponent },
         { path: 'contact', component: ContactComponent },
-        { path: 'account', component: AccountComponent },
+        { path: 'taikhoan', component: AccountComponent },
         { path: 'statistical', component: StatisticalComponent },
       ]
   },

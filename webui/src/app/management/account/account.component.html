@@ -1,75 +1,16 @@
 <div class="account-box">
-    <button class="btnAddAccount btn btn-primary">Thêm tài khoản</button>
-    <table class="table table-bordered">
-        <thead>
-            <tr class="text-center">
-                <th>Tên đăng nhập</th>
-                <th>Tên hiển thị</th>
-                <th>Chức vụ</th>
-                <th>Ngày tạo</th>
-                <th>Ngày sửa</th>
-                <th>Quyền</th>
-                <th>#</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="text-justify">
-                <td>root</td>
-                <td>root</td>
-                <td>Quản trị hệ thống</td>
-                <td>20-08-2021</td>
-                <td></td>
-                <td>Hệ thống</td>
-                <td>
-                    <button class="btn btn-success">
-                        Cấp quyền
-                    </button>
-                    <button class="btn btn-primary">
-                        Đặt lại mật khẩu
-                    </button>
-                    <button class="btn btn-danger" title="Xoá">
-                        Khoá
-                    </button>
-                </td>
-            </tr>
-            <tr class="text-justify">
-                <td>admin</td>
-                <td>admin</td>
-                <td>Quản trị viên</td>
-                <td>20-08-2021</td>
-                <td></td>
-                <td>admin</td>
-                <td>
-                    <button mat-raised-button color="primary">
-                        Cấp quyền
-                    </button>
-                    <button class="btn btn-primary">
-                        Đặt lại mật khẩu
-                    </button>
-                    <button class="btn btn-danger" title="Xoá">
-                        Khoá
-                    </button>
-                </td>
-            </tr>
-            <tr class="text-justify">
-                <td>001794</td>
-                <td>Trần Minh Tân</td>
-                <td>Bí thư đoàn khoa</td>
-                <td>20-08-2021</td>
-                <td>21-08-2021</td>
-                <td>admin</td>
-                <td>
-                    <button class="btn btn-success">
-                        Cấp quyền
-                    </button>
-                    <button class="btn btn-primary">
-                        Đặt lại mật khẩu
-                    </button>
-                    <button class="btn btn-danger" title="Xoá">
-                        Khoá
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <button (click)="addClick()" class="btnAddAccount btn btn-primary"><i class="fa fa-user-plus"></i> Thêm</button>
+
+    <mat-tab-group>
+        <mat-tab label="Học viên">
+            <app-student-account-list></app-student-account-list>
+        </mat-tab>
+
+        <mat-tab label="Nhân viên">
+
+        </mat-tab>
+        <mat-tab label="Giáo viên">
+
+        </mat-tab>
+    </mat-tab-group>
 </div>

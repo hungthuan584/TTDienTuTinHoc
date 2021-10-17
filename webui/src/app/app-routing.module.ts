@@ -4,8 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', redirectTo: 'chungchitinhoc', pathMatch: 'full' },
   { path: 'chungchitinhoc', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-  { path: 'management', loadChildren: () => import('./management/management.module').then(m => m.ManagementModule) },
-  // {path:'**', component: }
+  { path: 'quantrihethong', loadChildren: () => import('./management/management.module').then(m => m.ManagementModule) }
 ];
 
 @NgModule({

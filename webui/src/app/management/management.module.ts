@@ -9,10 +9,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ManagementRoutingModule } from './management-routing.module';
 
@@ -29,11 +32,16 @@ import { CertificateComponent } from './certificate/certificate.component';
 import { ExamCommitteeComponent } from './exam-committee/exam-committee.component';
 import { StudentComponent } from './student/student.component';
 import { ExamComponent } from './exam/exam.component';
-import { AccountComponent } from './account/account.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { ContactComponent } from './contact/contact.component';
 import { EducateComponent } from './educate/educate.component';
 import { AddEditEducateComponent } from './educate/add-edit-educate/add-edit-educate.component';
+import { LoginComponent } from './login/login.component';
+import { AccountComponent } from './account/account.component';
+import { StudentAccountListComponent } from './account/student-account-list/student-account-list.component';
+import { AddAccountComponent } from './account/add-account.component';
+
+
 
 
 @NgModule({
@@ -50,15 +58,19 @@ import { AddEditEducateComponent } from './educate/add-edit-educate/add-edit-edu
     ExamCommitteeComponent,
     StudentComponent,
     ExamComponent,
-    AccountComponent,
     StatisticalComponent,
     ContactComponent,
     EducateComponent,
-    AddEditEducateComponent
+    AddEditEducateComponent,
+    LoginComponent,
+    AccountComponent,
+    StudentAccountListComponent,
+    AddAccountComponent
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
+    ReactiveFormsModule,
 
     // MaterialModule
     MatToolbarModule,
@@ -68,10 +80,11 @@ import { AddEditEducateComponent } from './educate/add-edit-educate/add-edit-edu
     MatListModule,
     MatMenuModule,
     MatButtonModule,
-    MatTableModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTabsModule,
+    MatSelectModule
   ]
 })
 export class ManagementModule { }

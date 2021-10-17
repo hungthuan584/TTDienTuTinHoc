@@ -16,22 +16,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let e of educates">
-                <td>{{ e.id }}</td>
-                <td>{{ e.name }}</td>
-                <td>{{ e.price | currency:'VND'}}</td>
-                <td>{{ e.createDate }}</td>
-                <td>{{ e.updateDate }}</td>
-                <td>
-                    <button class="btn btn-primary">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    &nbsp;
-                    <button class="btn btn-danger">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
         </tbody>
     </table>
 </div>

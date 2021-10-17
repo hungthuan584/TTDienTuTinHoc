@@ -3,7 +3,6 @@ var dbConnect = require('../db.config');
 var CapDoTaiKhoan = function (CapDoTaiKhoan) {
     this.LV_Id = CapDoTaiKhoan.LV_Id;
     this.LV_Ten = CapDoTaiKhoan.LV_Ten;
-    this.LV_MoTa = CapDoTaiKhoan.LV_MoTa;
 }
 
 // Get All

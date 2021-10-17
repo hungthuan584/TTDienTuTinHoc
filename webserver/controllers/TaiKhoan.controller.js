@@ -8,7 +8,7 @@ exports.getTaiKhoanEmployees = (req, res) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: TaiKhoan });
+        return res.json(TaiKhoan);
     });
 }
 
@@ -19,7 +19,7 @@ exports.getTaiKhoanTeachers = (req, res) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: TaiKhoan });
+        return res.json(TaiKhoan);
     });
 }
 
@@ -30,17 +30,17 @@ exports.getTaiKhoanStudents = (req, res) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: TaiKhoan });
+        return res.json(TaiKhoan);
     });
 }
 
 // Get by username
 exports.getTaiKhoanByUsername = (req, res) => {
-    TaiKhoanModel.getTaiKhoanByUsername(req.params.PH_Id, (err, TaiKhoan) => {
+    TaiKhoanModel.getTaiKhoanByUsername(req.params.TK_TenDangNhap, (err, TaiKhoan) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: TaiKhoan });
+        return res.json(TaiKhoan);
     });
 }
 
@@ -57,6 +57,11 @@ exports.addTaiKhoanByRegister = (req, res) => {
         return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
     }
     else {
+
+        var salt = genSaltSync(10);
+        TaiKhoanReqData.TK_MatKhau = '12345';
+        TaiKhoanReqData.TK_MatKhau = hashSync(TaiKhoanReqData.TK_MatKhau, salt);
+
         TaiKhoanModel.addTaiKhoan(TaiKhoanReqData, (err, TaiKhoan) => {
             if (err) {
                 return res.json({ status: 0, massage: err });
@@ -86,7 +91,7 @@ exports.addTaiKhoanByManager = (req, res) => {
             if (err) {
                 return res.json({ status: 0, massage: err });
             }
-            return res.json({ status: 1, massage: 'Created Successfully', data: TaiKhoan });
+            return res.json(TaiKhoan);
         });
     }
 }
@@ -141,14 +146,3 @@ exports.activeTaiKhoan = (req, res) => {
 }
 
 // Login
-exports.login = (req,res)=>{
-    TaiKhoanModel.login(req.params.TK_TenDangNhap,req.params.TK_MatKhau,(err,TaiKhoan)=>{
-        if(err){
-            return res.json({status:0,message:err});
-        }
-        if(!TaiKhoan){
-            return res.json({status:0,message:"Invalid username or password!"});
-        }
-        const result = compareSync(req.params.TK_MatKhau, TaiKhoan.TK_MatKhau);
-    });
-}

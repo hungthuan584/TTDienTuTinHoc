@@ -1,0 +1,52 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên đăng nhập</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>SĐT</th>
+            <th>Xác thực</th>
+            <th>Trạng thái</th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of listTaiKhoan">
+            <td>{{ item.TK_TenDangNhap }}</td>
+            <td>{{ item.TK_HoTen }}</td>
+            <td>{{ item.TK_Email }}</td>
+            <td>{{ item.TK_Sdt }}</td>
+            <td>
+                <span *ngIf="item.TK_XacThuc == 1" class="badge badge-primary"><i class="fa fa-check"></i></span>
+                <span *ngIf="item.TK_XacThuc == 0" class="badge badge-warning"><i class="fa fa-times"></i></span>
+            </td>
+            <td>
+                <span *ngIf="item.TK_IsActive == 0" class="badge badge-danger">Vô hiệu hoá</span>
+                <span *ngIf="item.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
+            </td>
+            <td>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <i class="fa fa-info"></i> &nbsp;
+                        <span>Thông tin</span>
+                    </button>
+                    <button mat-menu-item (click)="clickEditButton(item.TK_TenDangNhap)">
+                        <i class="fa fa-edit"></i> &nbsp;
+                        <span>Sửa</span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fa fa-undo"></i> &nbsp;
+                        <span>Đặt lại mật khẩu</span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fa fa-ban"></i> &nbsp;
+                        <span>Khoá</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </tr>
+    </tbody>
+</table>

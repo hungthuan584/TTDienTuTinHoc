@@ -6,6 +6,6 @@ exports.getAllCapDo = (req, res)=>{
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: CapDoTaiKhoan });
+        return res.json(CapDoTaiKhoan);
     });
 }

@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+
+<form [formGroup]="accountForm" autocomplete="off">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tài khoản</mat-label>
+        <input type="text" matInput formControlName="TK_TenDangNhap">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Họ tên</mat-label>
+        <input type="text" matInput formControlName="TK_HoTen">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Giới tính</mat-label>
+        <mat-select formControlName="TK_GioiTinh">
+            <mat-option [value]="1">Nam</mat-option>
+            <mat-option [value]="0">Nữ</mat-option>
+            <mat-option [value]="2">Khác</mat-option>
+        </mat-select>
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+        <mat-label>Loại tài khoản</mat-label>
+        <mat-select formControlName="LV_Id">
+            <mat-option [value]="1">Quản trị viên</mat-option>
+            <mat-option [value]="2">Nhân viên</mat-option>
+            <mat-option [value]="3">Giáo viên</mat-option>
+            <mat-option [value]="4">Học viên</mat-option>
+        </mat-select>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Mật khẩu</mat-label>
+        <input type="password" matInput formControlName="TK_MatKhau">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Nhập lại mật khẩu</mat-label>
+        <input type="password" matInput formControlName="TK_NhapLaiMatKhau">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Ngày sinh</mat-label>
+        <input type="date" matInput formControlName="TK_SinhNhat">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>CMND/CCCD</mat-label>
+        <input type="text" matInput formControlName="TK_Cmnd">
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+        <mat-label>Số điện thoại</mat-label>
+        <input type="text" matInput formControlName="TK_Sdt">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" [style.width.%]=100>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="TK_Email">
+    </mat-form-field>
+    <mat-form-field appearance="fill" [style.width.%]=100>
+        <mat-label>Địa chỉ</mat-label>
+        <input type="email" matInput formControlName="TK_DiaChi">
+    </mat-form-field>
+
+    <div class="text-center">
+        <button type="button" mat-raised-button color="primary">Lưu</button> &nbsp;
+        <button type="button" mat-raised-button (click)="cancelClick()">Huỷ</button>
+    </div>
+</form>

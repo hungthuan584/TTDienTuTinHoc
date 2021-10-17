@@ -72,7 +72,7 @@ TaiKhoan.getTaiKhoanStudents = (result) => {
 // Get By TenDangNhap
 TaiKhoan.getTaiKhoanByUsername = (username, result) => {
     dbConnect.query(
-        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = ${username}`,
+        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = '${username}'`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
