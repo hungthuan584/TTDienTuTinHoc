@@ -72,7 +72,7 @@ TaiKhoan.getTaiKhoanStudents = (result) => {
 // Get By TenDangNhap
 TaiKhoan.getTaiKhoanByUsername = (username, result) => {
     dbConnect.query(
-        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = '${username}'`,
+        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = ?`, username,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -80,7 +80,7 @@ TaiKhoan.getTaiKhoanByUsername = (username, result) => {
             }
             else {
                 console.log('Fetching Successfully');
-                result(null, res);
+                result(null, res[0]);
             }
         }
     );
@@ -194,27 +194,6 @@ TaiKhoan.activeTaiKhoan = (username, result) => {
         }
     );
 }
-
-// Login
-TaiKhoan.login = (username, password, result) => {
-    dbConnect.query(
-        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = ? AND TK_MatKhau = ?`,
-        [
-            username,
-            password
-        ],
-        (err, res) => {
-            if (err) {
-                console.log('Error While Fetching Data');
-                result(err, null);
-            } else {
-                console.log('Fetching Successfully!');
-                result(null, res)
-            }
-        }
-    );
-}
-
 
 
 module.exports = TaiKhoan;

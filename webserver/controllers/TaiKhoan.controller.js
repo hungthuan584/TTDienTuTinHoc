@@ -1,5 +1,6 @@
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const TaiKhoanModel = require('../models/TaiKhoan.model');
+const {sign} = require('jsonwebtoken');
 
 // Danh sach tai khoan nhan vien
 exports.getTaiKhoanEmployees = (req, res) => {
@@ -146,3 +147,25 @@ exports.activeTaiKhoan = (req, res) => {
 }
 
 // Login
+exports.login = (req, res) => {
+    TaiKhoanModel.getTaiKhoanByUsername(req.body.TK_TenDangNhap, (err, TaiKhoan) => {
+        if (err) {
+            return res.json({ status: 0, message: err });
+        }
+        if (!TaiKhoan) {
+            return res.json({ status: 0, message: 'Faild to login' });
+        }
+        const result = compareSync(req.body.TK_MatKhau, TaiKhoan.TK_MatKhau);
+        if (result) {
+            TaiKhoan.TK_MatKhau = undefined;
+            const jsonToken = sign({ result: TaiKhoan }, 'qwe1234', {
+                expiresIn: "4h"
+            });
+
+            return res.json({ status: 1, message: 'Login Successfully', token: jsonToken });
+        } else {
+
+            return res.json({ status: 0, message: 'Invalid username or password' });
+        }
+    });
+}

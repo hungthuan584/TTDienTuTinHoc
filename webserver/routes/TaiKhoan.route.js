@@ -19,5 +19,7 @@ route.put('update/:TK_TenDangNhap', TaiKhoanController.updateTaiKhoan);
 route.put('blocked/:TK_TenDangNhap', TaiKhoanController.blockedTaiKhoan);
 // Active
 route.put('active/:TK_TenDangNhap', TaiKhoanController.activeTaiKhoan);
+// Login
+route.post('/login', TaiKhoanController.login);
 
 module.exports = route;

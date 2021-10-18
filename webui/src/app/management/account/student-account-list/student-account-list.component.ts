@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Router } from '@angular/router';
 import { ITaiKhoan } from 'src/app/models/ITaiKhoan';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 
@@ -18,8 +17,7 @@ export class StudentAccountListComponent implements OnInit {
   title!: string;
 
   constructor(
-    private _taikhoanService: TaiKhoanService,
-    private _router: Router
+    private _taikhoanService: TaiKhoanService
   ) { }
 
   public ngOnInit(): void {
@@ -34,7 +32,7 @@ export class StudentAccountListComponent implements OnInit {
   }
 
   clickEditButton(username: string) {
-    this._router.navigate(['edit', username]);
+    
   }
 
   clickResetPassButton() {

@@ -1,15 +1,17 @@
 <h2 mat-dialog-title>Đăng Nhập</h2>
-<form [formGroup]="loginForm" autocomplete="off" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
+<form autocomplete="off">
+    <mat-form-field appearance="fill" [style.width.%]=100>
         <mat-label>Tài khoản</mat-label>
-        <input matInput type="text" formControlName="username">
-    </mat-form-field><br>
-    <mat-form-field appearance="fill">
-        <mat-label>Mật khẩu</mat-label>
-        <input matInput type="password" formControlName="password">
+        <input matInput type="text" [(ngModel)]="data.TK_TenDangNhap" name="TK_TenDangNhap">
     </mat-form-field>
-    <div class="text-center">
-        <button mat-raised-button color="warn" type="submit">Đăng nhập</button> &nbsp;
-        <button mat-raised-button type="reset">Nhập lại</button>
-    </div>
+    <mat-form-field appearance="fill" [style.width.%]=100>
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput type="password" [(ngModel)]="data.TK_MatKhau" name="TK_MatKhau">
+    </mat-form-field>
+    
 </form>
+<mat-error *ngIf="!data.status">Tên đăng nhập hoặc mật khẩu không chính xác</mat-error>
+<div class="text-center">
+    <button mat-raised-button color="warn" (click)="onSubmit()">Đăng nhập</button> &nbsp;
+    <button mat-raised-button type="reset">Nhập lại</button>
+</div>

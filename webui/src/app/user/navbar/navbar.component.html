@@ -8,8 +8,18 @@
     <a mat-button routerLink="educate">Đào Tạo</a>
     <a mat-button [matMenuTriggerFor]="menu">Giáo Vụ</a>
     <a mat-button routerLink="contact">Liên Hệ</a>
-    <a mat-raised-button (click)="showLogin();" color="warn">Đăng nhập</a>
-    <a mat-raised-button color="warn" (click)="showRegister();">Đăng ký</a>
+    <a *ngIf="!isLogin" mat-raised-button (click)="showLogin();" color="warn">Đăng nhập</a>
+    <button *ngIf="isLogin" mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon> {{data?.TK_HoTen}}<mat-icon>
+            expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Thông tin cá nhân</button>
+        <button mat-menu-item>Lớp học</button>
+        <button (click)="logOut()" mat-menu-item>
+            <mat-icon>logout</mat-icon> Đăng xuất
+        </button>
+    </mat-menu>
     <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="score">Tra cứu điểm thi</button>
         <button mat-menu-item routerLink="certificate">Tra cứu văn bằng</button>
