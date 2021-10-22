@@ -7,7 +7,7 @@ exports.getAllPhongHoc = (req, res) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: PhongHoc });
+        return res.json(PhongHoc);
     });
 }
 
@@ -17,7 +17,7 @@ exports.getPhongHocById = (req, res) => {
         if (err) {
             return res.status(500).json({ status: 0, message: err });
         }
-        return res.json({ status: 1, massage: 'Selected Data Successfully!', data: PhongHoc });
+        return res.json(PhongHoc);
     });
 }
 
@@ -38,7 +38,7 @@ exports.addPhongHoc = (req, res) => {
             if (err) {
                 return res.json({ status: 0, massage: err });
             }
-            return res.json({ status: 1, massage: 'Created Successfully', data: PhongHoc });
+            return res.json(PhongHoc);
         });
     }
 }

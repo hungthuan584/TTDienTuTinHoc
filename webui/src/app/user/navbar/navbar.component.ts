@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+
+export interface ConfirmLogOutDialogData {
+  confirmMessage: string;
+  isLogOut: boolean;
+}
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +17,13 @@ import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 })
 export class NavbarComponent implements OnInit {
 
+  confirmMessage = 'Bạn muốn đăng xuất ?';
+  isLogOut = false;
 
   constructor(
     private auth: AuthService,
-    private taikhoan: TaiKhoanService
+    private taikhoan: TaiKhoanService,
+    public dialog: MatDialog
   ) { }
   public isLogin = false;
   public data: any;
@@ -24,9 +35,7 @@ export class NavbarComponent implements OnInit {
     if (this.isLogin) {
       this.TK_TenDangNhap = this.auth.getInfo();
       this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-        console.log('result: ', result);
         this.data = result;
-        console.log(this.data);
       });
     }
   }
@@ -37,7 +46,6 @@ export class NavbarComponent implements OnInit {
       this.TK_TenDangNhap = this.auth.getInfo();
       this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
         this.data = result;
-        console.log(this.data);
       });
     }
   }
@@ -48,8 +56,17 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.auth.logout();
-    this.isLogin = false;
-  }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { confirmMessage: this.confirmMessage }
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      this.isLogOut = result.data;
+      if (this.isLogOut === true) {
+        this.auth.logout();
+        this.isLogin = false;
+        window.location.reload();
+      }
+    });
+  }
 }

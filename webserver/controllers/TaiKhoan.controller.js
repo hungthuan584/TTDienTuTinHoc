@@ -1,6 +1,7 @@
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const TaiKhoanModel = require('../models/TaiKhoan.model');
-const {sign} = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
+const crypto = require('crypto');
 
 // Danh sach tai khoan nhan vien
 exports.getTaiKhoanEmployees = (req, res) => {
@@ -49,6 +50,7 @@ exports.getTaiKhoanByUsername = (req, res) => {
 exports.addTaiKhoanByRegister = (req, res) => {
     const TaiKhoanReqData = new TaiKhoanModel(req.body);
 
+    TaiKhoanReqData.TK_XacThuc = 0;
     TaiKhoanReqData.LV_Id = 4;
     TaiKhoanReqData.TK_IsActive = 1;
     TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
@@ -155,6 +157,8 @@ exports.login = (req, res) => {
         if (!TaiKhoan) {
             return res.json({ status: 0, message: 'Faild to login' });
         }
+
+        
         const result = compareSync(req.body.TK_MatKhau, TaiKhoan.TK_MatKhau);
         if (result) {
             TaiKhoan.TK_MatKhau = undefined;

@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 
 import { UserComponent } from './user.component';
@@ -26,11 +28,6 @@ import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from './contact/contact.component';
 import { ScoreComponent } from './score/score.component';
-import { EducateComponent } from './educate/educate.component';
-
-
-
-
 
 
 @NgModule({
@@ -44,8 +41,7 @@ import { EducateComponent } from './educate/educate.component';
     RegisterComponent,
     FooterComponent,
     ContactComponent,
-    ScoreComponent,
-    EducateComponent
+    ScoreComponent
   ],
   imports: [
     CommonModule,
@@ -63,8 +59,9 @@ import { EducateComponent } from './educate/educate.component';
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatSidenavModule,
+    MatListModule
   ]
 })
 export class UserModule { }

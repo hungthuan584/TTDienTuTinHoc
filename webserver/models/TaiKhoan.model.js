@@ -2,20 +2,13 @@ var dbConnect = require('../db.config');
 
 var TaiKhoan = function (TaiKhoan) {
     this.TK_TenDangNhap = TaiKhoan.TK_TenDangNhap;
-    this.LV_Id = TaiKhoan.LV_Id;
     this.TK_MatKhau = TaiKhoan.TK_MatKhau;
-    this.TK_HoTen = TaiKhoan.TK_HoTen;
-    this.TK_GioiTinh = TaiKhoan.TK_GioiTinh;
-    this.TK_SinhNhat = TaiKhoan.TK_SinhNhat;
-    this.TK_Cmnd = TaiKhoan.TK_Cmnd;
-    this.TK_DiaChi = TaiKhoan.TK_DiaChi;
-    this.TK_Sdt = TaiKhoan.TK_Sdt;
-    this.TK_Email = TaiKhoan.TK_Email;
+    this.LV_Id = TaiKhoan.LV_Id;
     this.TK_XacThuc = TaiKhoan.TK_XacThuc;
-    this.TK_CreateDate = TaiKhoan.TK_CreateDate;
-    this.TK_UpdateDate = TaiKhoan.TK_UpdateDate;
+    this.TK_CreateDate = new Date();
+    this.TK_UpdateDate = new Date();
     this.TK_IsActive = TaiKhoan.TK_IsActive;
-    this.TK_BlockedDate = TaiKhoan.TK_BlockDate;
+    this.TK_BlockedDate = new Date();
 }
 
 // Danh sach tai khoan Nhan vien
@@ -104,31 +97,17 @@ TaiKhoan.addTaiKhoan = (TaiKhoanReqData, result) => {
     );
 }
 
-// Update
+// Change password
 TaiKhoan.updateTaiKhoan = (username, TaiKhoanReqData, result) => {
     dbConnect.query(
         `
         UPDATE taikhoan
         SET
             TK_MatKhau = ?,
-            TK_HoTen = ?,
-            TK_GioiTinh = ?,
-            TK_SinhNhat = ?,
-            TK_Cmnd =?,
-            TK_DiaChi = ?,
-            TK_Sdt = ?,
-            TK_Email = ?,
             TK_UpdateDate = CURRENT_TIMESTAMP()
         WHERE TK_TenDangNhap = ?`,
         [
             TaiKhoanReqData.TK_MatKhau,
-            TaiKhoanReqData.TK_HoTen,
-            TaiKhoanReqData.TK_GioiTinh,
-            TaiKhoanReqData.TK_SinhNhat,
-            TaiKhoanReqData.TK_Cmnd,
-            TaiKhoanReqData.TK_DiaChi,
-            TaiKhoanReqData.TK_Sdt,
-            TaiKhoanReqData.TK_Email,
             username
         ],
         (err, res) => {

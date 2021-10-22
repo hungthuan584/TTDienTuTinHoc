@@ -1,29 +1,34 @@
 <mat-toolbar>
     <div class="spacer"></div>
-    <a mat-button routerLink="home">
+    <a mat-button routerLink="trang-chu">
         Trang chủ
     </a>
-    <a mat-button routerLink="introduce">Giới Thiệu</a>
-    <a mat-button routerLink="admission">Chiêu Sinh</a>
-    <a mat-button routerLink="educate">Đào Tạo</a>
-    <a mat-button [matMenuTriggerFor]="menu">Giáo Vụ</a>
-    <a mat-button routerLink="contact">Liên Hệ</a>
-    <a *ngIf="!isLogin" mat-raised-button (click)="showLogin();" color="warn">Đăng nhập</a>
+    <a mat-button routerLink="gioi-thieu" routerLinkActive="router-link-active">Giới Thiệu</a>
+    <a mat-button routerLink="chieu-sinh" routerLinkActive="router-link-active">Chiêu Sinh</a>
+    <a mat-button [matMenuTriggerFor]="menuGiaoVu">Giáo Vụ</a>
+    <a mat-button routerLink="lien-he" routerLinkActive="router-link-active">Liên Hệ</a>
+    <span *ngIf="!isLogin">
+        <a mat-raised-button color="warn" (click)="showLogin();">Đăng nhập</a>
+        <a mat-raised-button color="warn" routerLink="dang-ky">Đăng ký</a>
+    </span>
+
     <button *ngIf="isLogin" mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon> {{data?.TK_HoTen}}<mat-icon>
-            expand_more</mat-icon>
+        <mat-icon>account_circle</mat-icon>
+        &nbsp; {{data?.TK_HoTen}} &nbsp;
+        <mat-icon>expand_more</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Thông tin cá nhân</button>
-        <button mat-menu-item>Lớp học</button>
+        <a routerLink="ca-nhan" routerLinkActive="router-link-active" mat-menu-item>
+            <mat-icon>person</mat-icon> Trang cá nhân
+        </a>
         <button (click)="logOut()" mat-menu-item>
             <mat-icon>logout</mat-icon> Đăng xuất
         </button>
     </mat-menu>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="score">Tra cứu điểm thi</button>
-        <button mat-menu-item routerLink="certificate">Tra cứu văn bằng</button>
-        <button mat-menu-item routerLink="notification">Thông báo</button>
-        <button mat-menu-item routerLink="rate">Đánh giá cuối khoá học</button>
+    <mat-menu #menuGiaoVu="matMenu">
+        <button mat-menu-item routerLink="score" routerLinkActive="router-link-active">Tra cứu điểm thi</button>
+        <button mat-menu-item routerLink="certificate" routerLinkActive="router-link-active">Tra cứu văn bằng</button>
+        <button mat-menu-item routerLink="notification" routerLinkActive="router-link-active">Thông báo</button>
+        <button mat-menu-item routerLink="rate" routerLinkActive="router-link-active">Đánh giá cuối khoá học</button>
     </mat-menu>
 </mat-toolbar>

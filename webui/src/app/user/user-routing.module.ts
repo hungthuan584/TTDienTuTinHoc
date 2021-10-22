@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -11,11 +11,12 @@ const routes: Routes = [
     component: UserComponent,
     children:
       [
-        
-        { path: 'home', component: HomeComponent },
-        { path: 'contact', component: ContactComponent },
-        { path: 'register', component: RegisterComponent },
-        { path: '', redirectTo: 'home', pathMatch: 'full' },
+        { path: '', redirectTo: 'trang-chu', pathMatch: 'full' },
+        { path: 'trang-chu', component: HomeComponent },
+        { path: 'lien-he', component: ContactComponent },
+        { path: 'dang-ky', component: RegisterComponent },
+        { path: 'ca-nhan', loadChildren: () => import('./person/person.module').then(m => m.PersonModule) }
+
       ]
   }
 ];
