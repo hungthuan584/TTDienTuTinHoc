@@ -9,10 +9,9 @@ var HocVien = function (HocVien) {
     this.HV_DiaChi = HocVien.HV_DiaChi;
     this.HV_Sdt = HocVien.HV_Sdt;
     this.HV_Email = HocVien.HV_Email;
-    this.HV_AnhDaiDien = HocVien.HV_AnhDaiDien;
     this.HV_SinhVien = HocVien.HV_SinhVien;
     this.HV_Mssv = HocVien.HV_Mssv;
-    this.HV_TenDangNhap = HocVien.HV_TenDangNhap;
+    this.TK_TenDangNhap = HocVien.TK_TenDangNhap;
     this.HV_CreateDate = new Date();
     this.HV_UpdateDate = new Date();
     this.HV_IsDelete = HocVien.HV_IsDelete;
@@ -22,7 +21,7 @@ var HocVien = function (HocVien) {
 // Danh sach hoc vien
 HocVien.getAllHocVien = (result) => {
     dbConnect.query(
-        `SELECT * FROM hocvien WHERE HV_IsDelete != 1`,
+        `SELECT * FROM HocVien WHERE HV_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -40,7 +39,7 @@ HocVien.getAllHocVien = (result) => {
 // Danh sach hoc vien dang ky nam hien tai
 HocVien.getHocVienByYear = (result) => {
     dbConnect.query(
-        `SELECT * FROM hocvien WHERE YEAR(HV_CreateDate) = YEAR(CURDATE())`,
+        `SELECT * FROM HocVien WHERE YEAR(HV_CreateDate) = YEAR(CURDATE())`,
         (err, res) => {
             if (err) {
                 console.log('Error :', err);
@@ -57,7 +56,7 @@ HocVien.getHocVienByYear = (result) => {
 // Get hoc vien by Id
 HocVien.getHocVienById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM hocvien WHERE HV_Id = ?`,
+        `SELECT * FROM HocVien WHERE HV_Id = ?`,
         id,
         (err, res) => {
             if (err) {
@@ -72,11 +71,27 @@ HocVien.getHocVienById = (id, result) => {
     );
 }
 
-// Them hoc vien
-HocVien.addHocVien = (HocVienReqData, result) => {
+HocVien.getByUsername = (username, result) => {
     dbConnect.query(
-        `INSERT INTO hocvien SET ?`,
-        HocVienReqData,
+        `SELECT * FROM HocVien WHERE TK_TenDangNhap = ?`,
+        username,
+        (err, res) => {
+            if (err) {
+                console.log('Error while fetching', err);
+                result(null, err);
+            } else {
+                console.log('Selected successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+// Them hoc vien
+HocVien.addHocVien = (data, result) => {
+    dbConnect.query(
+        `INSERT INTO HocVien SET ?`,
+        data,
         (err, res) => {
             if (err) {
                 console.log('Error While Creating New Data', err);
@@ -91,10 +106,10 @@ HocVien.addHocVien = (HocVienReqData, result) => {
 }
 
 // Sua thong tin hoc vien
-HocVien.updateHocVien = (id, HocVienReqData, result) => {
+HocVien.updateHocVien = (id, data, result) => {
     dbConnect.query(
         `
-        UPDATE hocvien
+        UPDATE HocVien
 	    SET
             HV_HoTen = ?,
             HV_GioiTinh = ?,
@@ -109,20 +124,20 @@ HocVien.updateHocVien = (id, HocVienReqData, result) => {
 	    WHERE HV_Id = ?
         `,
         [
-            HocVienReqData.HV_HoTen,
-            HocVienReqData.HV_GioiTinh,
-            HocVienReqData.HV_NgaySinh,
-            HocVienReqData.HV_Cmnd,
-            HocVienReqData.HV_DiaChi,
-            HocVienReqData.HV_Sdt,
-            HocVienReqData.HV_Email,
-            HocVienReqData.HV_SinhVien,
-            HocVienReqData.HV_Mssv,
+            data.HV_HoTen,
+            data.HV_GioiTinh,
+            data.HV_NgaySinh,
+            data.HV_Cmnd,
+            data.HV_DiaChi,
+            data.HV_Sdt,
+            data.HV_Email,
+            data.HV_SinhVien,
+            data.HV_Mssv,
             id
         ],
         (err, res) => {
             if (err) {
-                console.log('Error While Updating Data');
+                console.log('Error While Updating Data', err);
                 result(err, null);
             } else {
                 console.log('Data Updated Successfully!');
@@ -136,7 +151,7 @@ HocVien.updateHocVien = (id, HocVienReqData, result) => {
 HocVien.deleteHocVien = (id, result) => {
     dbConnect.query(
         `
-        UPDATE hocvien
+        UPDATE HocVien
         SET
             HV_IsDelete = 1,
             HV_DeleteDate = CURRENT_TIMESTAMP()
@@ -145,7 +160,7 @@ HocVien.deleteHocVien = (id, result) => {
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Delete Data');
+                console.log('Error While Delete Data', err);
                 result(err, null);
             } else {
                 console.log('Data Deleted Successfully!');

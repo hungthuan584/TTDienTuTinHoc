@@ -1,7 +1,6 @@
 const HocVienModel = require('../models/HocVien.model');
 
 
-
 // Danh sach hoc vien
 exports.getAllHocVien = (req, res) => {
 
@@ -38,26 +37,33 @@ exports.getHocVienByCreateYear = (req, res) => {
 // Them hoc vien
 exports.addHocVien = (req, res) => {
 
-    const HocVienReqData = new HocVienModel(req.body);
+    var listHocVienInYear = JSON.parse(this.getHocVienByCreateYear());
 
-    HocVienReqData.HV_AnhDaiDien = null;
-    HocVienReqData.HV_UpdateDate = '-  -     :  :';
-    HocVienReqData.HV_IsDelete = 0;
-    HocVienReqData.HV_DeleteDate = '-  -     :  :';
+    const numberOfHocVien = listHocVienInYear.length;
 
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
-    }
-    else {
-        HocVienModel.addHocVien(HocVienReqData, (err, HocVien) => {
-            if (err) {
-                return res.json({ status: 0, massage: err });
-            }
-            return res.json(HocVien);
-        });
-    }
+    console.log(numberOfHocVien);
+
+    // const HocVienReqData = new HocVienModel(req.body);
+
+    // HocVienReqData.HV_AnhDaiDien = null;
+    // HocVienReqData.HV_UpdateDate = '-  -     :  :';
+    // HocVienReqData.HV_IsDelete = 0;
+    // HocVienReqData.HV_DeleteDate = '-  -     :  :';
+
+    // if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+    //     return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
+    // }
+    // else {
+    //     HocVienModel.addHocVien(HocVienReqData, (err, HocVien) => {
+    //         if (err) {
+    //             return res.json({ status: 0, massage: err });
+    //         }
+    //         return res.json(HocVien);
+    //     });
+    // }
 }
 
+// Sua
 exports.updateHocVien = (req, res) => {
 
     const HocVienReqData = new HocVienModel(req.body);
@@ -74,6 +80,7 @@ exports.updateHocVien = (req, res) => {
     }
 }
 
+// Xoa
 exports.deleteHocVien = (req, res) => {
 
     HocVienModel.deleteHocVien(req.params.HV_Id, (err) => {

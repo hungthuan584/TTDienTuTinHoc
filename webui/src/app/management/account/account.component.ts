@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ITaiKhoan } from 'src/app/models/ITaiKhoan';
 import { AddAccountComponent } from './add-account.component';
 
 
 
 export interface DialogData {
   title: string;
-  TaiKhoan: ITaiKhoan;
+  TaiKhoan: any;
   username: string;
 }
 
@@ -20,7 +19,7 @@ export interface DialogData {
 export class AccountComponent implements OnInit {
 
   title = 'Thêm tài khoản';
-  TaiKhoan!: ITaiKhoan;
+  TaiKhoan: any;
 
   constructor(
     public dialog: MatDialog

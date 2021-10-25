@@ -85,11 +85,13 @@ export class AuthService {
       const TK_MatKhau = result?.data?.TK_MatKhau;
       const token = result?.data?.token;
 
-      if (token?.status == 0 && token?.message == "Invalid username or password") {
+      if (token?.status == 0 && token?.login == 0) {
         this.isLog = false;
         this.login(backUrl);
       } else if (!!TK_TenDangNhap && !!TK_MatKhau && !!token) {
         this.isLog = true;
+        console.log('token',token);
+        
         this.setToken(token.token);
         this.getLoginName.next();
         this.router.navigate([backUrl]);

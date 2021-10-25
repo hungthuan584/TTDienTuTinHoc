@@ -6,16 +6,15 @@ import { catchError, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class TaiKhoanService {
+export class LopHocService {
 
-  private REST_AIP_SERVER = 'http://localhost:3000/api/taikhoan';
+  private REST_API_SERVER = 'http://localhost:3000/api/lophoc';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
   };
-
-
+  
   constructor(private httpClient: HttpClient) { }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -27,8 +26,8 @@ export class TaiKhoanService {
     return throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
   }
 
-  public getTaiKhoanHocVien(): Observable<any> {
-    const url = `${this.REST_AIP_SERVER}/hocvien`;
+  public getAllLopHoc(): Observable<any> {
+    const url = `${this.REST_API_SERVER}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(
@@ -39,11 +38,9 @@ export class TaiKhoanService {
       .pipe(catchError(this.handleError));
   }
 
+  public getLopHocById(id: string): Observable<any> {
 
-  // ********** GET OBJECT **********
-  public getTaiKhoanByTenDangNhap(username: string): Observable<any> {
-
-    const url = `${this.REST_AIP_SERVER}/${username}`;
+    const url = `${this.REST_API_SERVER}/${id}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(
@@ -54,4 +51,5 @@ export class TaiKhoanService {
       .pipe(catchError(this.handleError));
   }
 
+  
 }

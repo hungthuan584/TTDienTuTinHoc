@@ -19,24 +19,24 @@ export class HomeComponent implements OnInit {
   private TK_TenDangNhap: any;
 
   ngOnInit(): void {
-    this.isLogin = this.auth.isLogin();
-    this.auth.getLoginName.subscribe(() => this.setLogin());
-    if (this.isLogin) {
-      this.TK_TenDangNhap = this.auth.getInfo();
-      this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-        this.data = result;
-      });
-    }
+    // this.isLogin = this.auth.isLogin();
+    // this.auth.getLoginName.subscribe(() => this.setLogin());
+    // if (this.isLogin) {
+    //   this.TK_TenDangNhap = this.auth.getInfo();
+    //   this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
+    //     this.data = result;
+    //   });
+    // }
   }
 
   setLogin() {
-    this.isLogin = this.auth.isLogin();
-    if (this.isLogin) {
-      this.TK_TenDangNhap = this.auth.getInfo();
-      this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-        this.data = result;
-      });
-    }
+    // this.isLogin = this.auth.isLogin();
+    // if (this.isLogin) {
+    //   this.TK_TenDangNhap = this.auth.getInfo();
+    //   this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
+    //     this.data = result;
+    //   });
+    // }
   }
 
 

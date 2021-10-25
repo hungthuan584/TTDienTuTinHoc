@@ -80,10 +80,10 @@ TaiKhoan.getTaiKhoanByUsername = (username, result) => {
 }
 
 // Create
-TaiKhoan.addTaiKhoan = (TaiKhoanReqData, result) => {
+TaiKhoan.addTaiKhoan = (data, result) => {
     dbConnect.query(
         `INSERT INTO taikhoan SET ?`,
-        TaiKhoanReqData,
+        data,
         (err, res) => {
             if (err) {
                 console.log('Error While Creating New Data', err);
@@ -97,8 +97,8 @@ TaiKhoan.addTaiKhoan = (TaiKhoanReqData, result) => {
     );
 }
 
-// Change password
-TaiKhoan.updateTaiKhoan = (username, TaiKhoanReqData, result) => {
+
+TaiKhoan.changePassword = (username, password, result) => {
     dbConnect.query(
         `
         UPDATE taikhoan
@@ -107,28 +107,8 @@ TaiKhoan.updateTaiKhoan = (username, TaiKhoanReqData, result) => {
             TK_UpdateDate = CURRENT_TIMESTAMP()
         WHERE TK_TenDangNhap = ?`,
         [
-            TaiKhoanReqData.TK_MatKhau,
-            username
-        ],
-        (err, res) => {
-            if (err) {
-                console.log('Error While Updating Data');
-                result(err, null);
-            } else {
-                console.log('Data Updated Successfully!');
-                result(null, res);
-            }
-        }
-    );
-}
-
-// Reset password
-TaiKhoan.resetPassword = (username, password, result) => {
-    dbConnect.query(
-        `UPDATE taikhoan SET TK_MatKhau = ? WHERE TK_TenDangNhap = ?`,
-        [
             password,
-            username,
+            username
         ],
         (err, res) => {
             if (err) {
@@ -157,22 +137,5 @@ TaiKhoan.blockedTaiKhoan = (username, result) => {
         }
     );
 }
-
-// Active
-TaiKhoan.activeTaiKhoan = (username, result) => {
-    dbConnect.query(
-        `UPDATE taikhoan SET TK_IsActive = 1 WHERE TK_TenDangNhap = ${username}`,
-        (err, res) => {
-            if (err) {
-                console.log('Error While Activing Data');
-                result(err, null);
-            } else {
-                console.log('Actived Successfully!');
-                result(null, res)
-            }
-        }
-    );
-}
-
 
 module.exports = TaiKhoan;

@@ -1,17 +1,19 @@
-<h2 mat-dialog-title>Đăng Nhập</h2>
-<form autocomplete="off">
-    <mat-form-field appearance="fill" [style.width.%]=100>
-        <mat-label>Tài khoản</mat-label>
-        <input matInput type="text" [(ngModel)]="data.TK_TenDangNhap" name="TK_TenDangNhap">
-    </mat-form-field>
-    <mat-form-field appearance="fill" [style.width.%]=100>
-        <mat-label>Mật khẩu</mat-label>
-        <input matInput type="password" [(ngModel)]="data.TK_MatKhau" name="TK_MatKhau">
-    </mat-form-field>
-    
-</form>
-<mat-error *ngIf="!data.status">Tên đăng nhập hoặc mật khẩu không chính xác</mat-error>
-<div class="text-center">
-    <button mat-raised-button color="warn" (click)="onSubmit()">Đăng nhập</button> &nbsp;
-    <button mat-raised-button type="reset">Nhập lại</button>
+<div class="login-box">
+    <h2>Đăng Nhập</h2>
+    <form autocomplete="off">
+        <mat-form-field appearance="fill" [style.width.%]=100>
+            <mat-label>Tài khoản</mat-label>
+            <input matInput type="text" name="TK_TenDangNhap">
+        </mat-form-field>
+        <mat-form-field appearance="fill" [style.width.%]=100>
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput type="password" name="TK_MatKhau">
+        </mat-form-field>
+        <div class="text-center">
+            <button mat-raised-button color="warn" (click)="onSubmit()">Đăng nhập</button> &nbsp;
+            <button mat-raised-button type="reset">Nhập lại</button>
+        </div>
+    </form>
+    <!-- <mat-error *ngIf="!data.status">Tên đăng nhập hoặc mật khẩu không chính xác</mat-error> -->
+
 </div>

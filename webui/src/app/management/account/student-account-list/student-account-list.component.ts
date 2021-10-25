@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { ITaiKhoan } from 'src/app/models/ITaiKhoan';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 
 
@@ -13,7 +11,7 @@ import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 
 export class StudentAccountListComponent implements OnInit {
 
-  listTaiKhoan !: ITaiKhoan[];
+  listTaiKhoan :any = [];
   title!: string;
 
   constructor(

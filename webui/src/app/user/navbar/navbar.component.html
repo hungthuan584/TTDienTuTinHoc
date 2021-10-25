@@ -1,4 +1,9 @@
 <mat-toolbar>
+    <div class="name py-4">
+        <a routerLink="trang-chu"> <img src="../../../assets/images/logo.png" alt="" style="width: 50px;">
+            TRUNG TÂM ĐIỆN TỬ & TIN HỌC
+        </a>
+    </div>
     <div class="spacer"></div>
     <a mat-button routerLink="trang-chu">
         Trang chủ
@@ -7,12 +12,8 @@
     <a mat-button routerLink="chieu-sinh" routerLinkActive="router-link-active">Chiêu Sinh</a>
     <a mat-button [matMenuTriggerFor]="menuGiaoVu">Giáo Vụ</a>
     <a mat-button routerLink="lien-he" routerLinkActive="router-link-active">Liên Hệ</a>
-    <span *ngIf="!isLogin">
-        <a mat-raised-button color="warn" (click)="showLogin();">Đăng nhập</a>
-        <a mat-raised-button color="warn" routerLink="dang-ky">Đăng ký</a>
-    </span>
 
-    <button *ngIf="isLogin" mat-button [matMenuTriggerFor]="menu">
+    <!-- <button *ngIf="isLogin" mat-button [matMenuTriggerFor]="menu">
         <mat-icon>account_circle</mat-icon>
         &nbsp; {{data?.TK_HoTen}} &nbsp;
         <mat-icon>expand_more</mat-icon>
@@ -24,7 +25,7 @@
         <button (click)="logOut()" mat-menu-item>
             <mat-icon>logout</mat-icon> Đăng xuất
         </button>
-    </mat-menu>
+    </mat-menu>-->
     <mat-menu #menuGiaoVu="matMenu">
         <button mat-menu-item routerLink="score" routerLinkActive="router-link-active">Tra cứu điểm thi</button>
         <button mat-menu-item routerLink="certificate" routerLinkActive="router-link-active">Tra cứu văn bằng</button>

@@ -1,0 +1,62 @@
+<div class="container">
+    <h2 class="title">TRUNG TÂM ĐIỆN TỬ TIN HỌC THÔNG BÁO CHIÊU SINH CÁC LỚP</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã lớp</th>
+                <th>Tên lớp</th>
+                <th class="text-center">Số lượng</th>
+                <th class="text-center">Ngày khai giảng</th>
+                <th class="text-center">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lophoc of listLopHoc">
+                <td>
+                    {{ lophoc.LH_Id }}
+                </td>
+                <td>
+                    {{ lophoc.LDT_Ten }}
+                </td>
+                <td class="text-center">
+                    {{ lophoc.LH_SiSo }}
+                </td>
+                <td class="text-center">
+                    {{ lophoc.LH_NgayKhaiGiang | date: 'dd/MM/yyyy' }}
+                </td>
+                <td class="text-center">
+                    <button mat-raised-button color="accent">Đăng ký ngay</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <h2 class="title">LỆ PHÍ CHO CÁC LỚP</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Mã lớp</th>
+                <th>Tên lớp</th>
+                <th>Lệ Phí</th>
+                <th>Lệ Phí Đối Với Sinh Viên</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lopdaotao of listLopDaoTao">
+                <td>
+                    {{ lopdaotao.LDT_Id }}
+                </td>
+                <td>
+                    {{ lopdaotao.LDT_Ten }}
+                </td>
+                <td>
+                    {{ lopdaotao.LDT_LePhi | number }} VND
+                </td>
+                <td>
+                    {{ lopdaotao.LDT_LePhiSinhVien | number }} VND
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

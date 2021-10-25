@@ -15,7 +15,13 @@ var LopHoc = function (LopHoc) {
 // Danh sach lop hoc
 LopHoc.getAllLopHoc = (result) => {
     dbConnect.query(
-        `SELECT * FROM lophoc WHERE LH_IsDelete != 1`,
+        `
+            SELECT lh.LH_Id, ldt.LDT_Ten, gv.GV_HoTen, lh.LH_SiSo, lh.LH_NgayKhaiGiang, lh.LH_CreateDate, lh.LH_UpdateDate
+            FROM lophoc lh 
+            JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+            JOIN giaovien gv ON gv.GV_Id = lh.GV_Id
+            WHERE lh.LH_IsDelete != 1
+        `,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);

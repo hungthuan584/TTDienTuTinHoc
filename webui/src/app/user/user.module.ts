@@ -15,7 +15,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { UserComponent } from './user.component';
 import { HomeComponent } from './home/home.component';
@@ -28,6 +30,8 @@ import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from './contact/contact.component';
 import { ScoreComponent } from './score/score.component';
+import { AdmissionsComponent } from './admissions/admissions.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -41,7 +45,9 @@ import { ScoreComponent } from './score/score.component';
     RegisterComponent,
     FooterComponent,
     ContactComponent,
-    ScoreComponent
+    ScoreComponent,
+    AdmissionsComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +67,10 @@ import { ScoreComponent } from './score/score.component';
     MatCheckboxModule,
     MatDatepickerModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatCardModule,
+    MatNativeDateModule
   ]
 })
 export class UserModule { }

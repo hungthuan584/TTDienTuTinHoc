@@ -25,48 +25,47 @@ export class NavbarComponent implements OnInit {
     private taikhoan: TaiKhoanService,
     public dialog: MatDialog
   ) { }
-  public isLogin = false;
   public data: any;
   private TK_TenDangNhap: any;
 
   ngOnInit(): void {
-    this.isLogin = this.auth.isLogin();
-    this.auth.getLoginName.subscribe(() => this.setLogin());
-    if (this.isLogin) {
-      this.TK_TenDangNhap = this.auth.getInfo();
-      this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-        this.data = result;
-      });
-    }
+    // this.isLogin = this.auth.isLogin();
+    // this.auth.getLoginName.subscribe(() => this.setLogin());
+    // if (this.isLogin) {
+    //   this.TK_TenDangNhap = this.auth.getInfo();
+    //   this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
+    //     this.data = result;
+    //   });
+    // }
   }
 
-  setLogin() {
-    this.isLogin = this.auth.isLogin();
-    if (this.isLogin) {
-      this.TK_TenDangNhap = this.auth.getInfo();
-      this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-        this.data = result;
-      });
-    }
-  }
+  // setLogin() {
+  //   this.isLogin = this.auth.isLogin();
+  //   if (this.isLogin) {
+  //     this.TK_TenDangNhap = this.auth.getInfo();
+  //     this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
+  //       this.data = result;
+  //     });
+  //   }
+  // }
 
-  showLogin() {
-    this.auth.login('');
-    this.isLogin = this.auth.isLogin();
-  }
+  // showLogin() {
+  //   this.auth.login('');
+  //   this.isLogin = this.auth.isLogin();
+  // }
 
-  logOut() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { confirmMessage: this.confirmMessage }
-    });
+  // logOut() {
+  //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //     data: { confirmMessage: this.confirmMessage }
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isLogOut = result.data;
-      if (this.isLogOut === true) {
-        this.auth.logout();
-        this.isLogin = false;
-        window.location.reload();
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     this.isLogOut = result.data;
+  //     if (this.isLogOut === true) {
+  //       this.auth.logout();
+  //       this.isLogin = false;
+  //       window.location.reload();
+  //     }
+  //   });
+  // }
 }

@@ -150,6 +150,7 @@ exports.activeTaiKhoan = (req, res) => {
 
 // Login
 exports.login = (req, res) => {
+    console.log('controller', req.body.TK_TenDangNhap);
     TaiKhoanModel.getTaiKhoanByUsername(req.body.TK_TenDangNhap, (err, TaiKhoan) => {
         if (err) {
             return res.json({ status: 0, message: err });
@@ -158,7 +159,7 @@ exports.login = (req, res) => {
             return res.json({ status: 0, message: 'Faild to login' });
         }
 
-        
+
         const result = compareSync(req.body.TK_MatKhau, TaiKhoan.TK_MatKhau);
         if (result) {
             TaiKhoan.TK_MatKhau = undefined;
@@ -169,7 +170,7 @@ exports.login = (req, res) => {
             return res.json({ status: 1, message: 'Login Successfully', token: jsonToken });
         } else {
 
-            return res.json({ status: 0, message: 'Invalid username or password' });
+            return res.json({ status: 0, message: 'Invalid username or password', login: 0 });
         }
     });
 }
