@@ -37,7 +37,7 @@ KetQuaThi.getById = (id, result) => {
         FROM KetQuaThi kq
         JOIN KyThi kt ON kt.KT_Id = kq.KT_Id
         JOIN HocVien hv ON hv.HV_Id = kq.HV_Id
-        WHERE kq.KQ_Id = ?
+        WHERE (kq.KQ_Id = ?)
         `,
         id,
         (err, res) => {
@@ -52,27 +52,27 @@ KetQuaThi.getById = (id, result) => {
     );
 }
 
-KetQuaThi.getByKyThi = (ktId, result) => {
-    dbConnect.query(
-        `
-        SELECT *
-        FROM KetQuaThi kq
-        JOIN KyThi kt ON kt.KT_Id = kq.KT_Id
-        JOIN HocVien hv ON hv.HV_Id = kq.HV_Id
-        WHERE kq.KT_Id = ?
-        `,
-        ktId,
-        (err, res) => {
-            if (err) {
-                console.log('Error while fetching', err);
-                result(null, err);
-            } else {
-                console.log('Selected by KT_Id successfully');
-                result(null, res);
-            }
-        }
-    );
-}
+// KetQuaThi.getByKyThi = (ktId, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM KetQuaThi kq
+//         JOIN KyThi kt ON kt.KT_Id = kq.KT_Id
+//         JOIN HocVien hv ON hv.HV_Id = kq.HV_Id
+//         WHERE kq.KT_Id = ?
+//         `,
+//         ktId,
+//         (err, res) => {
+//             if (err) {
+//                 console.log('Error while fetching', err);
+//                 result(null, err);
+//             } else {
+//                 console.log('Selected by KT_Id successfully');
+//                 result(null, res);
+//             }
+//         }
+//     );
+// }
 
 KetQuaThi.getByHocVien = (hvId, result) => {
     dbConnect.query(

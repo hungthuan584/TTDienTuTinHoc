@@ -1,62 +1,56 @@
-const LopHocModel = require('../models/LopHoc.model');
+const KyThiModel = require('../models/KyThi.model');
 
 exports.getAll = (req, res) => {
-
-    LopHocModel.getAll(
-        (err, LopHoc) => {
+    KyThiModel.addNew(
+        (err, KyThi) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopHoc);
+            return res.json(KyThi);
         }
     );
 }
 
 exports.getById = (req, res) => {
-
-    LopHocModel.getById(
+    KyThiModel.getById(
         req.params.id,
-        (err, LopHoc) => {
+        (err, KyThi) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopHoc);
+            return res.json(KyThi);
         }
     );
 }
 
 exports.addNew = (req, res) => {
 
-    const data = new LopHocModel(req.body);
+    const data = new KyThiModel(req.body);
 
-    data.LH_UpdateDate = '-  -     :  :';
-    data.LH_IsDelete = 0;
-    data.LH_DeleteDate = '-  -     :  :';
+    data.KT_UpdateDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
         return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-    }
-    else {
-        LopHocModel.addNew(
+    } else {
+        KyThiModel.addNew(
             data,
-            (err, LopHoc) => {
+            (err, KyThi) => {
                 if (err) {
                     return res.json({ status: 0, message: err });
                 }
-                return res.json(LopHoc);
+                return res.json(KyThi);
             }
         );
     }
 }
 
 exports.updateById = (req, res) => {
-
-    const data = new LopHocModel(req.body);
+    const data = KyThiModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        LopHocModel.updateById(
+        KyThiModel.updateById(
             req.params.id,
             data,
             (err) => {
@@ -67,17 +61,4 @@ exports.updateById = (req, res) => {
             }
         );
     }
-}
-
-exports.deleteById = (req, res) => {
-
-    LopHocModel.deleteById(
-        req.params.id,
-        (err) => {
-            if (err) {
-                return res.json({ status: 0, message: err });
-            }
-            return res.json({ status: 1, message: 'Deleted Successfully' });
-        }
-    );
 }

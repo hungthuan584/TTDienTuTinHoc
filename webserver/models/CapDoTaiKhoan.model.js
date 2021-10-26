@@ -6,9 +6,9 @@ var CapDoTaiKhoan = function (CapDoTaiKhoan) {
 }
 
 // Get All
-CapDoTaiKhoan.getAllCapDo = (result) => {
+CapDoTaiKhoan.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM capdotaikhoan`,
+        `SELECT * FROM CapDoTaiKhoan`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);

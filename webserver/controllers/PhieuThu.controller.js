@@ -1,52 +1,46 @@
-const LopDaoTaoModel = require('../models/LopDaoTao.model');
+const PhieuThuModel = require('../models/PhieuThu.model');
 
-// Danh sach lop dao tao
 exports.getAll = (req, res) => {
-
-    LopDaoTaoModel.getAll(
-        (err, LopDaoTao) => {
+    PhieuThuModel.getAll(
+        (err, PhieuThu) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(PhieuThu);
         }
     );
 }
 
-// Get lop dao tao by Id
 exports.getById = (req, res) => {
-
-    LopDaoTaoModel.getById(
+    PhieuThuModel.getById(
         req.params.id,
-        (err, LopDaoTao) => {
+        (err, PhieuThu) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(PhieuThu);
         }
     );
 }
 
-// Them lop dao tao
-exports.addLopDaoTao = (req, res) => {
+exports.addByRegister = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new PhieuThuModel.addNew(req.body);
 
-    data.LDT_UpdateDate = '-  -     :  :';
-    data.LDT_IsDelete = 0;
-    data.LDT_DeleteDate = '-  -     :  :';
+    data.PT_IsComplete = 0;
+    data.PT_CompleteDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
     }
     else {
-        LopDaoTaoModel.addNew(
+        PhieuThuModel.addNew(
             data,
-            (err, LopDaoTao) => {
+            (err, PhieuThu) => {
                 if (err) {
-                    return res.json({ status: 0, message: err });
+                    return res.json({ status: 0, massage: err });
                 }
-                return res.json(LopDaoTao);
+                return res.json(PhieuThu);
             }
         );
     }
@@ -54,12 +48,12 @@ exports.addLopDaoTao = (req, res) => {
 
 exports.updateById = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new PhieuThuModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        LopDaoTaoModel.updateById(
+        PhieuThuModel.updateById(
             req.params.id,
             data,
             (err) => {
@@ -72,15 +66,14 @@ exports.updateById = (req, res) => {
     }
 }
 
-exports.deleteById = (req, res) => {
-
-    LopDaoTaoModel.deleteById(
+exports.confirmComplete = (req, res) => {
+    PhieuThuModel.confirmComplete(
         req.params.id,
         (err) => {
             if (err) {
                 return res.json({ status: 0, message: err });
             }
-            return res.json({ status: 1, message: 'Deleted Successfully' });
+            return res.json({ status: 1, message: 'Confirm Successfully' });
         }
     );
 }

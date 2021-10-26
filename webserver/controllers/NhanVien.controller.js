@@ -1,52 +1,49 @@
-const LopDaoTaoModel = require('../models/LopDaoTao.model');
+const NhanVienModel = require('../models/NhanVien.model');
 
-// Danh sach lop dao tao
+const NhanVienModel = require('../models/NhanVien.model');
+
 exports.getAll = (req, res) => {
-
-    LopDaoTaoModel.getAll(
-        (err, LopDaoTao) => {
+    NhanVienModel.getAll(
+        (err, NhanVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(NhanVien);
         }
     );
 }
 
-// Get lop dao tao by Id
 exports.getById = (req, res) => {
-
-    LopDaoTaoModel.getById(
+    NhanVienModel.getById(
         req.params.id,
-        (err, LopDaoTao) => {
+        (err, NhanVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(NhanVien);
         }
     );
 }
 
-// Them lop dao tao
-exports.addLopDaoTao = (req, res) => {
+exports.addNew = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new NhanVienModel.addNew(req.body);
 
-    data.LDT_UpdateDate = '-  -     :  :';
-    data.LDT_IsDelete = 0;
-    data.LDT_DeleteDate = '-  -     :  :';
+    data.NV_IsDelete = 0;
+    data.NV_UpdateDate = '-  -     :  :';
+    data.NV_DeleteDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
     }
     else {
-        LopDaoTaoModel.addNew(
+        NhanVienModel.addNew(
             data,
-            (err, LopDaoTao) => {
+            (err, NhanVien) => {
                 if (err) {
-                    return res.json({ status: 0, message: err });
+                    return res.json({ status: 0, massage: err });
                 }
-                return res.json(LopDaoTao);
+                return res.json(NhanVien);
             }
         );
     }
@@ -54,12 +51,12 @@ exports.addLopDaoTao = (req, res) => {
 
 exports.updateById = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new NhanVienModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        LopDaoTaoModel.updateById(
+        NhanVienModel.updateById(
             req.params.id,
             data,
             (err) => {
@@ -73,8 +70,7 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-
-    LopDaoTaoModel.deleteById(
+    NhanVienModel.deleteById(
         req.params.id,
         (err) => {
             if (err) {

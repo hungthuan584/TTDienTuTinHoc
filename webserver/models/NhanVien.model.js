@@ -37,9 +37,8 @@ NhanVien.getById = (id, result) => {
         `
         SELECT *
         FROM NhanVien
-        WHERE NV_Id = ?
+        WHERE (NV_Id = '${id}') OR (TK_TenDangNhap = '${id}')
         `,
-        id,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -52,25 +51,25 @@ NhanVien.getById = (id, result) => {
     );
 }
 
-NhanVien.getByUsername = (username, result) => {
-    dbConnect.query(
-        `
-        SELECT *
-        FROM NhanVien
-        WHERE TK_TenDangNhap = ?
-        `,
-        username,
-        (err, res) => {
-            if (err) {
-                console.log('Error while fetching', err);
-                result(null, err);
-            } else {
-                console.log('Selected By Username Successfully');
-                result(null, res);
-            }
-        }
-    );
-}
+// NhanVien.getByUsername = (username, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM NhanVien
+//         WHERE TK_TenDangNhap = ?
+//         `,
+//         username,
+//         (err, res) => {
+//             if (err) {
+//                 console.log('Error while fetching', err);
+//                 result(null, err);
+//             } else {
+//                 console.log('Selected By Username Successfully');
+//                 result(null, res);
+//             }
+//         }
+//     );
+// }
 
 NhanVien.addNew = (data, result) => {
     dbConnect.query(

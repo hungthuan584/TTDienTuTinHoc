@@ -1,49 +1,59 @@
-const LopHocModel = require('../models/LopHoc.model');
+const ThoiKhoaBieuModel = require('../models/ThoiKhoaBieu.model');
 
 exports.getAll = (req, res) => {
-
-    LopHocModel.getAll(
-        (err, LopHoc) => {
+    ThoiKhoaBieuModel.getAll(
+        (err, ThoiKhoaBieu) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopHoc);
+            return res.json(ThoiKhoaBieu);
         }
     );
 }
 
 exports.getById = (req, res) => {
-
-    LopHocModel.getById(
+    ThoiKhoaBieuModel.getById(
         req.params.id,
-        (err, LopHoc) => {
+        (err, ThoiKhoaBieu) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopHoc);
+            return res.json(ThoiKhoaBieu);
         }
     );
 }
 
+// exports.getByLopHoc = (req, res) => {
+//     ThoiKhoaBieuModel.getByLopHoc(
+//         req.params.LH_Id,
+//         (err, ThoiKhoaBieu) => {
+//             if (err) {
+//                 return res.status(500).json({ status: 0, message: err });
+//             }
+//             return res.json(ThoiKhoaBieu);
+//         }
+//     );
+// }
+
 exports.addNew = (req, res) => {
 
-    const data = new LopHocModel(req.body);
+    const data = new ThoiKhoaBieuModel.addNew(req.body);
 
-    data.LH_UpdateDate = '-  -     :  :';
-    data.LH_IsDelete = 0;
-    data.LH_DeleteDate = '-  -     :  :';
+    data.TKB_IsDelete = 0;
+    data.TKB_UpdateDate = '-  -     :  :';
+    data.TKB_DeleteDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
     }
     else {
-        LopHocModel.addNew(
+        ThoiKhoaBieuModel.addPhongHoc(
             data,
-            (err, LopHoc) => {
+            (err, PhongHoc) => {
                 if (err) {
-                    return res.json({ status: 0, message: err });
+                    return res.json({ status: 0, massage: err });
                 }
-                return res.json(LopHoc);
+                return res.json(PhongHoc);
             }
         );
     }
@@ -51,12 +61,12 @@ exports.addNew = (req, res) => {
 
 exports.updateById = (req, res) => {
 
-    const data = new LopHocModel(req.body);
+    const data = new ThoiKhoaBieuModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        LopHocModel.updateById(
+        ThoiKhoaBieuModel.updateById(
             req.params.id,
             data,
             (err) => {
@@ -70,8 +80,7 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-
-    LopHocModel.deleteById(
+    ThoiKhoaBieuModel.deleteById(
         req.params.id,
         (err) => {
             if (err) {

@@ -12,7 +12,7 @@ var TaiKhoan = function (TaiKhoan) {
 }
 
 // Danh sach tai khoan Nhan vien
-TaiKhoan.getTaiKhoanEmployees = (result) => {
+TaiKhoan.getAllEmployee = (result) => {
     dbConnect.query(
         `SELECT * FROM taikhoan WHERE LV_Id = 1 OR LV_Id = 2`,
         (err, res) => {
@@ -21,7 +21,7 @@ TaiKhoan.getTaiKhoanEmployees = (result) => {
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected Successfully');
                 result(null, res);
             }
         }
@@ -29,7 +29,7 @@ TaiKhoan.getTaiKhoanEmployees = (result) => {
 }
 
 // Danh sach tai khoan Giao vien
-TaiKhoan.getTaiKhoanTeachers = (result) => {
+TaiKhoan.getAllTeacher = (result) => {
     dbConnect.query(
         `SELECT * FROM taikhoan WHERE LV_Id = 3`,
         (err, res) => {
@@ -38,7 +38,7 @@ TaiKhoan.getTaiKhoanTeachers = (result) => {
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected Successfully');
                 result(null, res);
             }
         }
@@ -46,7 +46,7 @@ TaiKhoan.getTaiKhoanTeachers = (result) => {
 }
 
 // Danh sach tai khoan Hoc vien
-TaiKhoan.getTaiKhoanStudents = (result) => {
+TaiKhoan.getAllStudent = (result) => {
     dbConnect.query(
         `SELECT * FROM taikhoan WHERE LV_Id = 4`,
         (err, res) => {
@@ -55,7 +55,7 @@ TaiKhoan.getTaiKhoanStudents = (result) => {
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected Successfully');
                 result(null, res);
             }
         }
@@ -63,16 +63,17 @@ TaiKhoan.getTaiKhoanStudents = (result) => {
 }
 
 // Get By TenDangNhap
-TaiKhoan.getTaiKhoanByUsername = (username, result) => {
+TaiKhoan.getByUsername = (username, result) => {
     dbConnect.query(
-        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = ?`, username,
+        `SELECT * FROM taikhoan WHERE TK_TenDangNhap = ?`,
+        username,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected Successfully');
                 result(null, res[0]);
             }
         }
@@ -80,17 +81,17 @@ TaiKhoan.getTaiKhoanByUsername = (username, result) => {
 }
 
 // Create
-TaiKhoan.addTaiKhoan = (data, result) => {
+TaiKhoan.addNew = (data, result) => {
     dbConnect.query(
         `INSERT INTO taikhoan SET ?`,
         data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating New Data', err);
+                console.log('Error While Creating', err);
                 result(null, err);
             }
             else {
-                console.log('Data Created Successfully');
+                console.log('Created Successfully');
                 result(null, res);
             }
         }
@@ -98,7 +99,7 @@ TaiKhoan.addTaiKhoan = (data, result) => {
 }
 
 
-TaiKhoan.changePassword = (username, password, result) => {
+TaiKhoan.updatePassword = (username, data, result) => {
     dbConnect.query(
         `
         UPDATE taikhoan
@@ -107,15 +108,15 @@ TaiKhoan.changePassword = (username, password, result) => {
             TK_UpdateDate = CURRENT_TIMESTAMP()
         WHERE TK_TenDangNhap = ?`,
         [
-            password,
+            data.TK_MatKhau,
             username
         ],
         (err, res) => {
             if (err) {
-                console.log('Error While Updating Data');
+                console.log('Error While Updating');
                 result(err, null);
             } else {
-                console.log('Data Updated Successfully!');
+                console.log('Updated Successfully!');
                 result(null, res);
             }
         }
@@ -123,12 +124,19 @@ TaiKhoan.changePassword = (username, password, result) => {
 }
 
 // Blocked 
-TaiKhoan.blockedTaiKhoan = (username, result) => {
+TaiKhoan.blockedByUsername = (username, result) => {
     dbConnect.query(
-        `UPDATE taikhoan SET TK_IsActive = 0 AND TK_BlockedDate = CURRENT_TIMESTAMP() WHERE TK_TenDangNhap = ${username}`,
+        `
+        UPDATE taikhoan
+        SET
+            TK_IsActive = 0,
+            TK_BlockedDate = CURRENT_TIMESTAMP()
+        WHERE TK_TenDangNhap = ?
+        `,
+        username,
         (err, res) => {
             if (err) {
-                console.log('Error While Blocked Data');
+                console.log('Error While Blocking');
                 result(err, null);
             } else {
                 console.log('Blocked Successfully!');

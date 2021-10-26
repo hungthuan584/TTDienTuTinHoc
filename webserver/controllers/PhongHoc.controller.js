@@ -1,71 +1,86 @@
 const PhongHocModel = require('../models/PhongHoc.model');
 
 // Get All
-exports.getAllPhongHoc = (req, res) => {
+exports.getAll = (req, res) => {
 
-    PhongHocModel.getAllPhongHoc((err, PhongHoc) => {
-        if (err) {
-            return res.status(500).json({ status: 0, message: err });
+    PhongHocModel.getAll(
+        (err, PhongHoc) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            }
+            return res.json(PhongHoc);
         }
-        return res.json(PhongHoc);
-    });
+    );
 }
 
 // Get By Id
-exports.getPhongHocById = (req, res) => {
-    PhongHocModel.getPhongHocById(req.params.PH_Id, (err, PhongHoc) => {
-        if (err) {
-            return res.status(500).json({ status: 0, message: err });
+exports.getById = (req, res) => {
+    PhongHocModel.getById(
+        req.params.id,
+        (err, PhongHoc) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            }
+            return res.json(PhongHoc);
         }
-        return res.json(PhongHoc);
-    });
+    );
 }
 
 // Create
-exports.addPhongHoc = (req, res) => {
+exports.addNew = (req, res) => {
 
-    const PhongHocReqData = new PhongHocModel(req.body);
+    const data = new PhongHocModel(req.body);
 
-    PhongHocReqData.PH_IsDelete = 0;
-    PhongHocReqData.PH_DeleteDate = '-  -     :  :';
-    PhongHocReqData.PH_UpdateDate = '-  -     :  :';
+    data.PH_IsDelete = 0;
+    data.PH_DeleteDate = '-  -     :  :';
+    data.PH_UpdateDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     }
     else {
-        PhongHocModel.addPhongHoc(PhongHocReqData, (err, PhongHoc) => {
-            if (err) {
-                return res.json({ status: 0, massage: err });
+        PhongHocModel.addNew(
+            data,
+            (err, PhongHoc) => {
+                if (err) {
+                    return res.json({ status: 0, message: err });
+                }
+                return res.json(PhongHoc);
             }
-            return res.json(PhongHoc);
-        });
+        );
     }
 }
 
 // Update
-exports.updatePhongHocById = (req, res) => {
-    const PhongHocReqData = new PhongHocModel(req.body);
-    // Check null
+exports.updateById = (req, res) => {
+
+    const data = new PhongHocModel(req.body);
+
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, massage: 'Please fill all fields' });
+        return req.send(400).send({ success: false, message: 'Please fill all fields' });
     } else {
-        PhongHocModel.updatePhongHocById(req.params.PH_Id, PhongHocReqData, (err) => {
-            if (err) {
-                return res.json({ status: 0, message: err });
+        PhongHocModel.updateById(
+            req.params.id,
+            data,
+            (err) => {
+                if (err) {
+                    return res.json({ status: 0, message: err });
+                }
+                return res.json({ status: 1, message: 'Updated Successfully' });
             }
-            return res.json({ status: 1, message: 'Updated Successfully' });
-        });
+        );
     }
 }
 
-
 // Delete
-exports.deletePhongHocById = (req, res) => {
-    PhongHocModel.deletePhongHocById(req.params.PH_Id, (err) => {
-        if (err) {
-            return res.json({ status: 0, message: err });
+exports.deleteById = (req, res) => {
+    PhongHocModel.deleteById(
+        req.params.id,
+        (err) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            }
+            return res.json({ status: 1, message: 'Deleted Successfully' });
         }
-        return res.json({ status: 1, message: 'Deleted Successfully' });
-    });
+    );
 }

@@ -13,11 +13,11 @@ var LopHoc = function (LopHoc) {
 }
 
 // Danh sach lop hoc
-LopHoc.getAllLopHoc = (result) => {
+LopHoc.getAll = (result) => {
     dbConnect.query(
         `
-            SELECT lh.LH_Id, ldt.LDT_Ten, gv.GV_HoTen, lh.LH_SiSo, lh.LH_NgayKhaiGiang, lh.LH_CreateDate, lh.LH_UpdateDate
-            FROM lophoc lh 
+            SELECT *
+            FROM LopHoc lh 
             JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
             JOIN giaovien gv ON gv.GV_Id = lh.GV_Id
             WHERE lh.LH_IsDelete != 1
@@ -28,17 +28,22 @@ LopHoc.getAllLopHoc = (result) => {
                 result(null, err);
             }
             else {
-                console.log('Fetching All Data Successfully');
+                console.log('Selected Successfully');
                 result(null, res);
             }
         }
     );
 }
 // Get by Id
-LopHoc.getLopHocById = (id, result) => {
+LopHoc.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM lophoc WHERE LH_Id = ?`,
-        id,
+        `
+        SELECT *
+        FROM LopHoc lh 
+        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN giaovien gv ON gv.GV_Id = lh.GV_Id
+        WHERE  (lh.LH_Id = '${id}') OR (lh.LDT_Id = '${id}') OR(lh.GV_Id = '${id}')
+        `,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -53,10 +58,10 @@ LopHoc.getLopHocById = (id, result) => {
 }
 
 // Them 
-LopHoc.addLopHoc = (LopHocReqData, result) => {
+LopHoc.addNew = (data, result) => {
     dbConnect.query(
-        `INSERT INTO lophoc SET ?`,
-        LopHocReqData,
+        `INSERT INTO LopHoc SET ?`,
+        data,
         (err, res) => {
             if (err) {
                 console.log('Error While Creating New Data', err);
@@ -71,10 +76,10 @@ LopHoc.addLopHoc = (LopHocReqData, result) => {
 }
 
 // Sua
-LopHoc.updateLopHoc = (id, LopHocReqData, result) => {
+LopHoc.updateById = (id, data, result) => {
     dbConnect.query(
         `
-        UPDATE lophoc
+        UPDATE LopHoc
         SET
             LDT_Id = ?,
             GV_Id = ?,
@@ -84,10 +89,10 @@ LopHoc.updateLopHoc = (id, LopHocReqData, result) => {
         WHERE LH_Id = ?
         `,
         [
-            LopHocReqData.LDT_Id,
-            LopHocReqData.GV_Id,
-            LopHocReqData.LH_SiSo,
-            LopHocReqData.LH_NgayKhaiGiang,
+            data.LDT_Id,
+            data.GV_Id,
+            data.LH_SiSo,
+            data.LH_NgayKhaiGiang,
             id
         ],
         (err, res) => {
@@ -103,10 +108,10 @@ LopHoc.updateLopHoc = (id, LopHocReqData, result) => {
 }
 // Xoa
 
-LopHoc.deleteLopHoc = (id, result) => {
+LopHoc.deleteById = (id, result) => {
     dbConnect.query(
         `
-        UPDATE lophoc
+        UPDATE LopHoc
         SET
             LH_IsDelete = 1,
             LH_DeleteDate = CURRENT_TIMESTAMP()

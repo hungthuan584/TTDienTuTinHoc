@@ -41,9 +41,9 @@ ThoiKhoaBieu.getById = (id, result) => {
         FROM ThoiKhoaBieu tkb
         JOIN PhongHoc ph ON ph.PH_Id = tkb.PH_Id
         JOIN LopHoc lh ON lh.LH_Id = tkb.LH_Id
-        WHERE tkb.TKB_Id = ?
+        WHERE 
+            (tkb.TKB_Id = '${id}') OR (tkb.LH_Id = '${id}')
         `,
-        id,
         (err, res) => {
             if (err) {
                 console.log('Error While Selecting', err);
@@ -57,28 +57,28 @@ ThoiKhoaBieu.getById = (id, result) => {
     );
 }
 
-ThoiKhoaBieu.getByLopHoc = (lhId, result) => {
-    dbConnect.query(
-        `
-        SELECT *
-        FROM ThoiKhoaBieu tkb
-        JOIN PhongHoc ph ON ph.PH_Id = tkb.PH_Id
-        JOIN LopHoc lh ON lh.LH_Id = tkb.LH_Id
-        WHERE tkb.LH_Id = ?
-        `,
-        lhId,
-        (err, res) => {
-            if (err) {
-                console.log('Error While Selecting', err);
-                result(null, err);
-            }
-            else {
-                console.log('Selected By LH_Id Successfully');
-                result(null, res);
-            }
-        }
-    );
-}
+// ThoiKhoaBieu.getByLopHoc = (lhId, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM ThoiKhoaBieu tkb
+//         JOIN PhongHoc ph ON ph.PH_Id = tkb.PH_Id
+//         JOIN LopHoc lh ON lh.LH_Id = tkb.LH_Id
+//         WHERE tkb.LH_Id = ?
+//         `,
+//         lhId,
+//         (err, res) => {
+//             if (err) {
+//                 console.log('Error While Selecting', err);
+//                 result(null, err);
+//             }
+//             else {
+//                 console.log('Selected By LH_Id Successfully');
+//                 result(null, res);
+//             }
+//         }
+//     );
+// }
 
 ThoiKhoaBieu.addNew = (data, result) => {
     dbConnect.query(

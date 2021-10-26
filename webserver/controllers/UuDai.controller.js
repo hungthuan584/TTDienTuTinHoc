@@ -1,52 +1,47 @@
-const LopDaoTaoModel = require('../models/LopDaoTao.model');
+const UuDaiModel = require('../models/UuDai.model');
 
-// Danh sach lop dao tao
 exports.getAll = (req, res) => {
-
-    LopDaoTaoModel.getAll(
-        (err, LopDaoTao) => {
+    UuDaiModel.getAll(
+        (err, UuDai) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(UuDai);
         }
     );
 }
 
-// Get lop dao tao by Id
 exports.getById = (req, res) => {
-
-    LopDaoTaoModel.getById(
+    UuDaiModel.getById(
         req.params.id,
-        (err, LopDaoTao) => {
+        (err, UuDai) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             }
-            return res.json(LopDaoTao);
+            return res.json(UuDai);
         }
     );
 }
 
-// Them lop dao tao
-exports.addLopDaoTao = (req, res) => {
+exports.addNew = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new UuDaiModel.addNew(req.body);
 
-    data.LDT_UpdateDate = '-  -     :  :';
-    data.LDT_IsDelete = 0;
-    data.LDT_DeleteDate = '-  -     :  :';
+    data.UD_IsDelete = 0;
+    data.UD_UpdateDate = '-  -     :  :';
+    data.UD_DeleteDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
         return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     }
     else {
-        LopDaoTaoModel.addNew(
+        UuDaiModel.addNew(
             data,
-            (err, LopDaoTao) => {
+            (err, UuDai) => {
                 if (err) {
                     return res.json({ status: 0, message: err });
                 }
-                return res.json(LopDaoTao);
+                return res.json(UuDai);
             }
         );
     }
@@ -54,12 +49,12 @@ exports.addLopDaoTao = (req, res) => {
 
 exports.updateById = (req, res) => {
 
-    const data = new LopDaoTaoModel(req.body);
+    const data = new UuDaiModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ success: false, message: 'Please fill all fields' });
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        LopDaoTaoModel.updateById(
+        UuDaiModel.updateById(
             req.params.id,
             data,
             (err) => {
@@ -73,8 +68,7 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-
-    LopDaoTaoModel.deleteById(
+    UuDaiModel.deleteById(
         req.params.id,
         (err) => {
             if (err) {

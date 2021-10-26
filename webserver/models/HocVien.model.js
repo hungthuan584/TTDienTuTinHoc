@@ -19,7 +19,7 @@ var HocVien = function (HocVien) {
 }
 
 // Danh sach hoc vien
-HocVien.getAllHocVien = (result) => {
+HocVien.getAll = (result) => {
     dbConnect.query(
         `SELECT * FROM HocVien WHERE HV_IsDelete != 1`,
         (err, res) => {
@@ -37,7 +37,7 @@ HocVien.getAllHocVien = (result) => {
 
 
 // Danh sach hoc vien dang ky nam hien tai
-HocVien.getHocVienByYear = (result) => {
+HocVien.getByYear = (result) => {
     dbConnect.query(
         `SELECT * FROM HocVien WHERE YEAR(HV_CreateDate) = YEAR(CURDATE())`,
         (err, res) => {
@@ -54,7 +54,7 @@ HocVien.getHocVienByYear = (result) => {
 }
 
 // Get hoc vien by Id
-HocVien.getHocVienById = (id, result) => {
+HocVien.getById = (id, result) => {
     dbConnect.query(
         `SELECT * FROM HocVien WHERE HV_Id = ?`,
         id,
@@ -88,7 +88,7 @@ HocVien.getByUsername = (username, result) => {
 }
 
 // Them hoc vien
-HocVien.addHocVien = (data, result) => {
+HocVien.addNew = (data, result) => {
     dbConnect.query(
         `INSERT INTO HocVien SET ?`,
         data,
@@ -106,7 +106,7 @@ HocVien.addHocVien = (data, result) => {
 }
 
 // Sua thong tin hoc vien
-HocVien.updateHocVien = (id, data, result) => {
+HocVien.updateById = (id, data, result) => {
     dbConnect.query(
         `
         UPDATE HocVien
@@ -148,7 +148,7 @@ HocVien.updateHocVien = (id, data, result) => {
 }
 
 // Xoa hoc vien
-HocVien.deleteHocVien = (id, result) => {
+HocVien.deleteById = (id, result) => {
     dbConnect.query(
         `
         UPDATE HocVien

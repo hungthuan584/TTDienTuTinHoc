@@ -40,9 +40,9 @@ ThongBao.getById = (id, result) => {
         FROM ThongBao tb
         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-        WHERE tb.TB_Id = ?
+        WHERE 
+            (tb.TB_Id = ${id}) OR (tb.LH_Id = '${id}') OR (tb.GV_Id = '${id}')
         `,
-        id,
         (err, res) => {
             if (err) {
                 console.log('Error While Selecting', err);
@@ -56,51 +56,51 @@ ThongBao.getById = (id, result) => {
     );
 }
 
-ThongBao.getByLopHoc = (lhId, result) => {
-    dbConnect.query(
-        `
-        SELECT *
-        FROM ThongBao tb
-        JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-        JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-        WHERE tb.LH_Id = ?
-        `,
-        lhId,
-        (err, res) => {
-            if (err) {
-                console.log('Error While Selecting', err);
-                result(null, err);
-            }
-            else {
-                console.log('Selected By LH_Id Successfully');
-                result(null, res);
-            }
-        }
-    );
-}
+// ThongBao.getByLopHoc = (lhId, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM ThongBao tb
+//         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
+//         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
+//         WHERE tb.LH_Id = ?
+//         `,
+//         lhId,
+//         (err, res) => {
+//             if (err) {
+//                 console.log('Error While Selecting', err);
+//                 result(null, err);
+//             }
+//             else {
+//                 console.log('Selected By LH_Id Successfully');
+//                 result(null, res);
+//             }
+//         }
+//     );
+// }
 
-ThongBao.getByGiaoVien = (gvId, result) => {
-    dbConnect.query(
-        `
-        SELECT *
-        FROM ThongBao tb
-        JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-        JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-        WHERE tb.GV_Id = ?
-        `,
-        gvId,
-        (err, res) => {
-            if (err) {
-                console.log('Error While Selecting', err);
-                result(null, err);
-            }
-            else {
-                console.log('Selected By GV_Id Successfully');
-                result(null, res);
-            }
-        }
-    );
-}
+// ThongBao.getByGiaoVien = (gvId, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM ThongBao tb
+//         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
+//         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
+//         WHERE tb.GV_Id = ?
+//         `,
+//         gvId,
+//         (err, res) => {
+//             if (err) {
+//                 console.log('Error While Selecting', err);
+//                 result(null, err);
+//             }
+//             else {
+//                 console.log('Selected By GV_Id Successfully');
+//                 result(null, res);
+//             }
+//         }
+//     );
+// }
 
 ThongBao.addNew = (data, result) => {
     dbConnect.query(

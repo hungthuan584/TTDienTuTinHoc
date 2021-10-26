@@ -11,10 +11,9 @@ var LopDaoTao = function (LopDaoTao) {
     this.LDT_DeleteDate = new Date();
 }
 
-// Danh sach lop dao tao
-LopDaoTao.getAllLopDaoTao = (result) => {
+LopDaoTao.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM lopdaotao WHERE LDT_IsDelete != 1`,
+        `SELECT * FROM LopDaoTao WHERE LDT_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -27,10 +26,10 @@ LopDaoTao.getAllLopDaoTao = (result) => {
         }
     );
 }
-// Get by Id
-LopDaoTao.getLopDaoTaoById = (id, result) => {
+
+LopDaoTao.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM lopdaotao WHERE LDT_Id = ?`,
+        `SELECT * FROM LopDaoTao WHERE LDT_Id = ?`,
         id,
         (err, res) => {
             if (err) {
@@ -46,17 +45,17 @@ LopDaoTao.getLopDaoTaoById = (id, result) => {
 }
 
 // Them
-LopDaoTao.addLopDaoTao = (LopDaoTaoReqData, result) => {
+LopDaoTao.addNew = (data, result) => {
     dbConnect.query(
-        `INSERT INTO lopdaotao SET ?`,
-        LopDaoTaoReqData,
+        `INSERT INTO LopDaoTao SET ?`,
+        data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating New Data', err);
+                console.log('Error While Creating', err);
                 result(null, err);
             }
             else {
-                console.log('Data Created Successfully');
+                console.log('Created Successfully');
                 result(null, res);
             }
         }
@@ -64,26 +63,29 @@ LopDaoTao.addLopDaoTao = (LopDaoTaoReqData, result) => {
 }
 
 // Sua
-LopDaoTao.updateLopDaoTao = (id, LopDaoTaoReqData, result) => {
+LopDaoTao.updateById = (id, data, result) => {
     dbConnect.query(
         `
-        UPDATE lopdaotao 
+        UPDATE LopDaoTao 
         SET
-            LDT_Ten = ?,LDT_LePhi = ?,LDT_LePhiSinhVien = ?,LDT_UpdateDate = CURRENT_TIMESTAMP()
+            LDT_Ten = ?,
+            LDT_LePhi = ?,
+            LDT_LePhiSinhVien = ?,
+            LDT_UpdateDate = CURRENT_TIMESTAMP()
         WHERE LDT_Id = ?
         `,
         [
-            LopDaoTaoReqData.LDT_Ten,
-            LopDaoTaoReqData.LDT_LePhi,
-            LopDaoTaoReqData.LDT_LePhiSinhVien,
+            data.LDT_Ten,
+            data.LDT_LePhi,
+            data.LDT_LePhiSinhVien,
             id
         ],
         (err, res) => {
             if (err) {
-                console.log('Error While Updating Data');
+                console.log('Error While Updating');
                 result(err, null);
             } else {
-                console.log('Data Updated Successfully!');
+                console.log('Updated Successfully!');
                 result(null, res);
             }
         }
@@ -91,10 +93,10 @@ LopDaoTao.updateLopDaoTao = (id, LopDaoTaoReqData, result) => {
 }
 
 // Xoa
-LopDaoTao.deleteLopDaoTao = (id, result) => {
+LopDaoTao.deleteById = (id, result) => {
     dbConnect.query(
         `
-        UPDATE lopdaotao
+        UPDATE LopDaoTao
         SET
             LDT_IsDelete = 1,
             LDT_DeleteDate = CURRENT_TIMESTAMP()
@@ -103,10 +105,10 @@ LopDaoTao.deleteLopDaoTao = (id, result) => {
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Delete Data');
+                console.log('Error While Deleting');
                 result(err, null);
             } else {
-                console.log('Data Deleted Successfully!');
+                console.log('Deleted Successfully!');
                 result(null, res);
             }
         }

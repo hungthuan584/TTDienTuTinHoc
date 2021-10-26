@@ -43,9 +43,8 @@ PhieuThu.getById = (id, result) => {
         JOIN LopHoc lh ON lh.LH_Id = pt.LH_Id
         JOIN NhanVien nv ON nv.NV_Id = pt.NV_Id
         JOIN UuDai ud ON ud.UD_Id = pt.UD_Id
-        WHERE pt.PT_Id = ?
+        WHERE (pt.PT_Id = ${id}) OR (pt.HV_Id = '${id}') OR (pt.LH_Id = '${id}') OR (pt.NV_Id = '${id}')
         `,
-        id,
         (err, res) => {
             if (err) {
                 console.log('Error While Selecting', err);
@@ -58,6 +57,22 @@ PhieuThu.getById = (id, result) => {
         }
     );
 }
+
+// PhieuThu.getByHocVien = (hvId, result) => {
+//     dbConnect.query(
+//         `
+//         SELECT *
+//         FROM PhieuThu pt
+//         JOIN HocVien hv ON hv.HV_Id = pt.HV_Id
+//         JOIN LopHoc lh ON lh.LH_Id = pt.LH_Id
+//         JOIN NhanVien nv ON nv.NV_Id = pt.NV_Id
+//         JOIN UuDai ud ON ud.UD_Id = pt.UD_Id
+//         WHERE pt.HV_Id = ?
+//         `,
+//         hvId,
+
+//     );
+// }
 
 PhieuThu.addNew = (data, result) => {
     dbConnect.query(
@@ -98,3 +113,5 @@ PhieuThu.confirmComplete = (id, result) => {
         }
     );
 }
+
+module.exports = PhieuThu;

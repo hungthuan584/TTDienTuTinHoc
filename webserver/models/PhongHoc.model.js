@@ -10,16 +10,16 @@ var PhongHoc = function (PhongHoc) {
 }
 
 // Get all
-PhongHoc.getAllPhongHoc = (result) => {
+PhongHoc.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM phonghoc WHERE PH_IsDelete != 1`,
+        `SELECT * FROM PhongHoc WHERE PH_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected successfully');
                 result(null, res);
             }
         }
@@ -27,16 +27,17 @@ PhongHoc.getAllPhongHoc = (result) => {
 }
 
 // Get by Id
-PhongHoc.getPhongHocById = (id, result) => {
+PhongHoc.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM phonghoc WHERE PH_IsDelete != 1 AND PH_Id = ${id}`,
+        `SELECT * FROM PhongHoc WHERE PH_IsDelete != 1 AND PH_Id = ?`,
+        id,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching Successfully');
+                console.log('Selected successfully');
                 result(null, res);
             }
         }
@@ -44,17 +45,17 @@ PhongHoc.getPhongHocById = (id, result) => {
 }
 
 // Create
-PhongHoc.addPhongHoc = (PhongHocReqData, result) => {
+PhongHoc.addNew = (data, result) => {
     dbConnect.query(
-        `INSERT INTO phonghoc SET ? `,
-        PhongHocReqData,
+        `INSERT INTO PhongHoc SET ? `,
+        data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating New Data', err);
+                console.log('Error While Creating', err);
                 result(null, err);
             }
             else {
-                console.log('Data Created Successfully');
+                console.log('Created Successfully');
                 result(null, res);
             }
         }
@@ -62,14 +63,21 @@ PhongHoc.addPhongHoc = (PhongHocReqData, result) => {
 }
 
 // Update
-PhongHoc.updatePhongHocById = (id, PhongHocReqData, result) => {
+PhongHoc.updateById = (id, data, result) => {
     dbConnect.query(
-        `UPDATE phonghoc SET PH_Ten = ?, PH_SucChua = ?, PH_UpdateDate = CURRENT_TIMESTAMP() WHERE PH_Id = ?`,
+        `
+        UPDATE PhongHoc
+        SET
+            PH_Ten = ?,
+            PH_SucChua = ?,
+            PH_UpdateDate = CURRENT_TIMESTAMP()
+        WHERE PH_Id = ?`,
         [
-            PhongHocReqData.PH_Ten,
-            PhongHocReqData.PH_SucChua,
+            data.PH_Ten,
+            data.PH_SucChua,
             id
-        ], (err, res) => {
+        ],
+        (err, res) => {
             if (err) {
                 console.log('Error While Updating Data');
                 result(err, null);
@@ -77,19 +85,26 @@ PhongHoc.updatePhongHocById = (id, PhongHocReqData, result) => {
                 console.log('Data Updated Successfully!');
                 result(null, res);
             }
-        });
+        }
+    );
 }
 
 // Delete
-PhongHoc.deletePhongHocById = (id, result) => {
+PhongHoc.deleteById = (id, result) => {
     dbConnect.query(
-        `UPDATE phonghoc SET PH_IsDelete = 1, PH_DeleteDate = CURRENT_TIMESTAMP() WHERE PH_Id = ${id}`,
+        `
+        UPDATE PhongHoc
+        SET
+            PH_IsDelete = 1,
+            PH_DeleteDate = CURRENT_TIMESTAMP()
+        WHERE PH_Id = ?`,
+        id,
         (err, res) => {
             if (err) {
-                console.log('Error While Deleting Data');
+                console.log('Error While Deleting');
                 result(err, null);
             } else {
-                console.log('Data Deleted Successfully!');
+                console.log('Deleted Successfully!');
                 result(null, res)
             }
         }
