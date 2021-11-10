@@ -4,16 +4,15 @@ var NhanVien = function (NhanVien) {
     this.NV_Id = NhanVien.NV_Id;
     this.NV_HoTen = NhanVien.NV_HoTen;
     this.NV_GioiTinh = NhanVien.NV_GioiTinh;
-    this.NV_NgaySinh = new Date();
-    this.NV_Cmnd = NhanVien.NV_Cmnd;
+    this.NV_NgaySinh = NhanVien.NV_NgaySinh;
     this.NV_DiaChi = NhanVien.NV_DiaChi;
     this.NV_Sdt = NhanVien.NV_Sdt;
     this.NV_Email = NhanVien.NV_Email;
     this.NV_TenDangNhap = NhanVien.NV_TenDangNhap;
     this.NV_ChucVu = NhanVien.NV_ChucVu;
+    this.NV_IsDelete = NhanVien.NV_IsDelete;
     this.NV_CreateDate = new Date();
     this.NV_UpdateDate = new Date();
-    this.NV_IsDelete = NhanVien.NV_IsDelete;
     this.NV_DeleteDate = new Date();
 }
 
@@ -26,6 +25,21 @@ NhanVien.getAll = (result) => {
                 result(null, err);
             } else {
                 console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+NhanVien.countNumber = (result) => {
+    dbConnect.query(
+        `SELECT * FROM NhanVien`,
+        (err, res) => {
+            if (err) {
+                console.log('Error while counting', err);
+                result(null, err);
+            } else {
+                console.log('Count successfully');
                 result(null, res);
             }
         }
@@ -95,7 +109,6 @@ NhanVien.updateById = (id, data, result) => {
             NV_HoTen = ?,
             NV_GioiTinh = ?,
             NV_NgaySinh = ?,
-            NV_Cmnd = ?,
             NV_DiaChi = ?,
             NV_Sdt = ?,
             NV_Email = ?,
@@ -107,7 +120,6 @@ NhanVien.updateById = (id, data, result) => {
             data.NV_HoTen,
             data.NV_GioiTinh,
             data.NV_NgaySinh,
-            data.NV_Cmnd,
             data.NV_DiaChi,
             data.NV_Sdt,
             data.NV_Email,

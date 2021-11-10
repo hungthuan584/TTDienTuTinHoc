@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 export interface ConfirmLogOutDialogData {
   confirmMessage: string;

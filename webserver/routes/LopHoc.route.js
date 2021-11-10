@@ -4,19 +4,19 @@ const route = express.Router();
 const LopHocController = require('../controllers/LopHoc.controller');
 
 // Danh sach
-route.get('/', LopHocController.getAllLopHoc);
+route.get('/', LopHocController.getAll);
 
 // Get by Id
-route.get('/:LH_Id', LopHocController.getLopHocById);
+route.get('/:id', LopHocController.getById);
 
 // Them
-route.post('/', LopHocController.addLopHoc);
+route.post('/', LopHocController.addNew);
 
 // Sua 
-route.put('/:LH_Id', LopHocController.updateLopHoc);
+route.put('/:id', LopHocController.updateById);
 
 // Xoa
-route.delete('/:LH_Id', LopHocController.deleteLopHoc);
+route.delete('/:id', LopHocController.deleteById);
 
 
 module.exports = route;

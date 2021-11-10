@@ -5,28 +5,38 @@ var ThongBao = function (ThongBao) {
     this.GV_Id = ThongBao.GV_Id;
     this.LH_Id = ThongBao.LH_Id;
     this.TB_NoiDung = ThongBao.TB_NoiDung;
+    this.TB_IsDelete = ThongBao.TB_IsDelete;
     this.TB_CreateDate = new Date();
     this.TB_UpdateDate = new Date();
-    this.TB_IsDelete = ThongBao.TB_IsDelete;
     this.TB_DeleteDate = new Date();
 }
 
-ThongBao.getAdd = (result) => {
+ThongBao.getAll = (result) => {
     dbConnect.query(
-        `
-        SELECT * 
-        FROM ThongBao tb
-        JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-        JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-        WHERE TB_IsDelete != 1
-        `,
+        `SELECT * FROM ThongBao tb JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id WHERE TB_IsDelete != 1`,
         (err, res) => {
             if (err) {
-                console.log('Error While Selecting', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Selected Successfully');
+                console.log('Selected successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+ThongBao.conutNumber = (result) => {
+    dbConnect.query(
+        `SELECT * FROM ThongBao WHERE YEAR(TB_CreateDate) = YEAR(CURDATE())`,
+        (err, res) => {
+            if (err) {
+                console.log('Error while counting');
+                result(null, err);
+            }
+            else {
+                console.log('Counted successfully');
                 result(null, res);
             }
         }
@@ -41,66 +51,20 @@ ThongBao.getById = (id, result) => {
         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
         WHERE 
-            (tb.TB_Id = ${id}) OR (tb.LH_Id = '${id}') OR (tb.GV_Id = '${id}')
+            (tb.TB_Id = '${id})' OR (tb.LH_Id = '${id}') OR (tb.GV_Id = '${id}')
         `,
         (err, res) => {
             if (err) {
-                console.log('Error While Selecting', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Selected By Id Successfully');
-                result(null, res);
+                console.log('Selected by id Successfully');
+                result(null, res[0]);
             }
         }
     );
 }
-
-// ThongBao.getByLopHoc = (lhId, result) => {
-//     dbConnect.query(
-//         `
-//         SELECT *
-//         FROM ThongBao tb
-//         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-//         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-//         WHERE tb.LH_Id = ?
-//         `,
-//         lhId,
-//         (err, res) => {
-//             if (err) {
-//                 console.log('Error While Selecting', err);
-//                 result(null, err);
-//             }
-//             else {
-//                 console.log('Selected By LH_Id Successfully');
-//                 result(null, res);
-//             }
-//         }
-//     );
-// }
-
-// ThongBao.getByGiaoVien = (gvId, result) => {
-//     dbConnect.query(
-//         `
-//         SELECT *
-//         FROM ThongBao tb
-//         JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-//         JOIN LopHoc ON lh.LH_Id = tb.LH_Id
-//         WHERE tb.GV_Id = ?
-//         `,
-//         gvId,
-//         (err, res) => {
-//             if (err) {
-//                 console.log('Error While Selecting', err);
-//                 result(null, err);
-//             }
-//             else {
-//                 console.log('Selected By GV_Id Successfully');
-//                 result(null, res);
-//             }
-//         }
-//     );
-// }
 
 ThongBao.addNew = (data, result) => {
     dbConnect.query(
@@ -108,11 +72,11 @@ ThongBao.addNew = (data, result) => {
         data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating', err);
+                console.log('Error while creating', err);
                 result(null, err);
             }
             else {
-                console.log('Created Successfully');
+                console.log('Created successfully');
                 result(null, res);
             }
         }

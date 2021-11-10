@@ -1,6 +1,7 @@
 var dbConnect = require('../db.config');
 
 var ThoiKhoaBieu = function (ThoiKhoaBieu) {
+    this.TKB_Id = ThoiKhoaBieu.TKB_Id;
     this.PH_Id = ThoiKhoaBieu.PH_Id;
     this.LH_Id = ThoiKhoaBieu.LH_Id;
     this.TKB_NgayHoc = ThoiKhoaBieu.TKB_NgayHoc;
@@ -23,11 +24,11 @@ ThoiKhoaBieu.getAdd = (result) => {
         `,
         (err, res) => {
             if (err) {
-                console.log('Error While Selecting', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Selected Successfully');
+                console.log('Selected successfully');
                 result(null, res);
             }
         }
@@ -46,7 +47,7 @@ ThoiKhoaBieu.getById = (id, result) => {
         `,
         (err, res) => {
             if (err) {
-                console.log('Error While Selecting', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {

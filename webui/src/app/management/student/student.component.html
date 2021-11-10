@@ -1,70 +1,103 @@
 <div class="student-box">
-    <button class="btnAddStudent btn btn-primary">Thêm học viên</button>
-    <table class="table table-bordered">
-        <thead>
-            <tr class="text-center">
-                <th>Mã HV</th>
-                <th>Họ tên</th>
-                <th>Giới tính</th>
-                <th>Ngày sinh</th>
-                <th>SĐT</th>
-                <th>Email</th>
-                <th>Địa chỉ</th>
-                <th>#</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="text-justify">
-                <td>B1706649</td>
-                <td>Nguyễn Hùng Thuận</td>
-                <td>Nam</td>
-                <td>06-10-1999</td>
-                <td>0333506892</td>
-                <td>thuanb1706649@student.ctu.edu.vn</td>
-                <td>102/42, 3/2, P.Hưng Lợi, Q.Ninh Kiều, TP.Cần Thơ</td>
-                <td>
-                    <button mat-mini-fab color="primary" title="Chỉnh sửa">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button mat-mini-fab color="warn" title="Xoá">
-                        <i class="fa fa-trash"></i>
-                    </button>
+    <mat-toolbar>
+        <button mat-raised-button color="primary" (click)="addClick();">
+            <mat-icon>person_add</mat-icon>
+            Thêm
+        </button>
+        <div class="spacer"></div>
+        <div class="search-box">
+            <mat-form-field appearance="outline">
+                <mat-label>Tìm kiếm</mat-label>
+                <input type="text" matInput autocomplete="off" (keyup)="filterData($event);">
+            </mat-form-field>
+        </div>
+    </mat-toolbar>
+
+    <div class="student-list">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="stt">
+                <th mat-header-cell *matHeaderCellDef>
+                    STT
+                </th>
+                <td mat-cell *matCellDef="let i = index">
+                    {{ i+1 }}
                 </td>
-            </tr>
-            <tr class="text-justify">
-                <td>B1706896</td>
-                <td>Nguyễn Ý Vy</td>
-                <td>Nữ</td>
-                <td>06-01-1999</td>
-                <td>0949686304</td>
-                <td>vyb1706896@student.ctu.edu.vn</td>
-                <td>102/42, 3/2, P.Hưng Lợi, Q.Ninh Kiều, TP.Cần Thơ</td>
-                <td>
-                    <button mat-mini-fab color="primary" title="Chỉnh sửa">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button mat-mini-fab color="warn" title="Xoá">
-                        <i class="fa fa-trash"></i>
-                    </button>
+            </ng-container>
+
+            <ng-container matColumnDef="TK_TenDangNhap">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Tài Khoản
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.TK_TenDangNhap}}
                 </td>
-            </tr>
-            <tr class="text-justify">
-                <td>B1706844</td>
-                <td>Trần Trung Ngọc</td>
-                <td>Nam</td>
-                <td>18-06-1999</td>
-                <td>0912286405</td>
-                <td>ngocb1706844@student.ctu.edu.vn</td>
-                <td>102/42, 3/2, P.Hưng Lợi, Q.Ninh Kiều, TP.Cần Thơ</td>
-                <td>
-                    <button mat-mini-fab color="primary" title="Chỉnh sửa">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button mat-mini-fab color="warn" title="Xoá">
-                        <i class="fa fa-trash"></i>
-                    </button>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_Id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Mã HV
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.HV_Id}}
                 </td>
-            </tr>
-        </tbody>
-    </table>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_HoTen">
+                <th mat-header-cell *matHeaderCellDef> Họ tên </th>
+                <td mat-cell *matCellDef="let element"> {{element.HV_HoTen}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_GioiTinh">
+                <th mat-header-cell *matHeaderCellDef> Giới tính </th>
+                <td mat-cell *matCellDef="let element">
+                    {{(element.HV_GioiTinh==1)? 'Nam':'Nữ'}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_NoiSinh">
+                <th mat-header-cell *matHeaderCellDef> Nơi sinh </th>
+                <td mat-cell *matCellDef="let element"> {{element.HV_NoiSinh}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_Sdt">
+                <th mat-header-cell *matHeaderCellDef> SĐT </th>
+                <td mat-cell *matCellDef="let element"> {{element.HV_Sdt}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HV_Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.HV_Email}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                            <mat-icon>infomation</mat-icon>
+                            <span>Chi tiết</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Sửa</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>delete</mat-icon>
+                            <span>Xoá</span>
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[ 20, 40, 60]"
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
 </div>

@@ -1,0 +1,81 @@
+<div class="student-form">
+    <h2>{{ data.title }}</h2>
+    <form [formGroup]="formStudent">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 97%;">
+                <mat-label>Lớp đăng ký</mat-label>
+                <mat-select  formControlName="LH_Id">
+                    <mat-option value="1">Nam</mat-option>
+                    <mat-option value="0">Nữ</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 60%;">
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="HV_HoTen">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 35%;">
+                <mat-label>MSSV</mat-label>
+                <input type="text" matInput formControlName="HV_Mssv">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 40%;">
+                <mat-label>Ngày sinh</mat-label>
+                <input type="date" matInput formControlName="HV_NgaySinh">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 55%;">
+                <mat-label>Nơi sinh</mat-label>
+                <input type="text" matInput formControlName="HV_NoiSinh">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 34%;">
+                <mat-label>Dân tộc</mat-label>
+                <input type="text" matInput  formControlName="HV_DanToc">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 34%;">
+                <mat-label>Quốc tịch</mat-label>
+                <input type="text" matInput formControlName="HV_QuocTich">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Giới tính</mat-label>
+                <mat-select  formControlName="HV_GioiTinh">
+                    <mat-option [value]="1">Nam</mat-option>
+                    <mat-option [value]="0">Nữ</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 38%;">
+                <mat-label>Số CMND/CCCD</mat-label>
+                <input type="text" matInput formControlName="HV_Cmnd">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Ngày cấp</mat-label>
+                <input type="date" matInput formControlName="HV_NgayCapCmnd">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 30%;">
+                <mat-label>Nơi cấp</mat-label>
+                <input type="text" matInput formControlName="HV_NoiCapCmnd">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 60%;">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="HV_Email">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 35%;">
+                <mat-label>Số điện thoại</mat-label>
+                <input type="text" matInput  formControlName="HV_Sdt">
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button (click)="onCreate()" color="primary">Lưu</button>
+        <button mat-raised-button (click)="onUpdate()" color="primary">Cập nhật</button>&nbsp;
+        <button mat-raised-button (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

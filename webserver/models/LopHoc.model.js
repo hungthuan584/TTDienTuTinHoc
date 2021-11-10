@@ -3,25 +3,22 @@ var dbConnect = require('../db.config');
 var LopHoc = function (LopHoc) {
     this.LH_Id = LopHoc.LH_Id;
     this.LDT_Id = LopHoc.LDT_Id;
-    this.GV_Id = LopHoc.GV_Id;
+    this.CB_Id = LopHoc.CB_Id;
+    this.PH_Id = LopHoc.PH_Id;
+    this.LH_BuoiHoc = LopHoc.LH_BuoiHoc;
+    this.LH_ThoiGianHoc = LopHoc.LH_ThoiGianHoc;
     this.LH_SiSo = LopHoc.LH_SiSo;
-    this.LH_NgayKhaiGiang = new Date();
+    this.LH_NgayKhaiGiang = LopHoc.LH_NgayKhaiGiang;
+    this.LH_IsDelete = LopHoc.LH_IsDelete;
     this.LH_CreateDate = new Date();
     this.LH_UpdateDate = new Date();
-    this.LH_IsDelete = LopHoc.IsDelete;
     this.LH_DeleteDate = new Date();
 }
 
 // Danh sach lop hoc
 LopHoc.getAll = (result) => {
     dbConnect.query(
-        `
-            SELECT *
-            FROM LopHoc lh 
-            JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
-            JOIN giaovien gv ON gv.GV_Id = lh.GV_Id
-            WHERE lh.LH_IsDelete != 1
-        `,
+        `SELECT * FROM LopHoc lh JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id WHERE lh.LH_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -40,18 +37,36 @@ LopHoc.getById = (id, result) => {
         `
         SELECT *
         FROM LopHoc lh 
-        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
-        JOIN giaovien gv ON gv.GV_Id = lh.GV_Id
-        WHERE  (lh.LH_Id = '${id}') OR (lh.LDT_Id = '${id}') OR(lh.GV_Id = '${id}')
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
+        WHERE lh.LH_Id = ?
         `,
+        id,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching By Id Successfully');
+                console.log('Selected by id Successfully');
                 result(null, res[0]);
+            }
+        }
+    );
+}
+
+LopHoc.countNumber = (ldtId, result) => {
+    dbConnect.query(
+        `SELECT * FROM LopHoc WHERE LDT_Id like ?`,
+        ldtId,
+        (err, res) => {
+            if (err) {
+                console.log('Error while count', err);
+                result(null, err);
+            }
+            else {
+                console.log('Count Successfully');
+                result(null, res);
             }
         }
     );
@@ -82,7 +97,7 @@ LopHoc.updateById = (id, data, result) => {
         UPDATE LopHoc
         SET
             LDT_Id = ?,
-            GV_Id = ?,
+            CB_Id = ?,
             LH_SiSo = ?,
             LH_NgayKhaiGiang = ?,
             LH_UpdateDate = CURRENT_TIMESTAMP()
@@ -90,7 +105,10 @@ LopHoc.updateById = (id, data, result) => {
         `,
         [
             data.LDT_Id,
-            data.GV_Id,
+            data.CB_Id,
+            data.PH_Id,
+            data.LH_BuoiHoc,
+            data.LH_ThoiGianHoc,
             data.LH_SiSo,
             data.LH_NgayKhaiGiang,
             id

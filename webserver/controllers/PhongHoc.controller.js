@@ -2,7 +2,6 @@ const PhongHocModel = require('../models/PhongHoc.model');
 
 // Get All
 exports.getAll = (req, res) => {
-
     PhongHocModel.getAll(
         (err, PhongHoc) => {
             if (err) {
@@ -29,26 +28,54 @@ exports.getById = (req, res) => {
 // Create
 exports.addNew = (req, res) => {
 
-    const data = new PhongHocModel(req.body);
-
-    data.PH_IsDelete = 0;
-    data.PH_DeleteDate = '-  -     :  :';
-    data.PH_UpdateDate = '-  -     :  :';
-
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-    }
-    else {
-        PhongHocModel.addNew(
-            data,
-            (err, PhongHoc) => {
-                if (err) {
-                    return res.json({ status: 0, message: err });
-                }
-                return res.json(PhongHoc);
+    PhongHocModel.countNumber(
+        (err, PhongHoc) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
             }
-        );
-    }
+
+            var h = false;
+            var id = 'PTH';
+            var d = 0;
+
+            if (PhongHoc) {
+                d = PhongHoc.length;
+            }
+
+            if (d < 10) {
+                h = true;
+                id += '0' + (d + 1).toString();
+            } else {
+                h = true;
+                id += (d + 1).toString();
+            }
+
+            if (h == true) {
+
+                const data = new PhongHocModel(req.body);
+
+                data.PH_Id = id;
+                data.PH_IsDelete = 0;
+                data.PH_DeleteDate = '-  -     :  :';
+                data.PH_UpdateDate = '-  -     :  :';
+
+                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                    return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+                }
+                else {
+                    PhongHocModel.addNew(
+                        data,
+                        (err, PhongHoc) => {
+                            if (err) {
+                                return res.json({ status: 0, message: err });
+                            }
+                            return res.json(PhongHoc);
+                        }
+                    );
+                }
+            }
+        }
+    );
 }
 
 // Update

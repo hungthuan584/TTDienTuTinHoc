@@ -1,13 +1,24 @@
-.student-box{
-    margin: 0.6rem;
+.mat-toolbar {
+    background-color: #ffffff;
 }
-.btnAddStudent{
-    margin: 0.6rem 1rem;
+.spacer {
+    width: 5%;
 }
 
-tbody td{
-    vertical-align: middle;
-    button{
-        text-align: center;
+.search-box {
+    mat-form-field {
+        margin-top: 20px;
+        width: 600px;
+        font-size: 14px;
     }
+}
+table {
+    width: 100%;
+    td {
+        vertical-align: middle;
+    }
+}
+
+.mat-toolbar {
+    background-color: #ffffff;
 }

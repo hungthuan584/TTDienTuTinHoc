@@ -1,0 +1,87 @@
+<div class="teacher-box">
+    <h2>{{ data.title }}</h2>
+    <form [formGroup]="teacherForm" autocomplete="off">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 50%;">
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="GV_HoTen" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 21%;">
+                <mat-label>Giới tính</mat-label>
+                <mat-select formControlName="GV_GioiTinh" (closed)="logValidationErrors()">
+                    <mat-option>Chọn giới tính</mat-option>
+                    <mat-option [value]="1">Nam</mat-option>
+                    <mat-option [value]="0">Nữ</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Ngày sinh</mat-label>
+                <input type="date" matInput formControlName="GV_NgaySinh" (blur)="logValidationErrors()">
+            </mat-form-field>
+
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 32%;">
+                <mat-label>Dân tộc</mat-label>
+                <input type="text" matInput formControlName="GV_DanToc" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 32%;">
+                <mat-label>Quốc tịch</mat-label>
+                <input type="text" matInput formControlName="GV_QuocTich" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 32%;">
+                <mat-label>Trình độ</mat-label>
+                <input type="text" matInput formControlName="GV_TrinhDo" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 30%;">
+                <mat-label>Số điện thoại</mat-label>
+                <input type="tel" matInput formControlName="GV_Sdt" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 67%;">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="GV_Email" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 98%;">
+                <mat-label>Địa chỉ</mat-label>
+                <input type="text" matInput formControlName="GV_DiaChi" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <span class="help-block" *ngIf="formErrors.GV_HoTen">
+                * {{ formErrors.GV_HoTen }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_GioiTinh">
+                * {{ formErrors.GV_GioiTinh }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_NgaySinh">
+                * {{ formErrors.GV_NgaySinh }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_DiaChi">
+                * {{ formErrors.GV_DiaChi }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_DanToc">
+                * {{ formErrors.GV_DanToc }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_QuocTich">
+                * {{ formErrors.GV_QuocTich }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_Sdt">
+                * {{ formErrors.GV_Sdt }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_Email">
+                * {{ formErrors.GV_Email }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_TrinhDo">
+                * {{ formErrors.GV_TrinhDo }}
+            </span>
+        </div>
+    </form>
+    <div class="text-center">
+        <button (click)="onSubmit()" mat-raised-button color="primary">Lưu</button>&nbsp;
+        <button (click)="cancelClick()" mat-raised-button>Huỷ</button>
+    </div>
+</div>

@@ -4,22 +4,19 @@ const route = express.Router();
 const HocVienController = require('../controllers/HocVien.controller');
 
 // Danh sach
-route.get('/', HocVienController.getAllHocVien);
-
-// Get by Current year
-route.get('/current', HocVienController.getHocVienByCreateYear);
+route.get('/', HocVienController.getAll);
 
 // Get by Id
-route.get('/info/:HV_Id', HocVienController.getHocVienById);
+route.get('/:id', HocVienController.getById);
 
 // Them
-route.post('/', HocVienController.addHocVien);
+route.post('/', HocVienController.addNew);
 
 // Sua 
-route.put('/:HV_Id', HocVienController.updateHocVien);
+route.put('/:id', HocVienController.updateById);
 
 // Xoa
-route.delete('/:HV_Id', HocVienController.deleteHocVien);
+route.delete('/:id', HocVienController.deleteById);
 
 
 module.exports = route;

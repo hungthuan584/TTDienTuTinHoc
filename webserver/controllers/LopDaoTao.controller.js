@@ -2,7 +2,6 @@ const LopDaoTaoModel = require('../models/LopDaoTao.model');
 
 // Danh sach lop dao tao
 exports.getAll = (req, res) => {
-
     LopDaoTaoModel.getAll(
         (err, LopDaoTao) => {
             if (err) {
@@ -15,7 +14,6 @@ exports.getAll = (req, res) => {
 
 // Get lop dao tao by Id
 exports.getById = (req, res) => {
-
     LopDaoTaoModel.getById(
         req.params.id,
         (err, LopDaoTao) => {
@@ -73,7 +71,6 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-
     LopDaoTaoModel.deleteById(
         req.params.id,
         (err) => {

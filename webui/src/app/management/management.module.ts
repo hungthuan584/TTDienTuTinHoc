@@ -14,8 +14,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ManagementRoutingModule } from './management-routing.module';
 
@@ -25,24 +32,16 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { PostComponent } from './post/post.component';
-import { LicenseComponent } from './license/license.component';
-import { PostCategoryComponent } from './post-category/post-category.component';
-import { FunctionComponent } from './function/function.component';
-import { CertificateComponent } from './certificate/certificate.component';
-import { ExamCommitteeComponent } from './exam-committee/exam-committee.component';
 import { StudentComponent } from './student/student.component';
-import { ExamComponent } from './exam/exam.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { ContactComponent } from './contact/contact.component';
-import { EducateComponent } from './educate/educate.component';
-import { AddEditEducateComponent } from './educate/add-edit-educate/add-edit-educate.component';
 import { LoginComponent } from './login/login.component';
 import { AccountComponent } from './account/account.component';
-import { StudentAccountListComponent } from './account/student-account-list/student-account-list.component';
-import { AddAccountComponent } from './account/add-account.component';
-
-
-
+import { StudentFormComponent } from './form/student-form/student-form.component';
+import { TeacherComponent } from './teacher/teacher.component';
+import { ClassFormComponent } from './form/class-form/class-form.component';
+import { TeacherFormComponent } from './form/teacher-form/teacher-form.component';
+import { TeacherInfomationComponent } from './teacher/teacher-infomation/teacher-infomation.component';
 
 @NgModule({
   declarations: [
@@ -51,25 +50,21 @@ import { AddAccountComponent } from './account/add-account.component';
     HeaderComponent,
     HomeComponent,
     PostComponent,
-    LicenseComponent,
-    PostCategoryComponent,
-    FunctionComponent,
-    CertificateComponent,
-    ExamCommitteeComponent,
     StudentComponent,
-    ExamComponent,
     StatisticalComponent,
     ContactComponent,
-    EducateComponent,
-    AddEditEducateComponent,
     LoginComponent,
     AccountComponent,
-    StudentAccountListComponent,
-    AddAccountComponent
+    StudentFormComponent,
+    TeacherComponent,
+    ClassFormComponent,
+    TeacherFormComponent,
+    TeacherInfomationComponent
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
 
     // MaterialModule
@@ -84,7 +79,13 @@ import { AddAccountComponent } from './account/add-account.component';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatRadioModule
   ]
 })
 export class ManagementModule { }

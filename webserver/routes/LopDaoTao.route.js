@@ -4,19 +4,18 @@ const route = express.Router();
 const LopDaoTaoController = require('../controllers/LopDaoTao.controller');
 
 // Danh sach
-route.get('/', LopDaoTaoController.getAllLopDaoTao);
+route.get('/', LopDaoTaoController.getAll);
 
 // Get by Id
-route.get('/:LDT_Id', LopDaoTaoController.getLopDaoTaoById);
+route.get('/:id', LopDaoTaoController.getById);
 
 // Them
 route.post('/', LopDaoTaoController.addLopDaoTao);
 
 // Sua 
-route.put('/:LDT_Id', LopDaoTaoController.updateLopDaoTao);
+route.put('/:id', LopDaoTaoController.updateById);
 
 // Xoa
-route.delete('/:LDT_Id', LopDaoTaoController.deleteLopDaoTao);
-
+route.delete('/:id', LopDaoTaoController.deleteById);
 
 module.exports = route;

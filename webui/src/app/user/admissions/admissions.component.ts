@@ -20,7 +20,7 @@ export class AdmissionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.lophocService.getAllLopHoc().subscribe(
+    this.lophocService.getAll().subscribe(
       (result) => {
         console.log(result);
         this.listLopHoc = result;

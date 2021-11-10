@@ -2,23 +2,20 @@ const express = require('express');
 const route = express.Router();
 
 const TaiKhoanController = require('../controllers/TaiKhoan.controller');
+const { checkToken } = require('../auth/token_validation');
 
-// Get All
-route.get('/nhanvien', TaiKhoanController.getTaiKhoanEmployees);
-route.get('/giaovien', TaiKhoanController.getTaiKhoanTeachers);
-route.get('/hocvien', TaiKhoanController.getTaiKhoanStudents);
+route.get('/', TaiKhoanController.getAll);
 
-// Get By Username
-route.get('/:TK_TenDangNhap', TaiKhoanController.getTaiKhoanByUsername);
-// Create
-route.post('/manager', TaiKhoanController.addTaiKhoanByManager);
-route.post('/register', TaiKhoanController.addTaiKhoanByRegister);
-// Update
-route.put('update/:TK_TenDangNhap', TaiKhoanController.updateTaiKhoan);
+route.get('/:username', TaiKhoanController.getByUsername);
+// Change
+route.put('/:username', TaiKhoanController.changePassword);
+// Reset
+route.patch('/:username', TaiKhoanController.resetPassword);
+
 // Blocked
-route.put('blocked/:TK_TenDangNhap', TaiKhoanController.blockedTaiKhoan);
+route.lock('/:username', TaiKhoanController.blockedByUsername);
 // Active
-route.put('active/:TK_TenDangNhap', TaiKhoanController.activeTaiKhoan);
+route.unlock('/:username', TaiKhoanController.activeByUsername);
 // Login
 route.post('/login', TaiKhoanController.login);
 

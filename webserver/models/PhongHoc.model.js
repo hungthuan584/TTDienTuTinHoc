@@ -1,11 +1,12 @@
 var dbConnect = require('../db.config');
 
 var PhongHoc = function (PhongHoc) {
+    this.PH_Id = PhongHoc.PH_Id;
     this.PH_Ten = PhongHoc.PH_Ten;
     this.PH_SucChua = PhongHoc.PH_SucChua;
+    this.PH_IsDelete = PhongHoc.PH_IsDelete;
     this.PH_CreateDate = new Date();
     this.PH_UpdateDate = new Date();
-    this.PH_IsDelete = PhongHoc.PH_IsDelete;
     this.PH_DeleteDate = new Date();
 }
 
@@ -15,7 +16,7 @@ PhongHoc.getAll = (result) => {
         `SELECT * FROM PhongHoc WHERE PH_IsDelete != 1`,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
@@ -29,15 +30,31 @@ PhongHoc.getAll = (result) => {
 // Get by Id
 PhongHoc.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM PhongHoc WHERE PH_IsDelete != 1 AND PH_Id = ?`,
+        `SELECT * FROM PhongHoc WHERE PH_Id = ?`,
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
                 console.log('Selected successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+PhongHoc.countNumber = (result) => {
+    dbConnect.query(
+        `SELECT * FROM PhongHoc`,
+        (err, res) => {
+            if (err) {
+                console.log('Error counting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Counted successfully');
                 result(null, res);
             }
         }
@@ -51,11 +68,11 @@ PhongHoc.addNew = (data, result) => {
         data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating', err);
+                console.log('Error while creating', err);
                 result(null, err);
             }
             else {
-                console.log('Created Successfully');
+                console.log('Created successfully');
                 result(null, res);
             }
         }
@@ -79,10 +96,10 @@ PhongHoc.updateById = (id, data, result) => {
         ],
         (err, res) => {
             if (err) {
-                console.log('Error While Updating Data');
+                console.log('Error while updating');
                 result(err, null);
             } else {
-                console.log('Data Updated Successfully!');
+                console.log('Updated Successfully!');
                 result(null, res);
             }
         }
@@ -101,10 +118,10 @@ PhongHoc.deleteById = (id, result) => {
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Deleting');
+                console.log('Error while deleting');
                 result(err, null);
             } else {
-                console.log('Deleted Successfully!');
+                console.log('Deleted successfully!');
                 result(null, res)
             }
         }

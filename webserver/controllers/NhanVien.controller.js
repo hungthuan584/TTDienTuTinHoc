@@ -1,7 +1,5 @@
 const NhanVienModel = require('../models/NhanVien.model');
 
-const NhanVienModel = require('../models/NhanVien.model');
-
 exports.getAll = (req, res) => {
     NhanVienModel.getAll(
         (err, NhanVien) => {

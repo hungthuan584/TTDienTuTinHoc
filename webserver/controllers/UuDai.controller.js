@@ -25,26 +25,62 @@ exports.getById = (req, res) => {
 
 exports.addNew = (req, res) => {
 
-    const data = new UuDaiModel.addNew(req.body);
+    UuDaiModel.countNumber(
+        (err, data) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: 'Please fill all fields' });
+            } else {
+                var d = 0;
+                var id = 'UD';
 
-    data.UD_IsDelete = 0;
-    data.UD_UpdateDate = '-  -     :  :';
-    data.UD_DeleteDate = '-  -     :  :';
-
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-    }
-    else {
-        UuDaiModel.addNew(
-            data,
-            (err, UuDai) => {
-                if (err) {
-                    return res.json({ status: 0, message: err });
+                if (data) {
+                    d = data.length;
                 }
-                return res.json(UuDai);
+
+                var y = new Date().getFullYear().toString().slice(2, 4);
+                id += y;
+                var h = false;
+                if (d < 9) {
+                    h = true;
+                    id += '00' + (d + 1).toString();
+                } else {
+                    if (d < 99) {
+                        h = true;
+                        id += '0' + (d + 1).toString();
+                    } else {
+                        if (d < 999) {
+                            h = true;
+                            id += (d + 1).toString();
+                        }
+                    }
+                }
+                if (h == true) {
+                    const data = new UuDaiModel(req.body);
+
+                    data.UD_Id = id;
+                    data.UD_IsDelete = 0;
+                    data.UD_UpdateDate = '-  -     :  :';
+                    data.UD_DeleteDate = '-  -     :  :';
+
+                    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+                    }
+                    else {
+                        UuDaiModel.addNew(
+                            data,
+                            (err) => {
+                                if (err) {
+                                    return res.json({ status: 0, message: err });
+                                } else {
+                                    return res.json({ status: 1, message: 'Created successfully' });
+                                }
+                            }
+                        );
+                    }
+                }
             }
-        );
-    }
+        }
+    );
 }
 
 exports.updateById = (req, res) => {

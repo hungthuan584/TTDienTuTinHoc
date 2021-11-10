@@ -14,7 +14,7 @@ export class LopHocService {
       'Content-Type': 'application/json',
     }),
   };
-  
+
   constructor(private httpClient: HttpClient) { }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -26,7 +26,7 @@ export class LopHocService {
     return throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
   }
 
-  public getAllLopHoc(): Observable<any> {
+  public getAll(): Observable<any> {
     const url = `${this.REST_API_SERVER}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
@@ -38,7 +38,7 @@ export class LopHocService {
       .pipe(catchError(this.handleError));
   }
 
-  public getLopHocById(id: string): Observable<any> {
+  public getById(id: string): Observable<any> {
 
     const url = `${this.REST_API_SERVER}/${id}`;
 
@@ -51,5 +51,17 @@ export class LopHocService {
       .pipe(catchError(this.handleError));
   }
 
-  
+  public addNew(data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}`;
+
+    return this.httpClient.post<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+
 }

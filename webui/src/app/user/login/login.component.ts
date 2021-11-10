@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthDataService } from 'src/app/services/auth-data.service';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 export interface DialogData {
   TK_TenDangNhap: string;
@@ -17,29 +19,49 @@ export interface DialogData {
 })
 export class LoginComponent implements OnInit {
 
-  // loginForm!: FormGroup;
+  loginForm!: FormGroup;
   constructor(
-    // private authData: AuthDataService,
-    // public dialogRef: MatDialogRef<LoginComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: DialogData
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  initForm() {
+    this.loginForm = new FormGroup({
+      TK_TenDangNhap: new FormControl('', [Validators.required]),
+      TK_MatKhau: new FormControl('', [Validators.required]),
+    });
   }
 
   onSubmit() {
-    // this.authData.login(this.data.TK_TenDangNhap, this.data.TK_MatKhau).subscribe((data) => {
-    //   if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-    //     // console.log('DialogLoginComponent: login: error', data);
-    //   } else {
-    //     this.data.token = data;
-    //     // console.log('DialogLoginComponent: this.data', this.data);
-    //     this.dialogRef.close({ data: this.data });
-    //   }
-    // },
-    //   (error) => {
-    //     console.log('AuthService: failed', error);
-    //   });
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe(
+        (result) => {
+          if (result.status == 1) {
+            console.log(result);
+            Swal.fire({
+              icon: 'success',
+              title: result.message,
+              showConfirmButton: true
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: result.message,
+              showConfirmButton: true
+            });
+          }
+
+          localStorage.setItem('token', result.token.toString());
+
+        },
+        (err) => {
+
+        }
+      );
+    }
   }
 
 }

@@ -4,17 +4,20 @@ var HocVien = function (HocVien) {
     this.HV_Id = HocVien.HV_Id;
     this.HV_HoTen = HocVien.HV_HoTen;
     this.HV_GioiTinh = HocVien.HV_GioiTinh;
-    this.HV_NgaySinh = new Date();
+    this.HV_NgaySinh = HocVien.HV_NgaySinh;
+    this.HV_NoiSinh = HocVien.HV_NoiSinh;
     this.HV_Cmnd = HocVien.HV_Cmnd;
-    this.HV_DiaChi = HocVien.HV_DiaChi;
+    this.HV_NgayCapCmnd = HocVien.HV_NgayCapCmnd;
+    this.HV_NoiCapCmnd = HocVien.HV_NoiCapCmnd;
+    this.HV_DanToc = HocVien.HV_DanToc;
+    this.HV_QuocTich = HocVien.HV_QuocTich;
     this.HV_Sdt = HocVien.HV_Sdt;
     this.HV_Email = HocVien.HV_Email;
-    this.HV_SinhVien = HocVien.HV_SinhVien;
     this.HV_Mssv = HocVien.HV_Mssv;
     this.TK_TenDangNhap = HocVien.TK_TenDangNhap;
+    this.HV_IsDelete = HocVien.HV_IsDelete;
     this.HV_CreateDate = new Date();
     this.HV_UpdateDate = new Date();
-    this.HV_IsDelete = HocVien.HV_IsDelete;
     this.HV_DeleteDate = new Date();
 }
 
@@ -28,7 +31,7 @@ HocVien.getAll = (result) => {
                 result(null, err);
             }
             else {
-                console.log('Fetching All Data Successfully');
+                console.log('Selected Successfully');
                 result(null, res);
             }
         }
@@ -37,7 +40,7 @@ HocVien.getAll = (result) => {
 
 
 // Danh sach hoc vien dang ky nam hien tai
-HocVien.getByYear = (result) => {
+HocVien.countNumber = (result) => {
     dbConnect.query(
         `SELECT * FROM HocVien WHERE YEAR(HV_CreateDate) = YEAR(CURDATE())`,
         (err, res) => {
@@ -56,32 +59,15 @@ HocVien.getByYear = (result) => {
 // Get hoc vien by Id
 HocVien.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM HocVien WHERE HV_Id = ?`,
-        id,
+        `SELECT * FROM HocVien WHERE (HV_Id = '${id}') OR (TK_TenDangNhap = '${id}') `,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching By Id Successfully');
+                console.log('Fetching by id successfully');
                 result(null, res[0]);
-            }
-        }
-    );
-}
-
-HocVien.getByUsername = (username, result) => {
-    dbConnect.query(
-        `SELECT * FROM HocVien WHERE TK_TenDangNhap = ?`,
-        username,
-        (err, res) => {
-            if (err) {
-                console.log('Error while fetching', err);
-                result(null, err);
-            } else {
-                console.log('Selected successfully');
-                result(null, res);
             }
         }
     );
@@ -94,11 +80,11 @@ HocVien.addNew = (data, result) => {
         data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating New Data', err);
+                console.log('Error while creating', err);
                 result(null, err);
             }
             else {
-                console.log('Data Created Successfully');
+                console.log('Created successfully');
                 result(null, res);
             }
         }
@@ -114,11 +100,14 @@ HocVien.updateById = (id, data, result) => {
             HV_HoTen = ?,
             HV_GioiTinh = ?,
             HV_NgaySinh = ?,
+            HV_NoiSinh = ?,
             HV_Cmnd = ?,
-            HV_DiaChi = ?,
+            HV_NgayCapCmnd = ?,
+            HV_NoiCapCmnd = ?,
+            HV_DanToc = ?,
+            HV_QuocTich = ?,
             HV_Sdt = ?,
             HV_Email = ?,
-            HV_SinhVien = ?,
             HV_Mssv = ?,
             HV_UpdateDate = CURRENT_TIMESTAMP()
 	    WHERE HV_Id = ?
@@ -127,11 +116,14 @@ HocVien.updateById = (id, data, result) => {
             data.HV_HoTen,
             data.HV_GioiTinh,
             data.HV_NgaySinh,
+            data.HV_NoiSinh,
             data.HV_Cmnd,
-            data.HV_DiaChi,
+            data.HV_NgayCapCmnd,
+            data.HV_NoiCapCmnd,
+            data.HV_DanToc,
+            data.HV_QuocTich,
             data.HV_Sdt,
             data.HV_Email,
-            data.HV_SinhVien,
             data.HV_Mssv,
             id
         ],

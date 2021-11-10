@@ -5,9 +5,9 @@ var LopDaoTao = function (LopDaoTao) {
     this.LDT_Ten = LopDaoTao.LDT_Ten;
     this.LDT_LePhi = LopDaoTao.LDT_LePhi;
     this.LDT_LePhiSinhVien = LopDaoTao.LDT_LePhiSinhVien;
+    this.LDT_IsDelete = LopDaoTao.LDT_IsDelte;
     this.LDT_CreateDate = new Date();
     this.LDT_UpdateDate = new Date();
-    this.LDT_IsDelete = LopDaoTao.LDT_IsDelte;
     this.LDT_DeleteDate = new Date();
 }
 
@@ -16,11 +16,11 @@ LopDaoTao.getAll = (result) => {
         `SELECT * FROM LopDaoTao WHERE LDT_IsDelete != 1`,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching All Data Successfully');
+                console.log('Selected successfully');
                 result(null, res);
             }
         }
@@ -33,11 +33,11 @@ LopDaoTao.getById = (id, result) => {
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Fetching', err);
+                console.log('Error while selecting', err);
                 result(null, err);
             }
             else {
-                console.log('Fetching By Id Successfully');
+                console.log('Selected by id successfully');
                 result(null, res[0]);
             }
         }
@@ -51,11 +51,11 @@ LopDaoTao.addNew = (data, result) => {
         data,
         (err, res) => {
             if (err) {
-                console.log('Error While Creating', err);
+                console.log('Error while creating', err);
                 result(null, err);
             }
             else {
-                console.log('Created Successfully');
+                console.log('Created successfully');
                 result(null, res);
             }
         }

@@ -4,16 +4,17 @@ var GiaoVien = function (GiaoVien) {
     this.GV_Id = GiaoVien.GV_Id;
     this.GV_HoTen = GiaoVien.GV_HoTen;
     this.GV_GioiTinh = GiaoVien.GV_GioiTinh;
-    this.GV_NgaySinh = new Date();
-    this.GV_Cmnd = GiaoVien.GV_Cmnd;
+    this.GV_NgaySinh = GiaoVien.GV_NgaySinh;
     this.GV_DiaChi = GiaoVien.GV_DiaChi;
+    this.GV_DanToc = GiaoVien.GV_DanToc;
+    this.GV_QuocTich = GiaoVien.GV_QuocTich;
     this.GV_Sdt = GiaoVien.GV_Sdt;
     this.GV_Email = GiaoVien.GV_Email;
-    this.GV_HocVi = GiaoVien.GV_HocVi;
-    this.GV_ChuyenNganh = GiaoVien.GV_ChuyenNganh;
+    this.GV_TrinhDo = GiaoVien.GV_TrinhDo;
+    this.TK_TenDangNhap = GiaoVien.TK_TenDangNhap;
+    this.GV_IsDelete = GiaoVien.GV_IsDelete;
     this.GV_CreateDate = new Date();
     this.GV_UpdateDate = new Date();
-    this.GV_IsDelete = GiaoVien.GV_IsDelete;
     this.GV_DeleteDate = new Date();
 }
 
@@ -34,10 +35,7 @@ GiaoVien.getAll = (result) => {
 
 GiaoVien.getById = (id, result) => {
     dbConnect.query(
-        `
-        SELECT * FROM GiaoVien
-        WHERE GV_Id = ?
-        `,
+        `SELECT * FROM GiaoVien WHERE GV_Id = ?`,
         id,
         (err, res) => {
             if (err) {
@@ -45,22 +43,21 @@ GiaoVien.getById = (id, result) => {
                 result(null, err);
             } else {
                 console.log('Selected by id successfully');
-                result(null, res);
+                result(null, res[0]);
             }
         }
     );
 }
 
-GiaoVien.getByUsername = (username, result) => {
+GiaoVien.countNumber = (result) => {
     dbConnect.query(
-        `SELECT * FROM GiaoVien WHERE TK_TenDangNhap = ?`,
-        username,
+        `SELECT * FROM GiaoVien`,
         (err, res) => {
             if (err) {
-                console.log('Error while fetching', err);
+                console.log('Error while count');
                 result(null, err);
             } else {
-                console.log('Selected by username successfully');
+                console.log('Count successfully');
                 result(null, res);
             }
         }
@@ -68,7 +65,7 @@ GiaoVien.getByUsername = (username, result) => {
 }
 
 // Them hoc vien
-GiaoVien.addGiaoVien = (data, result) => {
+GiaoVien.addNew = (data, result) => {
     dbConnect.query(
         `INSERT INTO GiaoVien SET ?`,
         data,
@@ -86,7 +83,7 @@ GiaoVien.addGiaoVien = (data, result) => {
 }
 
 // Sua thong tin hoc vien
-GiaoVien.updateGiaoVien = (id, data, result) => {
+GiaoVien.updateById = (id, data, result) => {
     dbConnect.query(
         `
         UPDATE GiaoVien
@@ -94,12 +91,12 @@ GiaoVien.updateGiaoVien = (id, data, result) => {
             GV_HoTen = ?,
             GV_GioiTinh = ?,
             GV_NgaySinh = ?,
-            GV_Cmnd = ?,
             GV_DiaChi = ?,
+            GV_DanToc = ?,
+            GV_QuocTich = ?,
             GV_Sdt = ?,
             GV_Email = ?,
-            GV_HocVi = ?,
-            GV_ChuyenNganh = ?,
+            GV_TrinhDo = ?,
             GV_UpdateDate = CURRENT_TIMESTAMP()
 	    WHERE GV_Id = ?
         `,
@@ -107,12 +104,12 @@ GiaoVien.updateGiaoVien = (id, data, result) => {
             data.GV_HoTen,
             data.GV_GioiTinh,
             data.GV_NgaySinh,
-            data.GV_Cmnd,
             data.GV_DiaChi,
+            data.GV_DanToc,
+            data.GV_QuocTich,
             data.GV_Sdt,
             data.GV_Email,
-            data.GV_HocVi,
-            data.GV_ChuyenNganh,
+            data.GV_TrinhDo,
             id
         ],
         (err, res) => {
@@ -128,7 +125,7 @@ GiaoVien.updateGiaoVien = (id, data, result) => {
 }
 
 // Xoa hoc vien
-GiaoVien.deleteGiaoVien = (id, result) => {
+GiaoVien.deleteById = (id, result) => {
     dbConnect.query(
         `
         UPDATE GiaoVien
@@ -140,10 +137,10 @@ GiaoVien.deleteGiaoVien = (id, result) => {
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Delete Data', err);
+                console.log('Error While Deleting', err);
                 result(err, null);
             } else {
-                console.log('Data Deleted Successfully!');
+                console.log('Deleted Successfully!');
                 result(null, res);
             }
         }

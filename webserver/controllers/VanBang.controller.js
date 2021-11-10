@@ -31,7 +31,7 @@ exports.addNew = (req, res) => {
     data.VB_DeleteDate = '-  -     :  :';
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
+        return req.send(500).send({ status: 0, massage: 'Please fill all fields' });
     } else {
         VanBangModel.addNew(
             data,
@@ -49,7 +49,7 @@ exports.updateById = (req, res) => {
     const data = new VanBangModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+        return req.send(500).send({ status: 0, message: 'Please fill all fields' });
     } else {
         VanBangModel.updateById(
             req.params.id,

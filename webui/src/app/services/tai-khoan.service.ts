@@ -27,10 +27,10 @@ export class TaiKhoanService {
     return throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
   }
 
-  public getTaiKhoanHocVien(): Observable<any> {
-    const url = `${this.REST_AIP_SERVER}/hocvien`;
+  public login(dataLogin: any): Observable<any> {
+    const url = `${this.REST_AIP_SERVER}/login`;
 
-    return this.httpClient.get<any>(url, this.httpOptions)
+    return this.httpClient.post<any>(url, dataLogin, { withCredentials: true })
       .pipe(
         map((data) => {
           return data;
@@ -39,9 +39,8 @@ export class TaiKhoanService {
       .pipe(catchError(this.handleError));
   }
 
-
   // ********** GET OBJECT **********
-  public getTaiKhoanByTenDangNhap(username: string): Observable<any> {
+  public getByUsername(username: string): Observable<any> {
 
     const url = `${this.REST_AIP_SERVER}/${username}`;
 

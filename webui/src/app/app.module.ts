@@ -6,16 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
-import { SuccessDialogComponent } from './shared/success-dialog/success-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ConfirmDialogComponent,
-    SuccessDialogComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -24,13 +21,16 @@ import { MatIconModule } from '@angular/material/icon';
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  
-  providers: [{
-    provide: MatDialogRef,
-    useValue: {}
-  }],
+
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

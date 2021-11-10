@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddAccountComponent } from './add-account.component';
 
 
 
@@ -29,9 +28,6 @@ export class AccountComponent implements OnInit {
   }
 
   addClick(): void {
-    this.dialog.open(
-      AddAccountComponent, {
-      data: { title: this.title }
-    });
+    
   }
 }

@@ -1,0 +1,34 @@
+.mat-toolbar {
+    background-color: #ffffff;
+}
+
+.teacher-list {
+    background-color: #ffffff;
+}
+.total {
+    padding: 10px;
+    span {
+        font-size: 13px;
+    }
+}
+.spacer {
+    width: 5%;
+}
+
+.search-box {
+    mat-form-field {
+        margin-top: 20px;
+        width: 600px;
+        font-size: 14px;
+    }
+}
+
+table {
+    width: 100%;
+    th {
+        text-align: left;
+    }
+    td {
+        vertical-align: middle;
+    }
+}

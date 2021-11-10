@@ -1,0 +1,19 @@
+.login-box {
+    position: fixed;
+    top: 25%;
+    left: 40%;
+    h2 {
+        padding: 20px;
+        text-align: center;
+        background-color: #192a56;
+        color: #ffffff;
+    }
+    z-index: 1000 !important;
+    background-color: #ffffff;
+    width: 20%;
+    height: 40%;
+    border-radius: 5px;
+    form{
+        margin: 20px;
+    }
+}

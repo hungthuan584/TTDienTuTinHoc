@@ -1,16 +1,8 @@
 <div class="account-box">
-    <button (click)="addClick()" class="btnAddAccount btn btn-primary"><i class="fa fa-user-plus"></i> Thêm</button>
-
-    <mat-tab-group>
-        <mat-tab label="Học viên">
-            <app-student-account-list></app-student-account-list>
-        </mat-tab>
-
-        <mat-tab label="Nhân viên">
-
-        </mat-tab>
-        <mat-tab label="Giáo viên">
-
-        </mat-tab>
-    </mat-tab-group>
+    <mat-toolbar>
+        <mat-form-field>
+            <mat-label>Tìm kiếm</mat-label>
+            <input type="text" matInput>
+        </mat-form-field>
+    </mat-toolbar>
 </div>

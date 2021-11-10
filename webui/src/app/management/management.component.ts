@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagementComponent implements OnInit {
 
+  currentUser: any;
+
   title = 'Quản trị hệ thống';
 
   sideBarOpen = true;
@@ -17,6 +19,7 @@ export class ManagementComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+   
   }
 
 }

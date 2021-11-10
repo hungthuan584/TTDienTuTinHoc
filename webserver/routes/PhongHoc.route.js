@@ -4,18 +4,18 @@ const route = express.Router();
 const PhongHocController = require('../controllers/PhongHoc.controller');
 
 // get all
-route.get('/', PhongHocController.getAllPhongHoc);
+route.get('/', PhongHocController.getAll);
 
 // get by id
-route.get('/:PH_Id', PhongHocController.getPhongHocById);
+route.get('/:id', PhongHocController.getById);
 
 // create
-route.post('/', PhongHocController.addPhongHoc);
+route.post('/', PhongHocController.addNew);
 
 // update
-route.put('/:PH_Id', PhongHocController.updatePhongHocById);
+route.put('/:id', PhongHocController.updateById);
 
 // delete
-route.delete('/:PH_Id', PhongHocController.deletePhongHocById);
+route.delete('/:id', PhongHocController.deleteById);
 
 module.exports = route;
