@@ -1,4 +1,6 @@
 const NhanVienModel = require('../models/NhanVien.model');
+const TaiKhoanModel = require('../models/TaiKhoan.model');
+const { genSaltSync, hashSync } = require('bcrypt');
 
 exports.getAll = (req, res) => {
     NhanVienModel.getAll(
@@ -23,28 +25,118 @@ exports.getById = (req, res) => {
     );
 }
 
+function makeId(d) {
+    if (d >= 9999) {
+        return null;
+    } else {
+        var dau = "";
+        var cuoi = "";
+        var id = "";
+        var year = new Date().getFullYear().toString().slice(2, 4);
+
+        str = (d + 1).toString();
+
+        if (str.length <= 2) {
+            dau = '00';
+            if (d < 9) {
+                cuoi = '0' + (d + 1).toString();
+            } else {
+                cuoi = (d + 1).toString();
+            }
+        } else {
+            numDau = Number(str.substring(0, str.length - 2));
+            numCuoi = Number(str.slice(str.length - 2, str.length));
+            if (numDau < 9) {
+                dau = '0' + numDau.toString();
+            } else {
+                dau = numDau.toString();
+            }
+
+            if (numCuoi < 9) {
+                cuoi = '0' + numCuoi.toString();
+            } else {
+                cuoi = numCuoi.toString();
+            }
+        }
+
+        id = dau + year + cuoi;
+
+        return id;
+    }
+}
+
 exports.addNew = (req, res) => {
 
-    const data = new NhanVienModel.addNew(req.body);
+    TaiKhoanModel.countNumber(
+        (err, TaiKhoan) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                var d = 0;
+                h = false;
 
-    data.NV_IsDelete = 0;
-    data.NV_UpdateDate = '-  -     :  :';
-    data.NV_DeleteDate = '-  -     :  :';
-
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
-    }
-    else {
-        NhanVienModel.addNew(
-            data,
-            (err, NhanVien) => {
-                if (err) {
-                    return res.json({ status: 0, massage: err });
+                if (TaiKhoan) {
+                    d = TaiKhoan.length;
                 }
-                return res.json(NhanVien);
+
+                var id = makeId(d);
+                if (id) {
+                    h = true;
+                } else {
+                    return res.status(500).json({ status: 0, message: 'Dữ liệu quá 9999 dòng' });
+                }
+
+                if (h == true) {
+                    const TaiKhoanReqData = new TaiKhoanModel(req.body);
+                    var salt = genSaltSync(10);
+
+                    TaiKhoanReqData.TK_TenDangNhap = id;
+                    TaiKhoanReqData.TK_MatKhau = hashSync('u$erCit@' + new Date().getFullYear().toString(), salt);
+                    if (req.body.CV_Id == 1) {
+                        TaiKhoanReqData.Q_Id = 1;
+                    } else {
+                        TaiKhoanReqData.Q_Id = 2;
+                    }
+                    TaiKhoanReqData.TK_XacThuc = 1;
+                    TaiKhoanReqData.TK_IsActive = 1;
+                    TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
+                    TaiKhoanReqData.TK_DeactivateDate = '-  -     :  :';
+
+                    TaiKhoanModel.addNew(
+                        TaiKhoanReqData,
+                        (err) => {
+                            if (err) {
+                                return res.status(500).json({ status: 0, message: err });
+                            } else {
+                                const NhanVienReqData = new NhanVienModel(req.body);
+
+                                NhanVienReqData.NV_Id = id;
+                                NhanVienReqData.TK_TenDangNhap = id;
+                                NhanVienReqData.NV_IsDelete = 0;
+                                NhanVienReqData.NV_UpdateDate = '-  -     :  :';
+                                NhanVienReqData.NV_DeleteDate = '-  -     :  :';
+
+                                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                                    return req.send(400).send({ status: 0, message: 'Nhập đầy đủ tất cả các trường' });
+                                } else {
+                                    NhanVienModel.addNew(
+                                        NhanVienReqData,
+                                        (err) => {
+                                            if (err) {
+                                                return res.status(500).json({ status: 0, message: err });
+                                            } else {
+                                                return res.json({ status: 1, message: 'Thêm thành công' });
+                                            }
+                                        }
+                                    );
+                                }
+                            }
+                        }
+                    );
+                }
             }
-        );
-    }
+        }
+    );
 }
 
 exports.updateById = (req, res) => {
@@ -54,16 +146,29 @@ exports.updateById = (req, res) => {
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
         return req.send(400).send({ status: 0, message: 'Please fill all fields' });
     } else {
-        NhanVienModel.updateById(
-            req.params.id,
-            data,
-            (err) => {
-                if (err) {
-                    return res.json({ status: 0, message: err });
+        if (req.body.CV_Id != 1) {
+            TaiKhoanModel.changeRole(
+                req.params.id,
+                2,
+                (err) => {
+                    if (err) {
+                        return res.json({ status: 0, message: err });
+                    } else {
+                        NhanVienModel.updateById(
+                            req.params.id,
+                            data,
+                            (err) => {
+                                if (err) {
+                                    return res.json({ status: 0, message: err });
+                                } else {
+                                    return res.json({ status: 1, message: 'Updated Successfully' });
+                                }
+                            }
+                        );
+                    }
                 }
-                return res.json({ status: 1, message: 'Updated Successfully' });
-            }
-        );
+            );
+        }
     }
 }
 

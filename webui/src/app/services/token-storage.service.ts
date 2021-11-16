@@ -1,17 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
+const STATUS_KEY = 'loginStatus';
 const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
+const USER_KEY = 'loginAccount';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
 
-  constructor() { }
+  constructor(
+    
+  ) { }
 
-  signOut(): void {
-    window.sessionStorage.clear();
+  public saveStatus(status: any): void {
+    window.sessionStorage.removeItem(STATUS_KEY);
+    window.sessionStorage.setItem(STATUS_KEY, status);
+  }
+
+  public getStatus(): string {
+    return sessionStorage.getItem(STATUS_KEY) || '0';
   }
 
   public saveToken(token: string): void {
@@ -20,7 +30,7 @@ export class TokenStorageService {
   }
 
   public getToken(): string {
-    return sessionStorage.getItem(TOKEN_KEY) || '{}';
+    return sessionStorage.getItem(TOKEN_KEY) || '{null}';
   }
 
   public saveUser(user: any): void {
@@ -29,6 +39,10 @@ export class TokenStorageService {
   }
 
   public getUser(): any {
-    return JSON.parse(sessionStorage.getItem(USER_KEY) || '{}');
+    const user = window.sessionStorage.getItem(USER_KEY);
+    if (user) {
+      return JSON.parse(user);
+    }
+    return {};
   }
 }

@@ -63,5 +63,40 @@ export class LopHocService {
       .pipe(catchError(this.handleError));
   }
 
+  public updateById(id: string, data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${id}`;
+
+    return this.httpClient.put<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public deActivate(id: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${id}`;
+
+    return this.httpClient.patch<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public isComplete(id: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${id}`;
+
+    return this.httpClient.delete<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
 
 }

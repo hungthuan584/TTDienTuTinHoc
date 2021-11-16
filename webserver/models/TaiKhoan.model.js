@@ -45,6 +45,22 @@ TaiKhoan.getByUsername = (username, result) => {
     );
 }
 
+TaiKhoan.countNumber = (result) => {
+    dbConnect.query(
+        `SELECT * FROM TaiKhoan WHERE Q_Id != 4`,
+        (err, res) => {
+            if (err) {
+                console.log('Error counting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Counted successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
 // Create
 TaiKhoan.addNew = (data, result) => {
     dbConnect.query(
@@ -81,6 +97,25 @@ TaiKhoan.updatePassword = (username, password, result) => {
                 result(err, null);
             } else {
                 console.log('Updated successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+
+TaiKhoan.changeRole = (username, qId, result) => {
+    dbConnect.query(
+        `UPDATE TaiKhoan SET Q_Id = ? WHERE TK_TenDangNhap = ?`,
+        [
+            qId,
+            username
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error while changing');
+                result(err, null);
+            } else {
+                console.log('Changed successfully!');
                 result(null, res);
             }
         }

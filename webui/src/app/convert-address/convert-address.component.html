@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="convert-box">
+        <form [formGroup]="addressForm">
+            <div class="form-group">
+                <label>Input:</label>
+                <input type="text" formControlName="input" class="form-control" (change)="onChange($event)">
+            </div>
+            <div class="form-group">
+                <label>Output:</label>
+
+
+                <div class="text-right">
+                    <button (click)="copyText()" class="btn badge badge-pill badge-primary">copy</button>
+                </div>
+                <div class="input">
+                    <input type="text" formControlName="output" class="form-control">
+                </div>
+
+            </div>
+            <div class="text-center">
+                <button type="reset" class="btn btn-light">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

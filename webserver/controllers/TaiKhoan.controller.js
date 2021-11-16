@@ -28,7 +28,6 @@ exports.getByUsername = (req, res) => {
 exports.changePassword = (req, res) => {
     TaiKhoanModel.getByUsername(
         req.params.username,
-
         (err, TaiKhoan) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
@@ -66,7 +65,7 @@ exports.changePassword = (req, res) => {
 exports.resetPassword = (req, res) => {
 
     var year = new Date().getFullYear();
-    var defaultPassword = 'Cit@' + year.toString();
+    var defaultPassword = 'u$erCit@' + year.toString();
 
     var salt = genSaltSync(10);
     var password = hashSync(defaultPassword, salt);
@@ -91,7 +90,7 @@ exports.blockedByUsername = (req, res) => {
             if (err) {
                 return res.json({ status: 0, message: err });
             }
-            res.json({ status: 1, message: 'Blocked Successfully!' });
+            res.json({ status: 1, message: 'Đã khoá tài khoản' });
         }
     );
 }
@@ -104,7 +103,7 @@ exports.activeByUsername = (req, res) => {
             if (err) {
                 return res.json({ status: 0, message: err });
             }
-            res.json({ status: 1, message: 'Actived Successfully!' });
+            res.json({ status: 1, message: 'Mở khoá thành công' });
         }
     );
 }
@@ -115,24 +114,26 @@ exports.login = (req, res) => {
         req.body.TK_TenDangNhap,
         (err, TaiKhoan) => {
             if (err) {
-                return res.json({ status: 0, message: err });
+                return res.json({ isLoggedIn: 0, message: err });
             }
             if (!TaiKhoan) {
-                return res.json({ status: 0, message: 'Sai tên tài khoản hoặc mật khẩu' });
-            }
-
-            const result = compareSync(req.body.TK_MatKhau, TaiKhoan.TK_MatKhau);
-            if (result) {
-
-                TaiKhoan.TK_MatKhau = undefined;
-                const jsonToken = sign({ result: TaiKhoan }, 'qwe1234', {
-                    expiresIn: "1h"
-                });
-
-                return res.json({ status: 1, message: 'Đăng nhập thành công', token: jsonToken });
+                return res.json({ isLoggedIn: 0, message: 'Sai tên tài khoản hoặc mật khẩu' });
             } else {
+                if (TaiKhoan.TK_IsActive != 1) {
+                    return res.json({ isLoggedIn: 0, message: 'Tài khoản không tồn tại' });
+                } else {
+                    const result = compareSync(req.body.TK_MatKhau, TaiKhoan.TK_MatKhau);
+                    if (result) {
+                        TaiKhoan.TK_MatKhau = undefined;
+                        const jsonToken = sign({ result: TaiKhoan }, 'qwe1234', {
+                            expiresIn: "4h"
+                        });
 
-                return res.json({ status: 0, message: 'Sai tên tài khoản hoặc mật khẩu', login: 0 });
+                        return res.json({ isLoggedIn: 1, message: 'Đăng nhập thành công', token: jsonToken, loginAccount: TaiKhoan });
+                    } else {
+                        return res.json({ isLoggedIn: 0, message: 'Sai tên tài khoản hoặc mật khẩu' });
+                    }
+                }
             }
         }
     );

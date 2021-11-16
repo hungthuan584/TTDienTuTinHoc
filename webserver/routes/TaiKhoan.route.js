@@ -6,16 +6,19 @@ const { checkToken } = require('../auth/token_validation');
 
 route.get('/', TaiKhoanController.getAll);
 
-route.get('/:username', TaiKhoanController.getByUsername);
+route.get('/thongtin/:username', TaiKhoanController.getByUsername);
+
 // Change
-route.put('/:username', TaiKhoanController.changePassword);
+route.post('/change/:username', TaiKhoanController.changePassword);
+
 // Reset
-route.patch('/:username', TaiKhoanController.resetPassword);
+route.patch('/reset/:username', TaiKhoanController.resetPassword);
 
 // Blocked
-route.lock('/:username', TaiKhoanController.blockedByUsername);
+route.patch('/lock/:username', TaiKhoanController.blockedByUsername);
 // Active
-route.unlock('/:username', TaiKhoanController.activeByUsername);
+route.patch('/unlock/:username', TaiKhoanController.activeByUsername);
+
 // Login
 route.post('/login', TaiKhoanController.login);
 

@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { GiaoVienService } from 'src/app/services/giao-vien.service';
+import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
+import Swal from 'sweetalert2';
 import { TeacherFormComponent } from '../form/teacher-form/teacher-form.component';
 import { TeacherInfomationComponent } from './teacher-infomation/teacher-infomation.component';
 
@@ -18,9 +20,8 @@ export interface teacherDialogData {
 })
 export class TeacherComponent implements OnInit {
 
-  displayedColumns: string[] = ['stt', 'id', 'taikhoan', 'hoten', 'gioitinh', 'diachi', 'sdt', 'email', '#'];
+  displayedColumns: string[] = ['stt', 'taikhoan', 'id', 'hoten', 'gioitinh', 'diachi', 'email', 'sdt', '#'];
   dataSource!: MatTableDataSource<any>;
-  total!: number;
 
   constructor(
     public dialog: MatDialog,
@@ -33,7 +34,6 @@ export class TeacherComponent implements OnInit {
     this.giaovien.getAll().subscribe(
       (data) => {
         this.dataSource = new MatTableDataSource(data);
-        this.total = data.length;
         this.dataSource.paginator = this.paginator;
       }
     );
@@ -48,8 +48,13 @@ export class TeacherComponent implements OnInit {
       TeacherFormComponent,
       {
         data: { title: 'Thêm giáo viên' },
-        autoFocus: false
+        autoFocus: false,
+        restoreFocus: false
       },
+    ).afterClosed().subscribe(
+      () => {
+        window.location.reload();
+      }
     );
   }
 
@@ -61,7 +66,12 @@ export class TeacherComponent implements OnInit {
           title: 'Thông tin giáo viên',
           id: id
         },
-        autoFocus: false
+        autoFocus: false,
+        restoreFocus: false
+      }
+    ).afterClosed().subscribe(
+      () => {
+        this.ngOnInit();
       }
     );
   }
@@ -74,13 +84,42 @@ export class TeacherComponent implements OnInit {
           title: 'Sửa thông tin giáo viên',
           id: id
         },
-        autoFocus: false
+        autoFocus: false,
+        restoreFocus: false
+      }
+    ).afterClosed().subscribe(
+      () => {
+        window.location.reload();
       }
     );
   }
 
   deleteClick(id: any) {
-
+    Swal.fire({
+      title: 'Xoá giáo viên?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xoá'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.giaovien.deleteById(id).subscribe(
+          (result) => {
+            if (result.status == 1) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Xoá thành công',
+                showConfirmButton: true
+              }).then(
+                () => {
+                  window.location.reload();
+                }
+              );
+            }
+          }
+        );
+      }
+    })
   }
-
 }

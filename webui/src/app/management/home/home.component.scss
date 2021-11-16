@@ -1,17 +1,22 @@
 .search-box {
     mat-form-field {
-        margin-top: 20px;
+        margin-top: 15px;
         width: 600px;
         font-size: 14px;
     }
 }
 
-.mat-toolbar{
+.mat-toolbar {
+    height: fit-content;
     background-color: #ffffff;
 }
 
-.spacer{
+.spacer {
     width: 5%;
+}
+
+.mat-tab-group{
+    background-color: #ffffff;
 }
 
 table{

@@ -28,7 +28,7 @@ export class AdmissionsComponent implements OnInit {
       }
     );
 
-    this.lopdaotaoService.getAllLLopDaoTao().subscribe(
+    this.lopdaotaoService.getAll().subscribe(
       (dsLopDaoTao: any) => this.listLopDaoTao = dsLopDaoTao,
       (err: any) => console.log(err)
     );

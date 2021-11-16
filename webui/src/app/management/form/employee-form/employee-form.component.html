@@ -1,0 +1,75 @@
+<div class="employee-box">
+    <h2>{{ data.title }}</h2>
+    <form [formGroup]="employeeForm" autocomplete="off">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 50%;">
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="NV_HoTen" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 17%;">
+                <mat-label>Giới tính</mat-label>
+                <mat-select formControlName="NV_GioiTinh" (closed)="logValidationErrors()">
+                    <mat-option>Chọn giới tính</mat-option>
+                    <mat-option [value]="1">Nam</mat-option>
+                    <mat-option [value]="0">Nữ</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 30%;">
+                <mat-label>Ngày sinh</mat-label>
+                <input type="date" matInput formControlName="NV_NgaySinh" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Số điện thoại</mat-label>
+                <input type="tel" matInput formControlName="NV_Sdt" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 47%;">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="NV_Email" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Chức vụ</mat-label>
+                <mat-select formControlName="CV_Id" (closed)="logValidationErrors()">
+                    <mat-option>Chọn chức vụ</mat-option>
+                    <mat-option *ngFor="let cv of dsChucVu" [value]="cv.CV_Id">
+                        {{ cv.CV_Ten }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 99%;">
+                <mat-label>Địa chỉ</mat-label>
+                <input type="text" matInput formControlName="NV_DiaChi" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <span class="help-block" *ngIf="formErrors.NV_HoTen">
+                * {{ formErrors.NV_HoTen }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.NV_GioiTinh">
+                * {{ formErrors.NV_GioiTinh }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.NV_NgaySinh">
+                * {{ formErrors.NV_NgaySinh }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.NV_Sdt">
+                * {{ formErrors.NV_Sdt }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.NV_Email">
+                * {{ formErrors.NV_Email }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.CV_Id">
+                * {{ formErrors.CV_Id }}
+            </span>
+            <span class="help-block" *ngIf="formErrors.NV_DiaChi">
+                * {{ formErrors.NV_DiaChi }} <br>
+            </span>
+        </div>
+    </form>
+    <div class="text-center">
+        <button (click)="onSubmit()" mat-raised-button color="primary">{{ (data.id)? 'Cập nhật':'Lưu' }}</button>&nbsp;
+        <button (click)="cancelClick()" mat-raised-button>Huỷ</button>
+    </div>
+</div>

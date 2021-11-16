@@ -8,8 +8,9 @@ var NhanVien = function (NhanVien) {
     this.NV_DiaChi = NhanVien.NV_DiaChi;
     this.NV_Sdt = NhanVien.NV_Sdt;
     this.NV_Email = NhanVien.NV_Email;
-    this.NV_TenDangNhap = NhanVien.NV_TenDangNhap;
-    this.NV_ChucVu = NhanVien.NV_ChucVu;
+    this.CV_Id = NhanVien.CV_Id;
+    this.NV_AnhDaiDien = NhanVien.NV_AnhDaiDien;
+    this.TK_TenDangNhap = NhanVien.TK_TenDangNhap;
     this.NV_IsDelete = NhanVien.NV_IsDelete;
     this.NV_CreateDate = new Date();
     this.NV_UpdateDate = new Date();
@@ -18,7 +19,11 @@ var NhanVien = function (NhanVien) {
 
 NhanVien.getAll = (result) => {
     dbConnect.query(
-        `SELECT * NhanVien WHERE NV_IsDelete != 1`,
+        `SELECT *
+        FROM NhanVien nv
+        JOIN TaiKhoan tk ON tk.TK_TenDangNhap = nv.TK_TenDangNhap
+        JOIN ChucVu cv ON cv.CV_Id = nv.CV_Id
+        WHERE NV_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -50,40 +55,22 @@ NhanVien.getById = (id, result) => {
     dbConnect.query(
         `
         SELECT *
-        FROM NhanVien
-        WHERE (NV_Id = '${id}') OR (TK_TenDangNhap = '${id}')
-        `,
+        FROM NhanVien nv
+        JOIN TaiKhoan tk ON tk.TK_TenDangNhap = nv.TK_TenDangNhap
+        JOIN ChucVu cv ON cv.CV_Id = nv.CV_Id
+        WHERE nv.NV_Id = ?
+        `, id,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
                 result(null, err);
             } else {
                 console.log('Selected By Id Successfully');
-                result(null, res);
+                result(null, res[0]);
             }
         }
     );
 }
-
-// NhanVien.getByUsername = (username, result) => {
-//     dbConnect.query(
-//         `
-//         SELECT *
-//         FROM NhanVien
-//         WHERE TK_TenDangNhap = ?
-//         `,
-//         username,
-//         (err, res) => {
-//             if (err) {
-//                 console.log('Error while fetching', err);
-//                 result(null, err);
-//             } else {
-//                 console.log('Selected By Username Successfully');
-//                 result(null, res);
-//             }
-//         }
-//     );
-// }
 
 NhanVien.addNew = (data, result) => {
     dbConnect.query(
@@ -103,19 +90,7 @@ NhanVien.addNew = (data, result) => {
 
 NhanVien.updateById = (id, data, result) => {
     dbConnect.query(
-        `
-        UPDATE NhanVien
-        SET 
-            NV_HoTen = ?,
-            NV_GioiTinh = ?,
-            NV_NgaySinh = ?,
-            NV_DiaChi = ?,
-            NV_Sdt = ?,
-            NV_Email = ?,
-            NV_ChucVu = ?,
-            NV_UpdateDate = CURRENT_TIMESTAMP()
-        WHERE NV_Id = ?, 
-        `,
+        `UPDATE NhanVien SET NV_HoTen = ?,NV_GioiTinh = ?,NV_NgaySinh = ?,NV_DiaChi = ?,NV_Sdt = ?,NV_Email = ?, CV_Id = ?, NV_UpdateDate = CURRENT_TIMESTAMP() WHERE NV_Id = ?`,
         [
             data.NV_HoTen,
             data.NV_GioiTinh,
@@ -123,7 +98,7 @@ NhanVien.updateById = (id, data, result) => {
             data.NV_DiaChi,
             data.NV_Sdt,
             data.NV_Email,
-            data.NV_ChucVu,
+            data.CV_Id,
             id
         ],
         (err, res) => {

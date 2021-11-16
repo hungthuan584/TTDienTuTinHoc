@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +10,11 @@ import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 export class HomeComponent implements OnInit {
 
   constructor(
-    private auth: AuthService,
-    private taikhoan: TaiKhoanService
+    private tokenStorage: TokenStorageService
   ) { }
 
   public isLogin = false;
   public data: any;
-  private TK_TenDangNhap: any;
 
   ngOnInit(): void {
     // this.isLogin = this.auth.isLogin();

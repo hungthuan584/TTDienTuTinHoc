@@ -13,7 +13,6 @@
         </div>
     </mat-toolbar>
     <div class="teacher-list">
-        <div class="total"><span class="badge badge-info">Tổng số: {{total}}</span></div>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="stt">
                 <th mat-header-cell *matHeaderCellDef>
@@ -24,26 +23,28 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="taikhoan">
+                <th mat-header-cell *matHeaderCellDef>
+                    Tài Khoản
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.TK_TenDangNhap }}
+                    <i title="Đang khoá" *ngIf="element.TK_IsActive==0" class="fa fa-lock" style="color: gray;"></i>
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>
-                    Mã giáo viên
+                    Mã GV
                 </th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.GV_Id }}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="taikhoan">
-                <th mat-header-cell *matHeaderCellDef>
-                    Tên đăng nhập
-                </th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.TK_TenDangNhap }}
-                </td>
-            </ng-container>
             <ng-container matColumnDef="hoten">
                 <th mat-header-cell *matHeaderCellDef>
-                    Họ tên
+                    Họ Tên
                 </th>
                 <td mat-cell *matCellDef="let element">
                     {{ element.GV_HoTen }}
@@ -52,7 +53,7 @@
 
             <ng-container matColumnDef="gioitinh">
                 <th mat-header-cell *matHeaderCellDef>
-                    Giới tính
+                    Giới Tính
                 </th>
                 <td mat-cell *matCellDef="let element">
                     {{ (element.GV_GioiTinh ==1)? 'Nam':'Nữ' }}
@@ -60,20 +61,11 @@
             </ng-container>
 
             <ng-container matColumnDef="diachi">
-                <th mat-header-cell *matHeaderCellDef>
-                    Địa chỉ
+                <th mat-header-cell *matHeaderCellDef style="width: 35%;">
+                    Địa Chỉ
                 </th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" style="width: 35%;">
                     {{ element.GV_DiaChi }}
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="sdt">
-                <th mat-header-cell *matHeaderCellDef>
-                    SĐT
-                </th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.GV_Sdt }}
                 </td>
             </ng-container>
 
@@ -86,13 +78,23 @@
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="#">
+            <ng-container matColumnDef="sdt">
                 <th mat-header-cell *matHeaderCellDef>
-                    #
+                    SĐT
                 </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>more_vert</mat-icon>
+                    {{ element.GV_Sdt }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef style="width: 2%; text-align: center;">
+                    #
+                </th>
+                <td mat-cell *matCellDef="let element" style="width: 2%; text-align: right;">
+                    <button mat-icon-button color="primary" [matMenuTriggerFor]="menu"
+                        aria-label="Example icon-button with a menu">
+                        <mat-icon>menu</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="infoClick(element.GV_Id)">
@@ -114,8 +116,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-
-        <mat-paginator #paginator [pageSize]="12" [pageSizeOptions]="[ 6, 12, 18, 24, 30]"
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[ 10, 20, 30, 40, 50]"
             aria-label="Select page of periodic elements">
         </mat-paginator>
     </div>

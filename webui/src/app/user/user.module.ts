@@ -21,7 +21,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { UserComponent } from './user.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
 import { CategoryComponent } from './category/category.component';
 import { BannerComponent } from './banner/banner.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -38,7 +37,6 @@ import { CalendarComponent } from './calendar/calendar.component';
   declarations: [
     UserComponent,
     HomeComponent,
-    LoginComponent,
     CategoryComponent,
     BannerComponent,
     NavbarComponent,

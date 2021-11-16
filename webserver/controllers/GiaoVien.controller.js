@@ -25,33 +25,64 @@ exports.getById = (req, res) => {
     );
 }
 
+function makeId(d) {
+    if (d >= 9999) {
+        return null;
+    } else {
+        var dau = "";
+        var cuoi = "";
+        var id = "";
+        var year = new Date().getFullYear().toString().slice(2, 4);
+
+        str = (d + 1).toString();
+
+        if (str.length <= 2) {
+            dau = '00';
+            if (d < 9) {
+                cuoi = '0' + (d + 1).toString();
+            } else {
+                cuoi = (d + 1).toString();
+            }
+        } else {
+            numDau = Number(str.substring(0, str.length - 2));
+            numCuoi = Number(str.slice(str.length - 2, str.length));
+            if (numDau < 9) {
+                dau = '0' + numDau.toString();
+            } else {
+                dau = numDau.toString();
+            }
+
+            if (numCuoi < 9) {
+                cuoi = '0' + numCuoi.toString();
+            } else {
+                cuoi = numCuoi.toString();
+            }
+        }
+
+        id = dau + year + cuoi;
+
+        return id;
+    }
+}
+
 exports.addNew = (req, res) => {
-    GiaoVienModel.countNumber(
-        (err, GiaoVien) => {
+    TaiKhoanModel.countNumber(
+        (err, TaiKhoan) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
                 var d = 0;
-                var id = (new Date().getMonth() + 1).toString() + new Date().getFullYear().toString().slice(2, 4);
                 h = false;
 
-                if (GiaoVien) {
-                    d = GiaoVien.length;
+                if (TaiKhoan) {
+                    d = TaiKhoan.length;
                 }
 
-                if (d < 9) {
+                var id = makeId(d);
+                if (id) {
                     h = true;
-                    id += '00' + (d + 1).toString();
                 } else {
-                    if (d < 99) {
-                        h = true;
-                        id += '0' + (d + 1).toString();
-                    } else {
-                        if (d < 999) {
-                            h = true;
-                            id += (d + 1).toString();
-                        }
-                    }
+                    return res.status(500).json({ status: 0, message: 'Dữ liệu quá 9999 dòng' });
                 }
 
                 if (h == true) {
@@ -126,7 +157,16 @@ exports.deleteById = (req, res) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
-                return res.json({ status: 1, message: 'Deleted successfully' });
+                TaiKhoanModel.blockedByUsername(
+                    req.params.id,
+                    (err) => {
+                        if (err) {
+                            return res.status(500).json({ status: 0, message: err });
+                        } else {
+                            return res.json({ status: 1, message: 'Deleted successfully' });
+                        }
+                    }
+                );
             }
         }
     );

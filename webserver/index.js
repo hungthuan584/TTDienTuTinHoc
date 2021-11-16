@@ -28,7 +28,10 @@ const hocVienRoute = require('./routes/HocVien.route');
 const lopDaoTaoRoute = require('./routes/LopDaoTao.route');
 const lopHocRoute = require('./routes/LopHoc.route');
 const giaoVienRoute = require('./routes/GiaoVien.route');
-
+const dangKyHocRoute = require('./routes/DangKyHoc.route');
+const nhanVienRoute = require('./routes/NhanVien.route');
+const chucVuRoute = require('./routes/ChucVu.route');
+const phanQuyenRoute = require('./routes/PhanQuyen.route');
 
 // ******************* USE ROUTE ***********************************
 app.use('/api/phonghoc', phonghocRoute);
@@ -40,6 +43,10 @@ app.use('/api/hocvien', hocVienRoute);
 app.use('/api/lopdaotao', lopDaoTaoRoute);
 app.use('/api/lophoc', lopHocRoute);
 app.use('/api/giaovien', giaoVienRoute);
+app.use('/api/dangkyhoc', dangKyHocRoute);
+app.use('/api/nhanvien', nhanVienRoute);
+app.use('/api/chucvu', chucVuRoute);
+app.use('/api/phanquyen', phanQuyenRoute);
 
 // ********************************************************************
 app.listen(port, () => {

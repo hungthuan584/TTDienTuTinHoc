@@ -13,7 +13,7 @@ import * as moment from 'moment';
 })
 export class TeacherFormComponent implements OnInit {
 
-  teacherForm!: FormGroup
+  teacherForm!: FormGroup;
   isUpdate = false;
   validationMessages: any = {
     GV_HoTen: {
@@ -31,16 +31,6 @@ export class TeacherFormComponent implements OnInit {
       required: 'Nhập địa chỉ',
       maxlength: 'Địa chỉ không được quá dài',
       minlength: 'Ghi rõ địa chỉ liên lạc: số hẻm/số nhà + tên đường + xã/phường + quận/huyện + tỉnh/thành phố'
-    },
-    GV_DanToc: {
-      required: 'Nhập dân tộc',
-      maxlength: 'Dân tộc không được quá dài',
-      minlength: 'Dân tộc không được quá ngắn'
-    },
-    GV_QuocTich: {
-      required: 'Nhập quốc tịch',
-      maxlength: 'Quốc tịch không được quá dài',
-      minlength: 'Quốc tịch không được quá ngắn'
     },
     GV_Sdt: {
       required: 'Nhập số điện thoại',
@@ -71,12 +61,10 @@ export class TeacherFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.teacherForm = this.fb.group({
-      GV_HoTen: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      GV_HoTen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       GV_GioiTinh: ['', Validators.required],
       GV_NgaySinh: ['', Validators.required],
       GV_DiaChi: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-      GV_DanToc: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
-      GV_QuocTich: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]],
       GV_Sdt: ['', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
       GV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
       GV_TrinhDo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
@@ -100,8 +88,6 @@ export class TeacherFormComponent implements OnInit {
     this.teacherForm.controls['GV_GioiTinh'].setValue(data.GV_GioiTinh);
     this.teacherForm.controls['GV_NgaySinh'].setValue(moment(data.GV_NgaySinh).format('YYYY-MM-DD'));
     this.teacherForm.controls['GV_DiaChi'].setValue(data.GV_DiaChi);
-    this.teacherForm.controls['GV_DanToc'].setValue(data.GV_DanToc);
-    this.teacherForm.controls['GV_QuocTich'].setValue(data.GV_QuocTich);
     this.teacherForm.controls['GV_Sdt'].setValue(data.GV_Sdt);
     this.teacherForm.controls['GV_Email'].setValue(data.GV_Email);
     this.teacherForm.controls['GV_TrinhDo'].setValue(data.GV_TrinhDo);
@@ -154,7 +140,6 @@ export class TeacherFormComponent implements OnInit {
                   }).then(
                     () => {
                       this.dialogRef.close();
-                      window.location.reload();
                     }
                   );
                 }
@@ -184,7 +169,6 @@ export class TeacherFormComponent implements OnInit {
                   }).then(
                     () => {
                       this.dialogRef.close();
-                      window.location.reload();
                     }
                   );
                 }
@@ -199,6 +183,4 @@ export class TeacherFormComponent implements OnInit {
   cancelClick() {
     this.dialogRef.close();
   }
-
-
 }

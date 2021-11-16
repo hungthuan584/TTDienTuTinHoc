@@ -7,41 +7,37 @@
         <table class="table table-striped">
             <tr>
                 <th>Mã giáo viên :</th>
-                <td>{{teacher?.GV_Id}}</td>
-                <th>Họ tên</th>
-                <td>{{teacher?.GV_HoTen}}</td>
+                <td colspan="5">{{teacher?.GV_Id}}</td>
             </tr>
             <tr>
-                <th>Ngày sinh :</th>
-                <td>{{teacher?.GV_NgaySinh | date:'dd/MM/yyyy'}}</td>
+                <th>Họ tên :</th>
+                <td>{{teacher?.GV_HoTen}}</td>
                 <th>Giới tính :</th>
                 <td>{{(teacher?.GV_GioiTinh == 1)? 'Nam':'Nữ'}}</td>
             </tr>
             <tr>
-                <th>Dân tộc :</th>
-                <td>{{teacher?.GV_DanToc}}</td>
-                <th>Quốc tịch :</th>
-                <td>{{teacher?.GV_QuocTich}}</td>
-            </tr>
-            <tr>
-                <th>Số điện thoại :</th>
-                <td>{{teacher?.GV_Sdt}}</td>
-                <th>Email :</th>
-                <td>{{teacher?.GV_Email}}</td>
-            </tr>
-            <tr>
-                <th>Địa chỉ :</th>
-                <td>{{teacher?.GV_DiaChi}}</td>
+                <th>Ngày sinh :</th>
+                <td>{{teacher?.GV_NgaySinh | date:'dd-MM-yyyy'}}</td>
                 <th>Trình độ :</th>
                 <td>{{teacher?.GV_TrinhDo}}</td>
             </tr>
             <tr>
+                <th>Email :</th>
+                <td>{{teacher?.GV_Email}}</td>
+                <th>Số điện thoại :</th>
+                <td>{{teacher?.GV_Sdt}}</td>
+            </tr>
+            <tr>
+                <th>Địa chỉ :</th>
+                <td colspan="3">{{teacher?.GV_DiaChi}}</td>
+            </tr>
+            <tr>
                 <th>Ngày tạo :</th>
-                <td>{{teacher?.GV_CreateDate | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{teacher?.GV_CreateDate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
                 <th>Ngày sửa đổi:</th>
                 <td *ngIf="teacher?.GV_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
                 <td *ngIf="teacher?.GV_UpdateDate != '0000-00-00 00:00:00'">
-                    {{teacher?.GV_UpdateDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    {{teacher?.GV_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss'}}
                 </td>
             </tr>
         </table>
@@ -49,43 +45,57 @@
 
     <div class="account">
         <div class="table-label">
-            Tài khoản :
+            Tài khoản
         </div>
         <table class="table table-striped">
             <tr>
                 <th>Tên đăng nhập :</th>
-                <td>{{account?.TK_TenDangNhap}}</td>
-                <th>Xác thực :</th>
                 <td>
-                    <span title="Đã xác thực" *ngIf="account?.TK_XacThuc == 1" class="badge badge-pill badge-success">
-                        <i class="far fa-check-circle"></i>
+                    {{account?.TK_TenDangNhap}}
+                    <span *ngIf="account?.TK_XacThuc == 1" class="badge badge-success">
+                        <i class="fa fa-check-circle"></i> Đã xác thực
                     </span>
-                    <span title="Chưa xác thực" *ngIf="account?.TK_XacThuc != 1" class="badge badge-pill badge-danger">
-                        <i class="far fa-times-circle"></i>
+                    <span *ngIf="account?.TK_XacThuc == 0" class="badge badge-warning">
+                        <i class="fa fa-times-circle"></i> Chưa xác thực
                     </span>
                 </td>
                 <th>Trạng thái :</th>
                 <td>
                     <span *ngIf="account?.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
-                    <span *ngIf="account?.TK_IsActive == 0" class="badge badge-danger">Ngừng hoạt động</span>
+                    <span *ngIf="account?.TK_IsActive == 0" class="badge badge-danger">Khoá</span>
                 </td>
             </tr>
             <tr>
                 <th>Ngày tạo: </th>
-                <td>{{ account?.TK_CreateDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                <td>{{ account?.TK_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
                 <th>Ngày sửa đổi: </th>
                 <td *ngIf="account?.TK_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
                 <td *ngIf="account?.TK_UpdateDate != '0000-00-00 00:00:00'">
-                    {{account?.TK_UpdateDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+                    {{account?.TK_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
+            </tr>
+            <tr>
                 <th>Ngày khoá: </th>
                 <td *ngIf="account?.TK_DeactivateDate != '0000-00-00 00:00:00'">
-                    {{account?.TK_DeactivateDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                    {{account?.TK_DeactivateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+                <td>
+
+
+                </td>
             </tr>
         </table>
     </div>
     <div class="text-center">
-        <button mat-raised-button color="primary" (click)="editClick(teacher?.GV_Id)">Sửa thông tin</button>&nbsp;
-        <button mat-raised-button (click)="closeClick()">Đóng</button>
+        <button mat-stroked-button color="primary" (click)="editClick(teacher?.GV_Id)">Sửa thông tin</button>&nbsp;
+        <button *ngIf="account?.TK_IsActive == 1" mat-stroked-button color="warn"
+            (click)="lockAccount(account?.TK_TenDangNhap)">
+            Khoá tài khoản
+        </button>
+        <button *ngIf="account?.TK_IsActive == 0" mat-stroked-button color="primary"
+            (click)="unlockAccount(account?.TK_TenDangNhap)">
+            Mở khoá tài khoản
+        </button>&nbsp;
+        <button mat-stroked-button (click)="closeClick()">Đóng</button>
     </div>
 </div>

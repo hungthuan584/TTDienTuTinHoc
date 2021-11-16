@@ -6,8 +6,9 @@ exports.getAll = (req, res) => {
         (err, LopHoc) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(LopHoc);
             }
-            return res.json(LopHoc);
         }
     );
 }
@@ -18,21 +19,21 @@ exports.getById = (req, res) => {
         (err, LopHoc) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(LopHoc);
             }
-            return res.json(LopHoc);
         }
     );
 }
 
 exports.addNew = (req, res) => {
-
-    const data = new LopHocModel(req.body);
-    data.LH_UpdateDate = '-  -     :  :';
-    data.LH_IsDelete = 0;
-    data.LH_DeleteDate = '-  -     :  :';
+    const LopHocReqData = new LopHocModel(req.body);
+    LopHocReqData.LH_UpdateDate = '-  -     :  :';
+    LopHocReqData.LH_IsComplete = 0;
+    LopHocReqData.LH_CompleteDate = '-  -     :  :';
 
     LopHocModel.countNumber(
-        data.LDT_Id,
+        LopHocReqData.LDT_Id,
         (err, LopHoc) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
@@ -42,21 +43,22 @@ exports.addNew = (req, res) => {
                     d = LopHoc.length;
                 }
 
-                var id = data.LDT_Id + (d + 1).toString();
+                var id = LopHocReqData.LDT_Id + (d + 1).toString();
 
-                data.LH_Id = id;
+                LopHocReqData.LH_Id = id;
 
                 if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
                     return req.send(400).send({ status: 0, message: 'Please fill all fields' });
                 }
                 else {
                     LopHocModel.addNew(
-                        data,
+                        LopHocReqData,
                         (err) => {
                             if (err) {
                                 return res.json({ status: 0, message: err });
+                            } else {
+                                return res.json({ status: 1, message: 'Created successfully' });
                             }
-                            return res.json('Create successfully!');
                         }
                     );
                 }
@@ -66,33 +68,47 @@ exports.addNew = (req, res) => {
 }
 
 exports.updateById = (req, res) => {
-
-    const data = new LopHocModel(req.body);
+    const LopHocReqData = new LopHocModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
         return req.send(400).send({ success: false, message: 'Please fill all fields' });
     } else {
         LopHocModel.updateById(
             req.params.id,
-            data,
+            LopHocReqData,
             (err) => {
                 if (err) {
                     return res.json({ status: 0, message: err });
+                } else {
+                    return res.json({ status: 1, message: 'Updated Successfully' });
                 }
-                return res.json({ status: 1, message: 'Updated Successfully' });
             }
         );
     }
 }
 
-exports.deleteById = (req, res) => {
-    LopHocModel.deleteById(
+exports.deActivate = (req, res) => {
+    LopHocModel.deActivate(
+        req.params.id,
+        (err) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Deactivated successfully' });
+            }
+        }
+    )
+}
+
+exports.isComplete = (req, res) => {
+    LopHocModel.isComplete(
         req.params.id,
         (err) => {
             if (err) {
                 return res.json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Checked Successfully' });
             }
-            return res.json({ status: 1, message: 'Deleted Successfully' });
         }
     );
 }

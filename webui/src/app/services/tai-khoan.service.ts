@@ -30,7 +30,7 @@ export class TaiKhoanService {
   public login(dataLogin: any): Observable<any> {
     const url = `${this.REST_AIP_SERVER}/login`;
 
-    return this.httpClient.post<any>(url, dataLogin, { withCredentials: true })
+    return this.httpClient.post<any>(url, dataLogin, this.httpOptions)
       .pipe(
         map((data) => {
           return data;
@@ -42,9 +42,46 @@ export class TaiKhoanService {
   // ********** GET OBJECT **********
   public getByUsername(username: string): Observable<any> {
 
-    const url = `${this.REST_AIP_SERVER}/${username}`;
+    const url = `${this.REST_AIP_SERVER}/thongtin/${username}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public changePassword(username: string, data: any): Observable<any> {
+
+    const url = `${this.REST_AIP_SERVER}/change/${username}`;
+
+    return this.httpClient.patch<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public lockAccount(username: string): Observable<any> {
+    const url = `${this.REST_AIP_SERVER}/lock/${username}`;
+
+    return this.httpClient.patch<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public unlockAccount(username: string): Observable<any> {
+    const url = `${this.REST_AIP_SERVER}/unlock/${username}`;
+
+    return this.httpClient.patch<any>(url, this.httpOptions)
       .pipe(
         map((data) => {
           return data;

@@ -3,22 +3,28 @@ var dbConnect = require('../db.config');
 var LopHoc = function (LopHoc) {
     this.LH_Id = LopHoc.LH_Id;
     this.LDT_Id = LopHoc.LDT_Id;
-    this.CB_Id = LopHoc.CB_Id;
     this.PH_Id = LopHoc.PH_Id;
-    this.LH_BuoiHoc = LopHoc.LH_BuoiHoc;
-    this.LH_ThoiGianHoc = LopHoc.LH_ThoiGianHoc;
+    this.GV_Id = LopHoc.GV_Id;
+    this.LH_NgayHoc = LopHoc.LH_NgayHoc;
+    this.LH_GioBatDau = LopHoc.LH_GioBatDau;
+    this.LH_GioKetThuc = LopHoc.LH_GioKetThuc;
     this.LH_SiSo = LopHoc.LH_SiSo;
     this.LH_NgayKhaiGiang = LopHoc.LH_NgayKhaiGiang;
-    this.LH_IsDelete = LopHoc.LH_IsDelete;
+    this.LH_IsActive = LopHoc.LH_IsActive;
+    this.LH_IsComplete = LopHoc.LH_IsComplete;
     this.LH_CreateDate = new Date();
     this.LH_UpdateDate = new Date();
-    this.LH_DeleteDate = new Date();
+    this.LH_CompleteDate = new Date();
 }
 
 // Danh sach lop hoc
 LopHoc.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM LopHoc lh JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id WHERE lh.LH_IsDelete != 1`,
+        `SELECT *
+        FROM LopHoc lh
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
+        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id WHERE lh.LH_IsComplete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -39,6 +45,7 @@ LopHoc.getById = (id, result) => {
         FROM LopHoc lh 
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
+        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id
         WHERE lh.LH_Id = ?
         `,
         id,
@@ -94,10 +101,14 @@ LopHoc.addNew = (data, result) => {
 LopHoc.updateById = (id, data, result) => {
     dbConnect.query(
         `
-        UPDATE LopHoc
+        UPDATE lophoc
         SET
             LDT_Id = ?,
-            CB_Id = ?,
+            GV_Id = ?,
+            PH_Id = ?,
+            LH_NgayHoc = ?,
+            LH_GioBatDau = ?,
+            LH_GioKetThuc = ?,
             LH_SiSo = ?,
             LH_NgayKhaiGiang = ?,
             LH_UpdateDate = CURRENT_TIMESTAMP()
@@ -105,10 +116,11 @@ LopHoc.updateById = (id, data, result) => {
         `,
         [
             data.LDT_Id,
-            data.CB_Id,
+            data.GV_Id,
             data.PH_Id,
-            data.LH_BuoiHoc,
-            data.LH_ThoiGianHoc,
+            data.LH_NgayHoc,
+            data.LH_GioBatDau,
+            data.LH_GioKetThuc,
             data.LH_SiSo,
             data.LH_NgayKhaiGiang,
             id
@@ -124,24 +136,40 @@ LopHoc.updateById = (id, data, result) => {
         }
     );
 }
-// Xoa
 
-LopHoc.deleteById = (id, result) => {
+
+LopHoc.deActivate = (id, result) => {
+    dbConnect.query(
+        `UPDATE LopHoc SET LH_IsActive = 0 WHERE LH_Id = ?`,
+        id,
+        (err, res) => {
+            if (err) {
+                console.log('Error deactivating');
+                result(err, null);
+            } else {
+                console.log('Deactivated Successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+
+LopHoc.isComplete = (id, result) => {
     dbConnect.query(
         `
         UPDATE LopHoc
         SET
-            LH_IsDelete = 1,
-            LH_DeleteDate = CURRENT_TIMESTAMP()
+            LH_IsComplete = 1,
+            LH_CompleteDate = CURRENT_TIMESTAMP()
         WHERE LH_Id = ?
         `,
         id,
         (err, res) => {
             if (err) {
-                console.log('Error While Delete Data');
+                console.log('Error While Checking');
                 result(err, null);
             } else {
-                console.log('Data Deleted Successfully!');
+                console.log('Checked Successfully!');
                 result(null, res);
             }
         }

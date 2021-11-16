@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
   selector: 'app-management',
@@ -7,19 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagementComponent implements OnInit {
 
-  currentUser: any;
-
   title = 'Quản trị hệ thống';
-
   sideBarOpen = true;
 
   sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
   }
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
-   
   }
 
 }

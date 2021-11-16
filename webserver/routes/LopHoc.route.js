@@ -15,8 +15,9 @@ route.post('/', LopHocController.addNew);
 // Sua 
 route.put('/:id', LopHocController.updateById);
 
+route.patch('/:id', LopHocController.deActivate);
 // Xoa
-route.delete('/:id', LopHocController.deleteById);
+route.delete('/:id', LopHocController.isComplete);
 
 
 module.exports = route;

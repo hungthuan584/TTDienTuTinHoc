@@ -24,7 +24,12 @@ var HocVien = function (HocVien) {
 // Danh sach hoc vien
 HocVien.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM HocVien WHERE HV_IsDelete != 1`,
+        `
+        SELECT hv.HV_Id, hv.HV_HoTen, hv.HV_GioiTinh, hv.HV_NgaySinh, hv.HV_NoiSinh, hv.HV_Sdt, hv.HV_Email, tk.TK_TenDangNhap, tk.TK_XacThuc, tk.TK_IsActive
+        FROM hocvien hv
+        JOIN taikhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
+        WHERE HV_IsDelete != 1
+        `,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);

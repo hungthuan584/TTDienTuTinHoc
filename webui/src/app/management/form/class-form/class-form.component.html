@@ -1,1 +1,87 @@
-<p>class-form works!</p>
+<div class="class-box">
+    <h2>{{ data.title }}</h2>
+    <form [formGroup]="classForm" autocomplete="off">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 78%;">
+                <mat-label>Lớp</mat-label>
+                <mat-select formControlName="LDT_Id" (closed)="logValidationErrors()">
+                    <mat-option *ngFor="let dt of dslopDT" [value]="dt.LDT_Id">
+                        {{ dt.LDT_Ten }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 20%;">
+                <mat-label>Sỉ số</mat-label>
+                <input type="number" matInput formControlName="LH_SiSo" (blur)="logValidationErrors()">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 47%;">
+                <mat-label>Ngày học</mat-label>
+                <input type="text" matInput formControlName="LH_NgayHoc" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Giờ bắt đầu</mat-label>
+                <input type="text" matInput formControlName="LH_GioBatDau" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Giờ kết thúc</mat-label>
+                <input type="text" matInput formControlName="LH_GioKetThuc" (blur)="logValidationErrors()">
+            </mat-form-field>
+
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 22%;">
+                <mat-label>Phòng học</mat-label>
+                <mat-select formControlName="PH_Id" (closed)="logValidationErrors()">
+                    <mat-option *ngFor="let ph of dsPH" [value]="ph.PH_Id">
+                        {{ ph.PH_Ten }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 35%;">
+                <mat-label>Ngày khai giảng</mat-label>
+                <input type="date" matInput formControlName="LH_NgayKhaiGiang" (blur)="logValidationErrors()">
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 40%;">
+                <mat-label>Giảng dạy</mat-label>
+                <mat-select formControlName="GV_Id" (closed)="logValidationErrors()">
+                    <mat-option *ngFor="let gv of dsGV" [value]="gv.GV_Id">
+                        {{ gv.GV_HoTen }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <span class="help-block" *ngIf="formErrors.LDT_Id">
+                * {{ formErrors.LDT_Id }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.LH_SiSo">
+                * {{ formErrors.LH_SiSo }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.LH_NgayHoc">
+                * {{ formErrors.LH_NgayHoc }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.LH_GioBatDau">
+                * {{ formErrors.LH_GioBatDau }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.LH_GioKetThuc">
+                * {{ formErrors.LH_GioKetThuc }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.PH_Id">
+                * {{ formErrors.PH_Id }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.LH_NgayKhaiGiang">
+                * {{ formErrors.LH_NgayKhaiGiang }} <br>
+            </span>
+            <span class="help-block" *ngIf="formErrors.GV_Id">
+                * {{ formErrors.GV_Id }} <br>
+            </span>
+        </div>
+    </form>
+    <div class="text-center">
+        <button *ngIf="!isUpdate" mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+        <button *ngIf="isUpdate" mat-raised-button color="primary" (click)="onSubmit()">Cập nhật</button>&nbsp;
+        <button mat-raised-button (click)="cancelClick()">Huỷ</button>
+    </div>
+</div>

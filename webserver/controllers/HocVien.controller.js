@@ -1,5 +1,6 @@
 const HocVienModel = require('../models/HocVien.model');
 const TaiKhoanModel = require('../models/TaiKhoan.model');
+const DangKyHocModel = require('../models/DangKyHoc.model');
 const { genSaltSync, hashSync } = require('bcrypt');
 
 // Danh sach hoc vien
@@ -23,41 +24,61 @@ exports.getById = (req, res) => {
         (err, HocVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(HocVien);
             }
-            return res.json(HocVien);
         }
     );
 }
 
+function makeId(d) {
+
+    if (d >= 9999) {
+        return null;
+    } else {
+        var id = 'D';
+        var year = new Date().getFullYear().toString().slice(2, 4);
+        var str = (d + 1).toString();
+        var num = '';
+        if (d < 9) {
+            num = '000' + str.toString();
+        } else {
+            if (d < 99) {
+                num = '00' + str.toString();
+            } else {
+                if (d < 999) {
+                    num = '0' + str.toString();
+                } else {
+                    num = str.toString();
+                }
+            }
+        }
+    }
+    id += year += num;
+
+    return id;
+}
+
 // Them hoc vien
 exports.addNew = (req, res) => {
-
     HocVienModel.countNumber(
         (err, HocVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
                 var d = 0;
-                var id = 'D';
-                id += new Date().getFullYear().toString().slice(2, 4);;
-                var h = false;
+                h = false;
+
                 if (HocVien) {
                     d = HocVien.length;
                 }
 
-                if (d < 9) {
+                var id = makeId(d);
+
+                if (id) {
                     h = true;
-                    id += '00' + (d + 1).toString();
                 } else {
-                    if (d < 99) {
-                        h = true;
-                        id += '0' + (d + 1).toString();
-                    } else {
-                        if (d < 999) {
-                            h = true;
-                            id += (d + 1).toString();
-                        }
-                    }
+                    return res.status(500).json({ status: 0, message: 'Dữ liệu quá 9999 dòng' });
                 }
 
                 if (h == true) {
@@ -70,9 +91,8 @@ exports.addNew = (req, res) => {
                         TaiKhoanReqData.TK_XacThuc = 0;
                     }
                     TaiKhoanReqData.TK_TenDangNhap = id;
-                    console.log('Pass: ', 'u$erCit' + new Date().getFullYear().toString());
-                    TaiKhoanReqData.TK_MatKhau = hashSync('u$serCit' + new Date().getFullYear().toString(), salt);
-                    TaiKhoanReqData.LV_Id = 4;
+                    TaiKhoanReqData.TK_MatKhau = hashSync('u$serCit@' + new Date().getFullYear().toString(), salt);
+                    TaiKhoanReqData.Q_Id = 4;
                     TaiKhoanReqData.TK_IsActive = 1;
                     TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
                     TaiKhoanReqData.TK_DeactivateDate = '-  -     :  :';
@@ -100,8 +120,21 @@ exports.addNew = (req, res) => {
                                         (err, HocVien) => {
                                             if (err) {
                                                 return res.json({ status: 0, message: err });
+                                            } else {
+                                                const DangKyReqData = new DangKyHocModel(req.body);
+
+                                                DangKyReqData.HV_Id = id;
+                                                DangKyHocModel.addNew(
+                                                    DangKyReqData,
+                                                    (err) => {
+                                                        if (err) {
+                                                            return res.status(500).json({ status: 0, message: err });
+                                                        } else {
+                                                            return res.json({ status: 1, message: 'Created successfully' });
+                                                        }
+                                                    }
+                                                );
                                             }
-                                            return res.json({ status: 1, info: HocVien, account: TaiKhoan });
                                         }
                                     );
                                 }

@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -35,13 +35,18 @@ import { PostComponent } from './post/post.component';
 import { StudentComponent } from './student/student.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { ContactComponent } from './contact/contact.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from '../login/login.component';
 import { AccountComponent } from './account/account.component';
 import { StudentFormComponent } from './form/student-form/student-form.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { ClassFormComponent } from './form/class-form/class-form.component';
 import { TeacherFormComponent } from './form/teacher-form/teacher-form.component';
 import { TeacherInfomationComponent } from './teacher/teacher-infomation/teacher-infomation.component';
+import { InfoClassComponent } from './home/info-class/info-class.component';
+import { StudentInfomationComponent } from './student/student-infomation/student-infomation.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { EmployeeFormComponent } from './form/employee-form/employee-form.component';
+import { EmployeeInfomationComponent } from './employee/employee-infomation/employee-infomation.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ import { TeacherInfomationComponent } from './teacher/teacher-infomation/teacher
     TeacherComponent,
     ClassFormComponent,
     TeacherFormComponent,
-    TeacherInfomationComponent
+    TeacherInfomationComponent,
+    InfoClassComponent,
+    StudentInfomationComponent,
+    EmployeeComponent,
+    EmployeeFormComponent,
+    EmployeeInfomationComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +95,8 @@ import { TeacherInfomationComponent } from './teacher/teacher-infomation/teacher
     MatPaginatorModule,
     MatGridListModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatAutocompleteModule
   ]
 })
 export class ManagementModule { }

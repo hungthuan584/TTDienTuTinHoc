@@ -26,7 +26,7 @@
             </ng-container>
 
             <ng-container matColumnDef="TK_TenDangNhap">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <th mat-header-cell *matHeaderCellDef>
                     Tài Khoản
                 </th>
                 <td mat-cell *matCellDef="let element">
@@ -35,7 +35,7 @@
             </ng-container>
 
             <ng-container matColumnDef="HV_Id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <th mat-header-cell *matHeaderCellDef>
                     Mã HV
                 </th>
                 <td mat-cell *matCellDef="let element">
@@ -46,6 +46,10 @@
             <ng-container matColumnDef="HV_HoTen">
                 <th mat-header-cell *matHeaderCellDef> Họ tên </th>
                 <td mat-cell *matCellDef="let element"> {{element.HV_HoTen}} </td>
+            </ng-container>
+            <ng-container matColumnDef="HV_NgaySinh">
+                <th mat-header-cell *matHeaderCellDef> Ngày Sinh </th>
+                <td mat-cell *matCellDef="let element"> {{element.HV_NgaySinh | date:'dd-MM-yyyy'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="HV_GioiTinh">
@@ -66,7 +70,7 @@
             </ng-container>
 
             <ng-container matColumnDef="HV_Email">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <th mat-header-cell *matHeaderCellDef> Email </th>
                 <td mat-cell *matCellDef="let element"> {{element.HV_Email}} </td>
             </ng-container>
 
@@ -74,18 +78,18 @@
                 <th mat-header-cell *matHeaderCellDef> # </th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>more_vert</mat-icon>
+                        <mat-icon>menu</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="infoClick(element.HV_Id)">
                             <mat-icon>infomation</mat-icon>
                             <span>Chi tiết</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="editClick(element.HV_Id)">
                             <mat-icon>edit</mat-icon>
                             <span>Sửa</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="deleteClick(element.HV_Id)">
                             <mat-icon>delete</mat-icon>
                             <span>Xoá</span>
                         </button>
@@ -96,7 +100,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[ 20, 40, 60]"
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[ 10, 20, 30, 40, 50]"
             aria-label="Select page of periodic elements">
         </mat-paginator>
     </div>

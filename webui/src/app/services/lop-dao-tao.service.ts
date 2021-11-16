@@ -25,7 +25,7 @@ export class LopDaoTaoService {
     return throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
   }
 
-  public getAllLLopDaoTao(): Observable<any> {
+  public getAll(): Observable<any> {
     const url = `${this.REST_API_SERVER}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
@@ -37,7 +37,7 @@ export class LopDaoTaoService {
       .pipe(catchError(this.handleError));
   }
 
-  public getLopDaoTaoById(id: string): Observable<any> {
+  public getById(id: string): Observable<any> {
 
     const url = `${this.REST_API_SERVER}/${id}`;
 
@@ -50,7 +50,7 @@ export class LopDaoTaoService {
       .pipe(catchError(this.handleError));
   }
 
-  public addLopDaoTao(LopDaoTaoReqData: any): Observable<any> {
+  public addNew(LopDaoTaoReqData: any): Observable<any> {
 
     const url = `${this.REST_API_SERVER}`;
 
@@ -63,7 +63,7 @@ export class LopDaoTaoService {
       .pipe(catchError(this.handleError));
   }
 
-  public updateLopDaoTao(id: string, LopDaoTaoReqData: any): Observable<any> {
+  public updateById(id: string, LopDaoTaoReqData: any): Observable<any> {
 
     const url = `${this.REST_API_SERVER}/${id}`;
     return this.httpClient.put<any>(url, LopDaoTaoReqData, this.httpOptions)
@@ -75,7 +75,7 @@ export class LopDaoTaoService {
       .pipe(catchError(this.handleError));
   }
 
-  public deleteLopDaoTao(id: string): Observable<any> {
+  public deleteById(id: string): Observable<any> {
 
     const url = `${this.REST_API_SERVER}/${id}`;
     return this.httpClient.delete<any>(url, this.httpOptions)
