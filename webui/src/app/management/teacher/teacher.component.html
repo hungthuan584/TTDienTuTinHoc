@@ -60,15 +60,6 @@
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="diachi">
-                <th mat-header-cell *matHeaderCellDef style="width: 35%;">
-                    Địa Chỉ
-                </th>
-                <td mat-cell *matCellDef="let element" style="width: 35%;">
-                    {{ element.GV_DiaChi }}
-                </td>
-            </ng-container>
-
             <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef>
                     Email
@@ -105,6 +96,16 @@
                             <mat-icon>edit</mat-icon>
                             <span>Sửa</span>
                         </button>
+                        <button mat-menu-item *ngIf="element.TK_IsActive == 1"
+                            (click)="lockAccount(element.TK_TenDangNhap)" title="Khoá tài khoản">
+                            <mat-icon>lock</mat-icon>
+                            Khoá tài khoản
+                        </button>
+                        <button mat-menu-item *ngIf="element.TK_IsActive == 0"
+                            (click)="unlockAccount(element.TK_TenDangNhap)" title="Mở khoá tài khoản">
+                            <mat-icon>lock_open</mat-icon>
+                            Mở tài khoản
+                        </button>
                         <button mat-menu-item (click)="deleteClick(element.GV_Id)">
                             <mat-icon>delete</mat-icon>
                             <span>Xoá</span>
@@ -116,7 +117,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[ 10, 20, 30, 40, 50]"
+        <mat-paginator #paginator [pageSize]="10"
             aria-label="Select page of periodic elements">
         </mat-paginator>
     </div>

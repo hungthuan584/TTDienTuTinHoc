@@ -1,0 +1,31 @@
+table {
+    width: 700px;
+}
+
+h3,
+h4 {
+    margin: 5px;
+}
+
+.title {
+    padding: 15px;
+    font-size: 18px;
+    width: 100%;
+    color: #ffffff;
+    background-color: #30336b;
+    margin-top: 10px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.row {
+    margin: 0;
+    width: 100%;
+}
+
+.empty {
+    padding: 20px;
+    color: gray;
+}

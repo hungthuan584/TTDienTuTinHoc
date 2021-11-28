@@ -36,7 +36,9 @@ GiaoVien.getAll = (result) => {
 
 GiaoVien.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM GiaoVien WHERE GV_Id = ?`,
+        `SELECT * FROM giaovien gv
+        JOIN taikhoan tk ON tk.TK_TenDangNhap = gv.TK_TenDangNhap
+        WHERE GV_Id = ?`,
         id,
         (err, res) => {
             if (err) {

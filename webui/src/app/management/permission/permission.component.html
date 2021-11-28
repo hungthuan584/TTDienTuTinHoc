@@ -1,0 +1,41 @@
+<div class="permission-box">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="functionForm">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>Chức năng</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let fn of listFunction">
+                    <td>
+                        <input type="checkbox" formArrayName="CN_Id" [value]="fn.CN_Id"
+                            [disabled]="checkPermission(fn.CN_Id)" (change)="onChangeChecked($event)">
+                    </td>
+                    <td>
+                        {{fn.CN_Ten}}
+                    </td>
+                    <td>
+                        <span *ngIf="checkPermission(fn.CN_Id)" class="badge badge-success">Đã cấp quyền</span>
+                        <span *ngIf="!checkPermission(fn.CN_Id)" class="badge badge-secondary">Chưa cấp quyền</span>
+                    </td>
+                    <td>
+                        <button title="Thu hồi" mat-icon-button color="warn" *ngIf="checkPermission(fn.CN_Id)"
+                            (click)="onDelete(fn.CN_Id)">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Cấp quyền mục đã chọn</button>&nbsp;
+        <button mat-raised-button (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

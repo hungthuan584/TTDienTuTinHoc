@@ -4,14 +4,27 @@ const DangKyHocModel = require('../models/DangKyHoc.model');
 const { genSaltSync, hashSync } = require('bcrypt');
 
 // Danh sach hoc vien
-exports.getAll = (req, res) => {
+exports.getStudying = (req, res) => {
 
-    HocVienModel.getAll(
+    HocVienModel.getStudying(
         (err, HocVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(HocVien);
             }
-            return res.json(HocVien);
+        }
+    );
+}
+exports.getStudyed = (req, res) => {
+
+    HocVienModel.getStudyed(
+        (err, HocVien) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(HocVien);
+            }
         }
     );
 }
@@ -19,7 +32,7 @@ exports.getAll = (req, res) => {
 // Get hoc vien by Id
 exports.getById = (req, res) => {
 
-    HocVienModel.getHocVienById(
+    HocVienModel.getById(
         req.params.id,
         (err, HocVien) => {
             if (err) {
@@ -83,15 +96,11 @@ exports.addNew = (req, res) => {
 
                 if (h == true) {
                     const TaiKhoanReqData = new TaiKhoanModel(req.body);
+                    var password = 'u$erCit@' + new Date().getFullYear().toString();
                     var salt = genSaltSync(10);
-
-                    if (req.body.TK_XacThuc) {
-                        TaiKhoanReqData.TK_XacThuc = 1;
-                    } else {
-                        TaiKhoanReqData.TK_XacThuc = 0;
-                    }
+                    TaiKhoanReqData.TK_MatKhau = hashSync(password, salt);
+                    TaiKhoanReqData.TK_XacThuc = 0;
                     TaiKhoanReqData.TK_TenDangNhap = id;
-                    TaiKhoanReqData.TK_MatKhau = hashSync('u$serCit@' + new Date().getFullYear().toString(), salt);
                     TaiKhoanReqData.Q_Id = 4;
                     TaiKhoanReqData.TK_IsActive = 1;
                     TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
@@ -130,7 +139,7 @@ exports.addNew = (req, res) => {
                                                         if (err) {
                                                             return res.status(500).json({ status: 0, message: err });
                                                         } else {
-                                                            return res.json({ status: 1, message: 'Created successfully' });
+                                                            return res.json({ status: 1, message: 'Created successfully', username: id });
                                                         }
                                                     }
                                                 );
@@ -156,13 +165,15 @@ exports.updateById = (req, res) => {
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
         return req.send(400).send({ success: false, message: 'Please fill all fields' });
     } else {
-        HocVienModel.updateHocVien(
-            req.params.id, HocVienReqData,
+        HocVienModel.updateById(
+            req.params.id,
+            HocVienReqData,
             (err) => {
                 if (err) {
                     return res.json({ status: 0, message: err });
+                } else {
+                    return res.json({ status: 1, message: 'Updated Successfully' });
                 }
-                return res.json({ status: 1, message: 'Updated Successfully' });
             }
         );
     }
@@ -175,8 +186,9 @@ exports.deleteById = (req, res) => {
         (err) => {
             if (err) {
                 return res.json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Deleted Successfully' });
             }
-            return res.json({ status: 1, message: 'Deleted Successfully' });
         }
     );
 }

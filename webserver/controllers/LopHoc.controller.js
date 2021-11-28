@@ -1,8 +1,19 @@
 const LopHocModel = require('../models/LopHoc.model');
 
-exports.getAll = (req, res) => {
+exports.getOpening = (req, res) => {
+    LopHocModel.getOpening(
+        (err, LopHoc) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(LopHoc);
+            }
+        }
+    );
+}
 
-    LopHocModel.getAll(
+exports.getCompleted = (req, res) => {
+    LopHocModel.getCompleted(
         (err, LopHoc) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });

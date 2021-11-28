@@ -6,7 +6,7 @@
                 <th>Mã Lớp :</th>
                 <td>{{ lophocInfo?.LH_Id }}</td>
                 <th>Sỉ Số :</th>
-                <td>{{ lophocInfo?.LH_SiSo }}</td>
+                <td>{{number}}/{{ lophocInfo?.LH_SiSo }}</td>
 
             </tr>
             <tr>
@@ -50,8 +50,12 @@
         </table>
     </div>
     <div class="text-center">
-        <button mat-stroked-button color="primary" (click)="editClick(data.lhId)">Sửa</button>&nbsp;
-        <button mat-stroked-button color="warn" (click)="completeClick(data.lhId)">Hoàn thành</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="showListStudent(data.lhId)">Danh sách học
+            viên</button>&nbsp;
+        <span *ngIf="lophocInfo?.LH_IsComplete == 0">
+            <button mat-stroked-button color="primary" (click)="editClick(data.lhId)">Sửa</button>&nbsp;
+            <button mat-stroked-button color="warn" (click)="completeClick(data.lhId)">Hoàn thành</button>
+        </span>&nbsp;
         <button mat-stroked-button (click)="closeClick()">Đóng</button>
     </div>
 </div>

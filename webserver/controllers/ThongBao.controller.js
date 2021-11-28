@@ -5,8 +5,9 @@ exports.getAll = (req, res) => {
         (err, ThongBao) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(ThongBao);
             }
-            return res.json(ThongBao);
         }
     );
 }
@@ -17,14 +18,28 @@ exports.getById = (req, res) => {
         (err, ThongBao) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(ThongBao);
             }
-            return res.json(ThongBao);
+        }
+    );
+}
+
+exports.getByLopHoc = (req, res) => {
+    ThongBaoModel.getByLopHoc(
+        req.params.id,
+        (err, ThongBao) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json(ThongBao);
+            }
         }
     );
 }
 
 exports.addNew = (req, res) => {
-    
+
     ThongBaoModel.conutNumber(
         (err, result) => {
             if (err) {
@@ -39,43 +54,29 @@ exports.addNew = (req, res) => {
                     d = result.length;
                 }
 
-                if (d < 9) {
-                    h = true;
-                    id += '00' + (d + 1).toString();
-                } else {
-                    if (d < 99) {
-                        h = true;
-                        id += '0' + (d + 1).toString();
-                    } else {
-                        if (d < 999) {
-                            h = true;
-                            id += (d + 1).toString();
-                        }
-                    }
+                id += (d + 1).toString();
+                
+                const data = new ThongBaoModel(req.body);
+
+                data.TB_Id = id;
+                data.TB_IsDelete = 0;
+                data.TB_UpdateDate = '-  -     :  :';
+                data.TB_DeleteDate = '-  -     :  :';
+
+                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                    return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
                 }
-
-                if (h == true) {
-                    const data = new ThongBaoModel(req.body);
-
-                    data.TB_Id = id;
-                    data.TB_IsDelete = 0;
-                    data.TB_UpdateDate = '-  -     :  :';
-                    data.TB_DeleteDate = '-  -     :  :';
-
-                    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-                        return req.send(400).send({ status: 0, massage: 'Please fill all fields' });
-                    }
-                    else {
-                        ThongBaoModel.addPhongHoc(
-                            data,
-                            (err, PhongHoc) => {
-                                if (err) {
-                                    return res.json({ status: 0, massage: err });
-                                }
-                                return res.json(PhongHoc);
+                else {
+                    ThongBaoModel.addNew(
+                        data,
+                        (err) => {
+                            if (err) {
+                                return res.json({ status: 0, massage: err });
+                            } else {
+                                return res.json({ status: 1, message: 'Created successfully' });
                             }
-                        );
-                    }
+                        }
+                    );
                 }
             }
         }

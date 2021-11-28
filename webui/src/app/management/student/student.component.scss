@@ -6,9 +6,18 @@
     width: 5%;
 }
 
+.number {
+    padding: 20px;
+    color: gray;
+}
+
+.mat-tab-group {
+    background-color: #ffffff;
+}
+
 .search-box {
     mat-form-field {
-        margin-top: 20px;
+        margin-top: 15px;
         width: 600px;
         font-size: 14px;
     }

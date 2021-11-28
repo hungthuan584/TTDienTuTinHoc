@@ -5,7 +5,7 @@
             <mat-form-field appearance="outline" style="width: 98%;">
                 <mat-label>Lớp đăng ký</mat-label>
                 <mat-select formControlName="LH_Id" (closed)="logValidationErrors()">
-                    <mat-option *ngFor="let lh of dsLopHoc" value="lh.LH_Id">
+                    <mat-option *ngFor="let lh of dsLopHoc" [value]="lh.LH_Id">
                         {{ lh.LDT_Ten }} - {{ lh.LH_Id }}
                     </mat-option>
                 </mat-select>

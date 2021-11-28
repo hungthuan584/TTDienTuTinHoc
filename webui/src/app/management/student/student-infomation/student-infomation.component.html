@@ -1,1 +1,101 @@
-<p>student-infomation works!</p>
+<div class="info-box">
+    <h2>{{data.title}}</h2>
+    <div class="profile">
+        <div class="table-label">
+            Thông tin cá nhân
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Mã học viên :</th>
+                <td colspan="5">{{student?.HV_Id}}</td>
+            </tr>
+            <tr>
+                <th>Họ tên :</th>
+                <td>{{student?.HV_HoTen}}</td>
+                <th>Giới tính :</th>
+                <td>{{ (student?.HV_GioiTinh ==1)? 'Nam':'Nữ' }}</td>
+                <th>Ngày sinh :</th>
+                <td>{{ student?.HV_NgaySinh | date: 'dd-MM-yyyy' }}</td>
+            </tr>
+            <tr>
+                <th>Nơi sinh :</th>
+                <td>{{ student?.HV_NoiSinh }}</td>
+                <th>Dân tộc :</th>
+                <td>{{ student?.HV_DanToc }}</td>
+                <th>Quốc tịch :</th>
+                <td>{{ student?.HV_QuocTich }}</td>
+            </tr>
+            <tr>
+                <th>CMND/CCCD :</th>
+                <td>{{ student?.HV_Cmnd }}</td>
+                <th>Ngày Cấp :</th>
+                <td>{{ student?.HV_NgayCapCmnd | date: 'dd-MM-yyyy' }}</td>
+                <th>Nơi cấp :</th>
+                <td>{{ student?.HV_NoiCapCmnd }}</td>
+            </tr>
+            <tr>
+                <th>Điện thoại :</th>
+                <td>{{ student?.HV_Sdt }}</td>
+                <th>Email :</th>
+                <td>{{ student?.HV_Email }}</td>
+                <th>Mssv :</th>
+                <td>{{ student?.HV_Mssv }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="account">
+        <div class="table-label">
+            Tài khoản
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Tên đăng nhập :</th>
+                <td>
+                    {{student?.TK_TenDangNhap}}
+                    <span *ngIf="student?.TK_XacThuc == 1" class="badge badge-success">
+                        <i class="fa fa-check-circle"></i> Đã xác thực
+                    </span>
+                    <span *ngIf="student?.TK_XacThuc == 0" class="badge badge-warning">
+                        <i class="fa fa-times-circle"></i> Chưa xác thực
+                    </span>
+                </td>
+                <th>Trạng thái :</th>
+                <td>
+                    <span *ngIf="student?.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
+                    <span *ngIf="student?.TK_IsActive == 0" class="badge badge-danger">Khoá</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Ngày tạo: </th>
+                <td>{{ student?.TK_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                <th>Ngày sửa đổi: </th>
+                <td *ngIf="student?.TK_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
+                <td *ngIf="student?.TK_UpdateDate != '0000-00-00 00:00:00'">
+                    {{student?.TK_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+            </tr>
+            <tr *ngIf="student?.TK_DeactivateDate != '0000-00-00 00:00:00'">
+                <th>Ngày khoá: </th>
+                <td colspan="3">
+                    {{student?.TK_DeactivateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center">
+        <button mat-stroked-button color="primary" (click)="editClick(student?.NV_Id)">Sửa thông tin</button>&nbsp;
+        <span *ngIf="student?.TK_IsActive == 1">
+            <button mat-stroked-button color="warn" (click)="lockAccount(student?.TK_TenDangNhap)">
+                Khoá tài khoản
+            </button>&nbsp;
+            <button mat-stroked-button color="primary" (click)="resetPassword(student?.TK_TenDangNhap)">
+                Đặt lại mật khẩu
+            </button>
+        </span>
+        <button *ngIf="student?.TK_IsActive == 0" mat-icon-button color="primary"
+            (click)="unlockAccount(student?.TK_TenDangNhap)">
+            Mở khoá tài khoản
+        </button>&nbsp;
+        <button mat-stroked-button (click)="closeClick()">Đóng</button>
+    </div>
+</div>

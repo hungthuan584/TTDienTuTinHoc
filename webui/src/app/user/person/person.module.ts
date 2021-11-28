@@ -8,9 +8,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { PersonRoutingModule } from './person-routing.module';
+
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
+
 import { PersonComponent } from './person.component';
 import { PersonPanelComponent } from './person-panel/person-panel.component';
 import { InfomationComponent } from './infomation/infomation.component';
+import { ClassroomComponent } from './classroom/classroom.component';
+
 
 
 
@@ -20,7 +27,8 @@ import { InfomationComponent } from './infomation/infomation.component';
   declarations: [
     PersonComponent,
     PersonPanelComponent,
-    InfomationComponent
+    InfomationComponent,
+    ClassroomComponent
   ],
   imports: [
     CommonModule,
@@ -28,8 +36,10 @@ import { InfomationComponent } from './infomation/infomation.component';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatSidenavModule
-
+    MatSidenavModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatCardModule
   ]
 })
 export class PersonModule { }

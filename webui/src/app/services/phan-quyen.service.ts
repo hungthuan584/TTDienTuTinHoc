@@ -31,10 +31,37 @@ export class PhanQuyenService {
       'Something bad happened; please try again later.');
   }
 
-  public checkPermission(username: any, functionId: any): Observable<any> {
-    const url = `${this.REST_API_SERVER}/check/${username}/${functionId}`;
+  public getByUsername(username: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${username}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+  public addNew(data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}`;
+
+    return this.httpClient.post<any>(url, data, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public deleteByUsername(username: any, id: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${username}/${id}`;
+
+    return this.httpClient.delete<any>(url, this.httpOptions)
       .pipe(
         map(
           (data) => {

@@ -57,7 +57,7 @@ export class TaiKhoanService {
 
     const url = `${this.REST_AIP_SERVER}/change/${username}`;
 
-    return this.httpClient.patch<any>(url, data, this.httpOptions)
+    return this.httpClient.post<any>(url, data, this.httpOptions)
       .pipe(
         map((data) => {
           return data;
@@ -90,4 +90,15 @@ export class TaiKhoanService {
       .pipe(catchError(this.handleError));
   }
 
+  public resetPassword(username: string): Observable<any> {
+    const url = `${this.REST_AIP_SERVER}/reset/${username}`;
+
+    return this.httpClient.patch<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
 }

@@ -1,1 +1,100 @@
-<p>employee-infomation works!</p>
+<div class="info-box">
+    <h2>{{ data.title }}</h2>
+    <div class="profile">
+        <div class="table-label">
+            Thông tin cá nhân
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Mã giáo viên :</th>
+                <td colspan="5">{{employee?.NV_Id}}</td>
+            </tr>
+            <tr>
+                <th>Họ tên :</th>
+                <td>{{employee?.NV_HoTen}}</td>
+                <th>Giới tính :</th>
+                <td>{{(employee?.NV_GioiTinh == 1)? 'Nam':'Nữ'}}</td>
+            </tr>
+            <tr>
+                <th>Ngày sinh :</th>
+                <td>{{employee?.NV_NgaySinh | date:'dd-MM-yyyy'}}</td>
+                <th>Chức vụ :</th>
+                <td>{{employee?.CV_Ten}}</td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td>{{employee?.NV_Email}}</td>
+                <th>Số điện thoại :</th>
+                <td>{{employee?.NV_Sdt}}</td>
+            </tr>
+            <tr>
+                <th>Địa chỉ :</th>
+                <td colspan="3">{{employee?.NV_DiaChi}}</td>
+            </tr>
+            <tr>
+                <th>Ngày tạo :</th>
+                <td>{{employee?.NV_CreateDate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                <th>Ngày sửa đổi:</th>
+                <td *ngIf="employee?.NV_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
+                <td *ngIf="employee?.NV_UpdateDate != '0000-00-00 00:00:00'">
+                    {{employee?.NV_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss'}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="account">
+        <div class="table-label">
+            Tài khoản&nbsp;
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Tên đăng nhập :</th>
+                <td>
+                    {{employee?.TK_TenDangNhap}}
+                    <span *ngIf="employee?.TK_XacThuc == 1" class="badge badge-success">
+                        <i class="fa fa-check-circle"></i> Đã xác thực
+                    </span>
+                    <span *ngIf="employee?.TK_XacThuc == 0" class="badge badge-warning">
+                        <i class="fa fa-times-circle"></i> Chưa xác thực
+                    </span>
+                </td>
+                <th>Trạng thái :</th>
+                <td>
+                    <span *ngIf="employee?.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
+                    <span *ngIf="employee?.TK_IsActive == 0" class="badge badge-danger">Khoá</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Ngày tạo: </th>
+                <td>{{ employee?.TK_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                <th>Ngày sửa đổi: </th>
+                <td *ngIf="employee?.TK_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
+                <td *ngIf="employee?.TK_UpdateDate != '0000-00-00 00:00:00'">
+                    {{employee?.TK_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+            </tr>
+            <tr *ngIf="employee?.TK_IsActive == 0">
+                <th>Ngày khoá: </th>
+                <td>
+                    {{employee?.TK_DeactivateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center">
+        <button mat-stroked-button color="primary" (click)="editClick(employee?.NV_Id)">Sửa thông tin</button>&nbsp;
+        <span *ngIf="employee?.TK_IsActive == 1">
+            <button mat-stroked-button color="warn" (click)="lockAccount(employee?.TK_TenDangNhap)">
+                Khoá tài khoản
+            </button>&nbsp;
+            <button mat-stroked-button color="primary" (click)="resetPassword(employee?.TK_TenDangNhap)">
+                Đặt lại mật khẩu
+            </button>
+        </span>
+        <button  *ngIf="employee?.TK_IsActive == 0" mat-icon-button color="primary" (click)="unlockAccount(employee?.TK_TenDangNhap)">
+            Mở khoá tài khoản
+        </button>&nbsp;
+        <button mat-stroked-button (click)="closeClick()">Đóng</button>
+    </div>
+</div>

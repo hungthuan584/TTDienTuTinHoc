@@ -35,7 +35,6 @@ import { ConvertAddressComponent } from './convert-address/convert-address.compo
 
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
     { provide: MatDialogRef, useValue: {} }
   ],
   bootstrap: [AppComponent]

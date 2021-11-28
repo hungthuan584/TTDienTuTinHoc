@@ -4,7 +4,9 @@ const route = express.Router();
 const LopHocController = require('../controllers/LopHoc.controller');
 
 // Danh sach
-route.get('/', LopHocController.getAll);
+route.get('/opening', LopHocController.getOpening);
+
+route.get('/completed', LopHocController.getCompleted);
 
 // Get by Id
 route.get('/:id', LopHocController.getById);

@@ -22,13 +22,13 @@ var HocVien = function (HocVien) {
 }
 
 // Danh sach hoc vien
-HocVien.getAll = (result) => {
+HocVien.getStudying = (result) => {
     dbConnect.query(
         `
-        SELECT hv.HV_Id, hv.HV_HoTen, hv.HV_GioiTinh, hv.HV_NgaySinh, hv.HV_NoiSinh, hv.HV_Sdt, hv.HV_Email, tk.TK_TenDangNhap, tk.TK_XacThuc, tk.TK_IsActive
+        SELECT *
         FROM hocvien hv
         JOIN taikhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
-        WHERE HV_IsDelete != 1
+        WHERE tk.TK_IsActive != 0
         `,
         (err, res) => {
             if (err) {
@@ -42,7 +42,26 @@ HocVien.getAll = (result) => {
         }
     );
 }
-
+HocVien.getStudyed = (result) => {
+    dbConnect.query(
+        `
+        SELECT *
+        FROM hocvien hv
+        JOIN taikhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
+        WHERE tk.TK_IsActive = 0
+        `,
+        (err, res) => {
+            if (err) {
+                console.log('Error While Fetching', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
+}
 
 // Danh sach hoc vien dang ky nam hien tai
 HocVien.countNumber = (result) => {
@@ -64,7 +83,10 @@ HocVien.countNumber = (result) => {
 // Get hoc vien by Id
 HocVien.getById = (id, result) => {
     dbConnect.query(
-        `SELECT * FROM HocVien WHERE (HV_Id = '${id}') OR (TK_TenDangNhap = '${id}') `,
+        `SELECT * FROM HocVien hv
+        JOIN TaiKhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
+        WHERE hv.HV_Id = ?`,
+        id,
         (err, res) => {
             if (err) {
                 console.log('Error while selecting', err);
@@ -99,24 +121,7 @@ HocVien.addNew = (data, result) => {
 // Sua thong tin hoc vien
 HocVien.updateById = (id, data, result) => {
     dbConnect.query(
-        `
-        UPDATE HocVien
-	    SET
-            HV_HoTen = ?,
-            HV_GioiTinh = ?,
-            HV_NgaySinh = ?,
-            HV_NoiSinh = ?,
-            HV_Cmnd = ?,
-            HV_NgayCapCmnd = ?,
-            HV_NoiCapCmnd = ?,
-            HV_DanToc = ?,
-            HV_QuocTich = ?,
-            HV_Sdt = ?,
-            HV_Email = ?,
-            HV_Mssv = ?,
-            HV_UpdateDate = CURRENT_TIMESTAMP()
-	    WHERE HV_Id = ?
-        `,
+        `UPDATE HocVien SET HV_HoTen = ?, HV_GioiTinh = ?,HV_NgaySinh = ?, HV_NoiSinh = ?, HV_Cmnd = ?, HV_NgayCapCmnd = ?, HV_NoiCapCmnd = ?,HV_DanToc = ?, HV_QuocTich = ?, HV_Sdt = ?, HV_Email = ?,HV_Mssv = ?, HV_UpdateDate = CURRENT_TIMESTAMP() WHERE HV_Id = ?`,
         [
             data.HV_HoTen,
             data.HV_GioiTinh,

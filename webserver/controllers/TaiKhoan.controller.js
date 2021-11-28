@@ -1,14 +1,19 @@
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const TaiKhoanModel = require('../models/TaiKhoan.model');
+const PhanQuyenModel = require('../models/PhanQuyen.model');
 const { sign } = require('jsonwebtoken');
+const fs = require('fs');
+
 
 exports.getAll = (req, res) => {
     TaiKhoanModel.getAll(
         (err, TaiKhoan) => {
             if (err) {
                 res.status(500).json({ status: 0, message: err });
+            } else {
+                TaiKhoan.TK_MatKhau = undefined;
+                return res.json(TaiKhoan);
             }
-            return res.json(TaiKhoan);
         }
     );
 }
@@ -19,8 +24,10 @@ exports.getByUsername = (req, res) => {
         (err, TaiKhoan) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                TaiKhoan.TK_MatKhau = undefined;
+                return res.json(TaiKhoan);
             }
-            return res.json(TaiKhoan);
         }
     );
 }
@@ -40,7 +47,6 @@ exports.changePassword = (req, res) => {
 
             const result = compareSync(oldPassword, TaiKhoan.TK_MatKhau);
 
-            console.log('Result: ', result);
             if (result) {
                 TaiKhoan.TK_MatKhau = undefined;
 
@@ -117,7 +123,7 @@ exports.login = (req, res) => {
                 return res.json({ isLoggedIn: 0, message: err });
             }
             if (!TaiKhoan) {
-                return res.json({ isLoggedIn: 0, message: 'Sai tên tài khoản hoặc mật khẩu' });
+                return res.json({ isLoggedIn: 0, message: 'Tài khoản không tồn tại' });
             } else {
                 if (TaiKhoan.TK_IsActive != 1) {
                     return res.json({ isLoggedIn: 0, message: 'Tài khoản không tồn tại' });
@@ -126,10 +132,25 @@ exports.login = (req, res) => {
                     if (result) {
                         TaiKhoan.TK_MatKhau = undefined;
                         const jsonToken = sign({ result: TaiKhoan }, 'qwe1234', {
-                            expiresIn: "4h"
+                            expiresIn: "12h"
                         });
 
-                        return res.json({ isLoggedIn: 1, message: 'Đăng nhập thành công', token: jsonToken, loginAccount: TaiKhoan });
+                        TaiKhoanModel.countLogin(req.body.TK_TenDangNhap, (err) => {
+                            if (err) {
+                                return res.json({ status: 0, message: err });
+                            }
+                        });
+
+                        PhanQuyenModel.getByUsername(
+                            TaiKhoan.TK_TenDangNhap,
+                            (err) => {
+                                if (err) {
+                                    return res.status(500).json({ status: 0, message: err });
+                                } else {
+                                    return res.json({ isLoggedIn: 1, token: jsonToken, loginAccount: TaiKhoan });
+                                }
+                            }
+                        );
                     } else {
                         return res.json({ isLoggedIn: 0, message: 'Sai tên tài khoản hoặc mật khẩu' });
                     }

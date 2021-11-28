@@ -21,13 +21,8 @@ export class AccountComponent implements OnInit {
   TaiKhoan: any;
 
   constructor(
-    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-  }
-
-  addClick(): void {
-    
   }
 }

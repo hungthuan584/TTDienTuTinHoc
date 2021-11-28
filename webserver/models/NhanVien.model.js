@@ -112,6 +112,29 @@ NhanVien.updateById = (id, data, result) => {
         }
     );
 }
+NhanVien.changeInfo = (id, data, result) => {
+    dbConnect.query(
+        `UPDATE NhanVien SET NV_HoTen = ?,NV_GioiTinh = ?,NV_NgaySinh = ?,NV_DiaChi = ?,NV_Sdt = ?,NV_Email = ?, NV_UpdateDate = CURRENT_TIMESTAMP() WHERE NV_Id = ?`,
+        [
+            data.NV_HoTen,
+            data.NV_GioiTinh,
+            data.NV_NgaySinh,
+            data.NV_DiaChi,
+            data.NV_Sdt,
+            data.NV_Email,
+            id
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error while changing', err);
+                result(null, err);
+            } else {
+                console.log('Changed successfully');
+                result(null, res);
+            }
+        }
+    );
+}
 
 NhanVien.deleteById = (id, result) => {
     dbConnect.query(

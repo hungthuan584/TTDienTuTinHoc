@@ -1,1 +1,54 @@
-<p>infomation works!</p>
+<div class="info-box">
+    <div class="text-center">
+        <img [src]="imageUrl" alt="Ảnh đại diện" width="200px" height="200px">
+        <button style="vertical-align: bottom;" mat-icon-button (click)="changeAvatar()">
+            <mat-icon>photo_camera</mat-icon>
+        </button>
+    </div>
+    <div class="info row">
+        <div class="spacer"></div>
+        <table class="table table-striped">
+            <tr>
+                <th>Họ tên :</th>
+                <td>{{ loginUserInfo?.HV_HoTen }}</td>
+                <th>Giới tính :</th>
+                <td>{{ (loginUserInfo?.HV_GioiTinh==1)? 'Nam':'Nữ' }}</td>
+            </tr>
+            <tr>
+                <th>Ngày sinh :</th>
+                <td>{{ loginUserInfo?.HV_NgaySinh | date:'dd-MM-yyyy' }}</td>
+                <th>Nơi sinh :</th>
+                <td>{{ loginUserInfo?.HV_NoiSinh }}</td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td colspan="3">{{ loginUserInfo?.HV_Email }}</td>
+            </tr>
+            <tr>
+                <th>Số điện thoại :</th>
+                <td>{{ loginUserInfo?.HV_Sdt }}</td>
+                <th>CMND/CCCD :</th>
+                <td>{{ loginUserInfo?.HV_Cmnd }}</td>
+            </tr>
+            <tr>
+                <th>Ngày cấp :</th>
+                <td>{{ loginUserInfo?.HV_NgayCapCmnd | date:'dd-MM-yyyy' }}</td>
+                <th>Nơi cấp :</th>
+                <td>{{ loginUserInfo?.HV_NoiCapCmnd }}</td>
+            </tr>
+
+            <tr>
+                <th>Dân tộc :</th>
+                <td>{{ loginUserInfo?.HV_DanToc }}</td>
+                <th>Quốc tịch :</th>
+                <td>{{ loginUserInfo?.HV_QuocTich }}</td>
+            </tr>
+        </table>
+        <div class="spacer"></div>
+    </div>
+    <div class="text-center">
+        <button style="margin-bottom: 10px;" mat-raised-button color="primary" (click)="changeInfo()">
+            Chỉnh sửa thông tin
+        </button>
+    </div>
+</div>

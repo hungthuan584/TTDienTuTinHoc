@@ -1,0 +1,25 @@
+.profile-box {
+    background-color: #ffffff;
+}
+
+h2 {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #30336b;
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+.profile {
+    background-color: #f1f4f6;
+    padding: 20px;
+    table {
+        width: 100%;
+        th {
+            text-align: right;
+        }
+        td {
+            vertical-align: middle;
+        }
+    }
+}

@@ -32,10 +32,67 @@ export class DangKyHocService {
   }
 
   public getByLopHoc(lhId: string): Observable<any> {
-
     const url = `${this.REST_API_SERVER}/lophoc/${lhId}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getByHocVien(hvId: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/hocvien/${hvId}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public checkUnique(lhId: string, hvId: string): Observable<any> {
+
+    const url = `${this.REST_API_SERVER}/${lhId}/${hvId}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public addNew(data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}`;
+
+    return this.httpClient.post<any>(url, data, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public deleteByStudent(hvId: string): Observable<any> {
+
+    const url = `${this.REST_API_SERVER}/lophoc/${hvId}`;
+
+    return this.httpClient.delete<any>(url, this.httpOptions)
       .pipe(
         map(
           (data) => {

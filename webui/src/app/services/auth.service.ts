@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { PhanQuyenService } from './phan-quyen.service';
 import { TokenStorageService } from './token-storage.service';
 
@@ -20,8 +21,7 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    private tokenStorage: TokenStorageService,
-    private phanquyen: PhanQuyenService
+    private tokenStorage: TokenStorageService
   ) { }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -47,6 +47,7 @@ export class AuthService {
 
   signOut(): void {
     window.sessionStorage.clear();
+    window.location.reload();
   }
 
   public checkLogin(): boolean {
@@ -56,8 +57,17 @@ export class AuthService {
       return false;
     } else {
       var tokenExpired = helper.isTokenExpired(this.tokenStorage.getToken());
+      console.log(tokenExpired);
 
       if (this.tokenStorage.getToken() !== null && tokenExpired == true) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Hết hạn đăng nhập'
+        }).then(
+          () => {
+            this.signOut();
+          }
+        );
         return false;
       } else {
         return true;
@@ -67,16 +77,19 @@ export class AuthService {
 
   public canAccess(url: string) {
     var user = this.tokenStorage.getUser();
-    if (url.includes('quantrihethong') && user.Q_Id <= 2) {
+    if ((url.includes('quantrihethong') && user.Q_Id <= 2) || (url.includes('chungchitinhoc/ca-nhan') && user.Q_Id == 4)) {
       return true;
     } else {
       return false;
     }
   }
 
-  public checkRoles(loginUser: any) {
+  public isUser(username: any, qId: any) {
     var user = this.tokenStorage.getUser();
-
-    this.phanquyen.checkPermission(user.TK_TenDangNhap, 1);
+    if (user.TK_TenDangNhap == username || user.Q_Id > qId) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -20,12 +20,13 @@ export interface teacherDialogData {
 })
 export class TeacherComponent implements OnInit {
 
-  displayedColumns: string[] = ['stt', 'taikhoan', 'id', 'hoten', 'gioitinh', 'diachi', 'email', 'sdt', '#'];
+  displayedColumns: string[] = ['stt', 'taikhoan', 'id', 'hoten', 'gioitinh', 'email', 'sdt', '#'];
   dataSource!: MatTableDataSource<any>;
 
   constructor(
     public dialog: MatDialog,
-    private giaovien: GiaoVienService
+    private giaovien: GiaoVienService,
+    private taikhoan: TaiKhoanService
   ) { }
 
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -121,5 +122,65 @@ export class TeacherComponent implements OnInit {
         );
       }
     })
+  }
+
+  lockAccount(username: any) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Khoá tài khoản?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Khoá'
+    }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.taikhoan.lockAccount(username).subscribe(
+            (res) => {
+              if (res.status == 1) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Khoá tài khoản'
+                }).then(
+                  () => {
+                    this.ngOnInit();
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  unlockAccount(username: any) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Mở khoá tài khoản?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Mở khoá'
+    }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.taikhoan.unlockAccount(username).subscribe(
+            (res) => {
+              if (res.status == 1) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Đã mở khoá'
+                }).then(
+                  () => {
+                    this.ngOnInit();
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
   }
 }

@@ -7,8 +7,10 @@ exports.getAll = (req, res) => {
         (err, GiaoVien) => {
             if (err) {
                 return res.status(500).json({ status: 1, message: err });
+            } else {
+                GiaoVien.TK_MatKhau = undefined;
+                return res.json(GiaoVien);
             }
-            return res.json(GiaoVien);
         }
     );
 }
@@ -19,8 +21,10 @@ exports.getById = (req, res) => {
         (err, GiaoVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                GiaoVien.TK_MatKhau = undefined;
+                return res.json(GiaoVien);
             }
-            return res.json(GiaoVien);
         }
     );
 }

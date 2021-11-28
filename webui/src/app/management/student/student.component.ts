@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import Swal from 'sweetalert2';
@@ -22,19 +21,33 @@ export class StudentComponent implements OnInit {
 
   displayedColumns: string[] = ['stt', 'TK_TenDangNhap', 'HV_Id', 'HV_HoTen', 'HV_GioiTinh', 'HV_NgaySinh', 'HV_NoiSinh', 'HV_Sdt', 'HV_Email', '#'];
   dataSource!: MatTableDataSource<any>;
+  number1: any;
+  number2: any;
+  displayedColumns1: string[] = ['stt', 'TK_TenDangNhap', 'HV_Id', 'HV_HoTen', 'HV_GioiTinh', 'HV_NgaySinh', 'HV_NoiSinh', 'HV_Sdt', 'HV_Email', '#'];
+  dataSource1!: MatTableDataSource<any>;
 
   constructor(
     public dialog: MatDialog,
     private hocvien: HocVienService
   ) { }
 
-  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild('paginator1') paginator1!: MatPaginator;
+  @ViewChild('paginator2') paginator2!: MatPaginator;
 
   ngOnInit(): void {
-    this.hocvien.getAll().subscribe(
+    this.hocvien.getStudying().subscribe(
       (data) => {
+        this.number1 = data.length;
         this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginator1;
+      }
+    );
+
+    this.hocvien.getStudyed().subscribe(
+      (result) => {
+        this.number2 = result.length;
+        this.dataSource1 = new MatTableDataSource(result);
+        this.dataSource1.paginator = this.paginator2;
       }
     );
   }
@@ -48,11 +61,12 @@ export class StudentComponent implements OnInit {
       StudentFormComponent,
       {
         data: { title: 'Thêm học viên' },
-        autoFocus: false
+        autoFocus: false,
+        restoreFocus: false
       }
     ).afterClosed().subscribe(
       () => {
-        this.ngOnInit();
+        window.location.reload();
       }
     );
   }
@@ -62,11 +76,12 @@ export class StudentComponent implements OnInit {
       StudentInfomationComponent,
       {
         data: { title: 'Thông tin học viên', id: hvId },
-        autoFocus: false
+        autoFocus: false,
+        restoreFocus: false
       }
     ).afterClosed().subscribe(
       () => {
-        this.ngOnInit();
+        window.location.reload();
       }
     );
   }
@@ -80,7 +95,7 @@ export class StudentComponent implements OnInit {
       }
     ).afterClosed().subscribe(
       () => {
-        this.ngOnInit();
+        window.location.reload();
       }
     );
   }
@@ -105,7 +120,7 @@ export class StudentComponent implements OnInit {
                   showConfirmButton: true
                 }).then(
                   () => {
-                    this.ngOnInit();
+                    window.location.reload();
                   }
                 );
               }
@@ -115,5 +130,4 @@ export class StudentComponent implements OnInit {
       }
     )
   }
-
 }

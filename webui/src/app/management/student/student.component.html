@@ -13,95 +13,193 @@
         </div>
     </mat-toolbar>
 
-    <div class="student-list">
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <mat-tab-group>
+        <mat-tab label="Đang học">
+            <div class="student-list">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                    <ng-container matColumnDef="stt">
+                        <th mat-header-cell *matHeaderCellDef>
+                            STT
+                        </th>
+                        <td mat-cell *matCellDef="let i = index">
+                            {{ i+1 }}
+                        </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="stt">
-                <th mat-header-cell *matHeaderCellDef>
-                    STT
-                </th>
-                <td mat-cell *matCellDef="let i = index">
-                    {{ i+1 }}
-                </td>
-            </ng-container>
+                    <ng-container matColumnDef="TK_TenDangNhap">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Tài Khoản
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.TK_TenDangNhap}}
+                        </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="TK_TenDangNhap">
-                <th mat-header-cell *matHeaderCellDef>
-                    Tài Khoản
-                </th>
-                <td mat-cell *matCellDef="let element">
-                    {{element.TK_TenDangNhap}}
-                </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_Id">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Mã HV
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.HV_Id}}
+                        </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_Id">
-                <th mat-header-cell *matHeaderCellDef>
-                    Mã HV
-                </th>
-                <td mat-cell *matCellDef="let element">
-                    {{element.HV_Id}}
-                </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_HoTen">
+                        <th mat-header-cell *matHeaderCellDef> Họ tên </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_HoTen}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="HV_NgaySinh">
+                        <th mat-header-cell *matHeaderCellDef> Ngày Sinh </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_NgaySinh | date:'dd-MM-yyyy'}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_HoTen">
-                <th mat-header-cell *matHeaderCellDef> Họ tên </th>
-                <td mat-cell *matCellDef="let element"> {{element.HV_HoTen}} </td>
-            </ng-container>
-            <ng-container matColumnDef="HV_NgaySinh">
-                <th mat-header-cell *matHeaderCellDef> Ngày Sinh </th>
-                <td mat-cell *matCellDef="let element"> {{element.HV_NgaySinh | date:'dd-MM-yyyy'}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_GioiTinh">
+                        <th mat-header-cell *matHeaderCellDef> Giới tính </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{(element.HV_GioiTinh==1)? 'Nam':'Nữ'}}
+                        </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_GioiTinh">
-                <th mat-header-cell *matHeaderCellDef> Giới tính </th>
-                <td mat-cell *matCellDef="let element">
-                    {{(element.HV_GioiTinh==1)? 'Nam':'Nữ'}}
-                </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_NoiSinh">
+                        <th mat-header-cell *matHeaderCellDef> Nơi sinh </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_NoiSinh}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_NoiSinh">
-                <th mat-header-cell *matHeaderCellDef> Nơi sinh </th>
-                <td mat-cell *matCellDef="let element"> {{element.HV_NoiSinh}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_Sdt">
+                        <th mat-header-cell *matHeaderCellDef> SĐT </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_Sdt}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_Sdt">
-                <th mat-header-cell *matHeaderCellDef> SĐT </th>
-                <td mat-cell *matCellDef="let element"> {{element.HV_Sdt}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="HV_Email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_Email}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="HV_Email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let element"> {{element.HV_Email}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="#">
+                        <th mat-header-cell *matHeaderCellDef> # </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu">
+                                <mat-icon>menu</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="infoClick(element.HV_Id)">
+                                    <mat-icon>infomation</mat-icon>
+                                    <span>Chi tiết</span>
+                                </button>
+                                <button mat-menu-item (click)="editClick(element.HV_Id)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Sửa</span>
+                                </button>
+                                <button mat-menu-item (click)="deleteClick(element.HV_Id)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Xoá</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="#">
-                <th mat-header-cell *matHeaderCellDef> # </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>menu</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="infoClick(element.HV_Id)">
-                            <mat-icon>infomation</mat-icon>
-                            <span>Chi tiết</span>
-                        </button>
-                        <button mat-menu-item (click)="editClick(element.HV_Id)">
-                            <mat-icon>edit</mat-icon>
-                            <span>Sửa</span>
-                        </button>
-                        <button mat-menu-item (click)="deleteClick(element.HV_Id)">
-                            <mat-icon>delete</mat-icon>
-                            <span>Xoá</span>
-                        </button>
-                    </mat-menu>
-                </td>
-            </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator1 [pageSize]="10"></mat-paginator>
+            </div>
+        </mat-tab>
+        <mat-tab label="Đã học">
+            <div class="text-center number" *ngIf="number2 == 0">
+                Chưa có dữ liệu
+            </div>
+            <div class="student-list" *ngIf="number2 != 0">
+                <table mat-table [dataSource]="dataSource1" matSort class="mat-elevation-z8">
+                    <ng-container matColumnDef="stt">
+                        <th mat-header-cell *matHeaderCellDef>
+                            STT
+                        </th>
+                        <td mat-cell *matCellDef="let i = index">
+                            {{ i+1 }}
+                        </td>
+                    </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[ 10, 20, 30, 40, 50]"
-            aria-label="Select page of periodic elements">
-        </mat-paginator>
-    </div>
+                    <ng-container matColumnDef="TK_TenDangNhap">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Tài Khoản
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.TK_TenDangNhap}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_Id">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Mã HV
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.HV_Id}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_HoTen">
+                        <th mat-header-cell *matHeaderCellDef> Họ tên </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_HoTen}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="HV_NgaySinh">
+                        <th mat-header-cell *matHeaderCellDef> Ngày Sinh </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_NgaySinh | date:'dd-MM-yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_GioiTinh">
+                        <th mat-header-cell *matHeaderCellDef> Giới tính </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{(element.HV_GioiTinh==1)? 'Nam':'Nữ'}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_NoiSinh">
+                        <th mat-header-cell *matHeaderCellDef> Nơi sinh </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_NoiSinh}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_Sdt">
+                        <th mat-header-cell *matHeaderCellDef> SĐT </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_Sdt}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HV_Email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.HV_Email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="#">
+                        <th mat-header-cell *matHeaderCellDef> # </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu">
+                                <mat-icon>menu</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="infoClick(element.HV_Id)">
+                                    <mat-icon>infomation</mat-icon>
+                                    <span>Chi tiết</span>
+                                </button>
+                                <button mat-menu-item (click)="editClick(element.HV_Id)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Sửa</span>
+                                </button>
+                                <button mat-menu-item (click)="deleteClick(element.HV_Id)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Xoá</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                </table>
+                <mat-paginator #paginator2 [pageSize]="10" [pageSizeOptions]="[ 10, 20, 30, 40, 50]"
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>

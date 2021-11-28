@@ -32,6 +32,7 @@ DangKyHoc.getByHocVien = (hvId, result) => {
         FROM DangKyHoc dk
         JOIN HocVien hv ON hv.HV_Id = dk.HV_Id
         JOIN LopHoc lh ON lh.LH_Id = dk.LH_Id
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         WHERE dk.HV_Id = ?
         `,
         hvId,
@@ -40,19 +41,40 @@ DangKyHoc.getByHocVien = (hvId, result) => {
                 console.log('Error while fetching', err);
                 result(null, err);
             } else {
-                console.log('Selected LH_Id successfully');
+                console.log('Selected HV_Id successfully');
                 result(null, res);
             }
         }
     );
 }
-DangKyHoc.getByLopHoc = (lhId, result) => {
+
+DangKyHoc.checkUnique = (lhId, hvId, result) => {
     dbConnect.query(
         `
         SELECT *
-        FROM DangKyHoc dk
+        FROM DangKyHoc
+        WHERE (LH_Id = ?) AND (HV_Id = ?)
+        `,
+        [
+            lhId, hvId
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error while checking', err);
+                result(null, err);
+            } else {
+                console.log('Checked successfully');
+                result(null, res[0]);
+            }
+        }
+    );
+}
+
+DangKyHoc.getByLopHoc = (lhId, result) => {
+    dbConnect.query(
+        `
+        SELECT * FROM DangKyHoc dk
         JOIN HocVien hv ON hv.HV_Id = dk.HV_Id
-        JOIN LopHoc lh ON lh.LH_Id = dk.LH_Id
         WHERE dk.LH_Id = ?
         `,
         lhId,
@@ -82,6 +104,22 @@ DangKyHoc.addNew = (data, result) => {
             }
         }
     );
+}
+
+DangKyHoc.deleteByStudent = (hvId, result) => {
+    dbConnect.query(
+        `DELETE FROM DangKyHoc WHERE HV_Id = ?`,
+        hvId,
+        (err, res) => {
+            if (err) {
+                console.log('Error while deleting', err);
+                result(null, err);
+            } else {
+                console.log('Deleted successfully');
+                result(null, res);
+            }
+        }
+    )
 }
 
 module.exports = DangKyHoc;

@@ -7,8 +7,6 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HocVienService {
-
-
   private REST_API_SERVER = 'http://localhost:3000/api/hocvien';
   private httpOptions = {
     headers: new HttpHeaders({
@@ -35,8 +33,22 @@ export class HocVienService {
       'Something bad happened; please try again later.');
   }
 
-  public getAll(): Observable<any> {
-    const url = `${this.REST_API_SERVER}`;
+  public getStudying(): Observable<any> {
+    const url = `${this.REST_API_SERVER}/studying`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getStudyed(): Observable<any> {
+    const url = `${this.REST_API_SERVER}/studyed`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(
@@ -50,7 +62,7 @@ export class HocVienService {
   }
 
   public getById(id: any): Observable<any> {
-    const url = `${this.REST_API_SERVER}/${id}`;
+    const url = `${this.REST_API_SERVER}/thongtin/${id}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(
@@ -73,6 +85,16 @@ export class HocVienService {
     const url = `${this.REST_API_SERVER}/${id}`;
 
     return this.httpClient.put<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => { return data; })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public changeAvatar(id: any, data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/avatar/${id}`;
+
+    return this.httpClient.patch<any>(url, data, this.httpOptions)
       .pipe(
         map((data) => { return data; })
       )

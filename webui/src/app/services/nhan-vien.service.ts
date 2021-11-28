@@ -75,6 +75,18 @@ export class NhanVienService {
       .pipe(catchError(this.handleError));
   }
 
+  public changeInfo(id: any, data: any) {
+    const url = `${this.REST_API_SERVER}/thongtin/${id}`;
+
+    return this.httpClient.patch<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   public deleteById(id: string): Observable<any> {
     const url = `${this.REST_API_SERVER}/${id}`;
 

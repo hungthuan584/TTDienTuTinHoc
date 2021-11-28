@@ -51,49 +51,49 @@
             <tr>
                 <th>Tên đăng nhập :</th>
                 <td>
-                    {{account?.TK_TenDangNhap}}
-                    <span *ngIf="account?.TK_XacThuc == 1" class="badge badge-success">
+                    {{teacher?.TK_TenDangNhap}}
+                    <span *ngIf="teacher?.TK_XacThuc == 1" class="badge badge-success">
                         <i class="fa fa-check-circle"></i> Đã xác thực
                     </span>
-                    <span *ngIf="account?.TK_XacThuc == 0" class="badge badge-warning">
+                    <span *ngIf="teacher?.TK_XacThuc == 0" class="badge badge-warning">
                         <i class="fa fa-times-circle"></i> Chưa xác thực
                     </span>
                 </td>
                 <th>Trạng thái :</th>
                 <td>
-                    <span *ngIf="account?.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
-                    <span *ngIf="account?.TK_IsActive == 0" class="badge badge-danger">Khoá</span>
+                    <span *ngIf="teacher?.TK_IsActive == 1" class="badge badge-success">Đang hoạt động</span>
+                    <span *ngIf="teacher?.TK_IsActive == 0" class="badge badge-danger">Khoá</span>
                 </td>
             </tr>
             <tr>
                 <th>Ngày tạo: </th>
-                <td>{{ account?.TK_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                <td>{{ teacher?.TK_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
                 <th>Ngày sửa đổi: </th>
-                <td *ngIf="account?.TK_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
-                <td *ngIf="account?.TK_UpdateDate != '0000-00-00 00:00:00'">
-                    {{account?.TK_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                <td *ngIf="teacher?.TK_UpdateDate == '0000-00-00 00:00:00'"> Chưa sửa đổi </td>
+                <td *ngIf="teacher?.TK_UpdateDate != '0000-00-00 00:00:00'">
+                    {{teacher?.TK_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="teacher?.TK_DeactivateDate != '0000-00-00 00:00:00'">
                 <th>Ngày khoá: </th>
-                <td *ngIf="account?.TK_DeactivateDate != '0000-00-00 00:00:00'">
-                    {{account?.TK_DeactivateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
-                </td>
-                <td>
-
-
+                <td colspan="3">
+                    {{teacher?.TK_DeactivateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
             </tr>
         </table>
     </div>
     <div class="text-center">
-        <button mat-stroked-button color="primary" (click)="editClick(teacher?.GV_Id)">Sửa thông tin</button>&nbsp;
-        <button *ngIf="account?.TK_IsActive == 1" mat-stroked-button color="warn"
-            (click)="lockAccount(account?.TK_TenDangNhap)">
-            Khoá tài khoản
-        </button>
-        <button *ngIf="account?.TK_IsActive == 0" mat-stroked-button color="primary"
-            (click)="unlockAccount(account?.TK_TenDangNhap)">
+        <button mat-stroked-button color="primary" (click)="editClick(teacher?.NV_Id)">Sửa thông tin</button>&nbsp;
+        <span *ngIf="teacher?.TK_IsActive == 1">
+            <button mat-stroked-button color="warn" (click)="lockAccount(teacher?.TK_TenDangNhap)">
+                Khoá tài khoản
+            </button>&nbsp;
+            <button mat-stroked-button color="primary" (click)="resetPassword(teacher?.TK_TenDangNhap)">
+                Đặt lại mật khẩu
+            </button>
+        </span>
+        <button *ngIf="teacher?.TK_IsActive == 0" mat-icon-button color="primary"
+            (click)="unlockAccount(teacher?.TK_TenDangNhap)">
             Mở khoá tài khoản
         </button>&nbsp;
         <button mat-stroked-button (click)="closeClick()">Đóng</button>

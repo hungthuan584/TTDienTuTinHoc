@@ -5,7 +5,9 @@ const ThongBaoController = require('../controllers/ThongBao.controller');
 
 route.get('/', ThongBaoController.getAll);
 
-route.get('/:id', ThongBaoController.getById);
+route.get('/thongtin/:id', ThongBaoController.getById);
+
+route.get('/lophoc/:id', ThongBaoController.getByLopHoc);
 
 route.post('/', ThongBaoController.addNew);
 

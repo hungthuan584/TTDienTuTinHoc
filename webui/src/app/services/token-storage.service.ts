@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 const STATUS_KEY = 'loginStatus';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'loginAccount';
+const PERS_KEY = 'listPers';
+const REQCHANGE_KEY = 'requestChangePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,17 @@ const USER_KEY = 'loginAccount';
 export class TokenStorageService {
 
   constructor(
-    
+
   ) { }
+
+  public saveReqChange(isFirst: any): void {
+    window.sessionStorage.removeItem(REQCHANGE_KEY);
+    window.sessionStorage.setItem(REQCHANGE_KEY, isFirst);
+  }
+
+  public getReqChange(): string {
+    return sessionStorage.getItem(REQCHANGE_KEY) || '0';
+  }
 
   public saveStatus(status: any): void {
     window.sessionStorage.removeItem(STATUS_KEY);
@@ -42,6 +51,20 @@ export class TokenStorageService {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);
+    }
+    return {};
+  }
+
+  public savePermission(pers: any): any {
+    window.sessionStorage.removeItem(PERS_KEY);
+    window.sessionStorage.setItem(PERS_KEY, JSON.stringify(pers));
+  }
+
+  public getPermission(): any {
+
+    const pers = window.sessionStorage.getItem(PERS_KEY);
+    if (pers) {
+      return JSON.parse(pers);
     }
     return {};
   }

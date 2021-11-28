@@ -2,16 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AuthService } from 'src/app/services/auth.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
-import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Swal from 'sweetalert2';
 import { InfoClassComponent } from './info-class/info-class.component';
 import { ClassFormComponent } from '../form/class-form/class-form.component';
+import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
+import { ClassListComponent } from './class-list/class-list.component';
+import { NotifyComponent } from '../notify/notify.component';
 
 export interface ClassDialogData {
   title: string;
   lhId: string;
+  tbId: string;
 }
 
 
@@ -24,25 +26,32 @@ export class HomeComponent implements OnInit {
 
   displayedColumns: string[] = ['stt', 'id', 'tenlop', 'thoigianhoc', 'ngaykhaigiang', 'soluong', 'phonghoc', 'giaovien', '#'];
   dataSource!: MatTableDataSource<any>;
+  displayedColumns1: string[] = ['stt', 'id', 'tenlop', 'thoigianhoc', 'ngaykhaigiang', 'soluong', 'phonghoc', 'giaovien', 'ngayhoanthanh', '#'];
+  dataSource1!: MatTableDataSource<any>;
+
+  number: any;
 
   constructor(
     public dialog: MatDialog,
     private lophoc: LopHocService,
-    private tokenStorage: TokenStorageService,
-    private authService: AuthService
   ) { }
   @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild('paginator1') paginator1!: MatPaginator;
 
   ngOnInit(): void {
-    this.lophoc.getAll().subscribe(
+    this.lophoc.getOpening().subscribe(
       (result) => {
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
       }
     );
 
-    var loginUser = this.tokenStorage.getUser();
-
+    this.lophoc.getCompleted().subscribe(
+      (result) => {
+        this.dataSource1 = new MatTableDataSource(result);
+        this.dataSource1.paginator = this.paginator1;
+      }
+    );
   }
 
   addClick() {
@@ -73,6 +82,17 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  postNotify(lhId: string) {
+    this.dialog.open(
+      NotifyComponent,
+      {
+        data: { title: 'Nội dung thông báo', lhId: lhId },
+        autoFocus: false,
+        restoreFocus: false
+      }
+    )
+  }
+
   editClick(id: string) {
     this.dialog.open(
       ClassFormComponent,
@@ -94,7 +114,8 @@ export class HomeComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Hoàn thành'
+      confirmButtonText: 'Hoàn thành',
+      cancelButtonText: 'Huỷ'
     }).then(
       (result) => {
         if (result.isConfirmed) {
@@ -118,4 +139,17 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  showListStudent(lhId: any) {
+    this.dialog.open(
+      ClassListComponent,
+      {
+        data: {
+          title: 'Danh sách học viên',
+          lhId: lhId
+        },
+        autoFocus: false,
+        restoreFocus: false
+      }
+    );
+  }
 }

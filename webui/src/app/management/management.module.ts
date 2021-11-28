@@ -47,6 +47,14 @@ import { StudentInfomationComponent } from './student/student-infomation/student
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeFormComponent } from './form/employee-form/employee-form.component';
 import { EmployeeInfomationComponent } from './employee/employee-infomation/employee-infomation.component';
+import { PermissionComponent } from './permission/permission.component';
+import { ClassListComponent } from './home/class-list/class-list.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ChangeInfoComponent } from './profile/change-info/change-info.component';
+import { ChangeAvatarComponent } from './profile/change-avatar/change-avatar.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { NotifyComponent } from './notify/notify.component';
+import { AddNotifyComponent } from './form/add-notify/add-notify.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +77,15 @@ import { EmployeeInfomationComponent } from './employee/employee-infomation/empl
     StudentInfomationComponent,
     EmployeeComponent,
     EmployeeFormComponent,
-    EmployeeInfomationComponent
+    EmployeeInfomationComponent,
+    PermissionComponent,
+    ClassListComponent,
+    ProfileComponent,
+    ChangeInfoComponent,
+    ChangeAvatarComponent,
+    ChangePasswordComponent,
+    NotifyComponent,
+    AddNotifyComponent
   ],
   imports: [
     CommonModule,

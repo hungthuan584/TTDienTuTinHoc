@@ -14,7 +14,7 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse request data content type application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "100mb" }));
 
 app.use(cors({ origin: 'http://localhost:4200' }));
 
@@ -31,7 +31,10 @@ const giaoVienRoute = require('./routes/GiaoVien.route');
 const dangKyHocRoute = require('./routes/DangKyHoc.route');
 const nhanVienRoute = require('./routes/NhanVien.route');
 const chucVuRoute = require('./routes/ChucVu.route');
+const chucNangRoute = require('./routes/ChucNang.route');
 const phanQuyenRoute = require('./routes/PhanQuyen.route');
+const uploadImageRoute = require('./uploadImage.route');
+const lienHeRoute = require('./routes/LienHe.route');
 
 // ******************* USE ROUTE ***********************************
 app.use('/api/phonghoc', phonghocRoute);
@@ -46,7 +49,10 @@ app.use('/api/giaovien', giaoVienRoute);
 app.use('/api/dangkyhoc', dangKyHocRoute);
 app.use('/api/nhanvien', nhanVienRoute);
 app.use('/api/chucvu', chucVuRoute);
+app.use('/api/chucnang', chucNangRoute);
 app.use('/api/phanquyen', phanQuyenRoute);
+app.use('/api/images', uploadImageRoute);
+app.use('/api/lienhe', lienHeRoute);
 
 // ********************************************************************
 app.listen(port, () => {

@@ -1,0 +1,13 @@
+<div class="avatar-box">
+    <h2>{{data.title}}</h2>
+    <div class="text-center">
+        <img [src]="imageUrl" width="200px" height="200px" alt="Ảnh đại diện">
+    </div>
+    <div class="text-center" style="margin: 10px;">
+        <input type="file"  (change)="onSelectFile($event)">
+    </div>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>&nbsp;
+        <button mat-raised-button (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

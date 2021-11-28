@@ -5,6 +5,8 @@ var TaiKhoan = function (TaiKhoan) {
     this.TK_MatKhau = TaiKhoan.TK_MatKhau;
     this.Q_Id = TaiKhoan.Q_Id;
     this.TK_XacThuc = TaiKhoan.TK_XacThuc;
+    this.TK_NumberOfLogin = TaiKhoan.TK_NumberOfLogin;
+    this.TK_AnhDaiDien = TaiKhoan.TK_AnhDaiDien;
     this.TK_IsActive = TaiKhoan.TK_IsActive;
     this.TK_CreateDate = new Date();
     this.TK_UpdateDate = new Date();
@@ -94,7 +96,7 @@ TaiKhoan.updatePassword = (username, password, result) => {
         (err, res) => {
             if (err) {
                 console.log('Error while updating');
-                result(err, null);
+                result(null, err);
             } else {
                 console.log('Updated successfully!');
                 result(null, res);
@@ -113,7 +115,23 @@ TaiKhoan.changeRole = (username, qId, result) => {
         (err, res) => {
             if (err) {
                 console.log('Error while changing');
-                result(err, null);
+                result(null, err);
+            } else {
+                console.log('Changed successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+
+TaiKhoan.changeAvatar = (username, data, result) => {
+    dbConnect.query(
+        `UPDATE TaiKhoan SET TK_AnhDaiDien = ?, TK_UpdateDate = CURRENT_TIMESTAMP() WHERE TK_TenDangNhap = ?`,
+        [data, username],
+        (err, res) => {
+            if (err) {
+                console.log('Error while changing');
+                result(null, err);
             } else {
                 console.log('Changed successfully!');
                 result(null, res);
@@ -130,7 +148,7 @@ TaiKhoan.blockedByUsername = (username, result) => {
         (err, res) => {
             if (err) {
                 console.log('Error while blocking', err);
-                result(err, null);
+                result(null, err);
             } else {
                 console.log('Blocked successfully!');
                 result(null, res)
@@ -147,10 +165,30 @@ TaiKhoan.activeByUsername = (username, result) => {
         (err, res) => {
             if (err) {
                 console.log('Error while active', err);
-                result(err, null);
+                result(null, err);
             } else {
                 console.log('Actived successfully!');
-                result(null, res)
+                result(null, res);
+            }
+        }
+    );
+}
+
+TaiKhoan.countLogin = (username, result) => {
+    dbConnect.query(
+        `UPDATE taikhoan
+        SET TK_NumberOfLogin = (SELECT TK_NumberOfLogin FROM taikhoan WHERE TK_TenDangNhap = ?)+1
+        WHERE TK_TenDangNhap = ?`,
+        [
+            username, username
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error while active', err);
+                result(null, err);
+            } else {
+                console.log('Actived successfully!');
+                result(null, res);
             }
         }
     );

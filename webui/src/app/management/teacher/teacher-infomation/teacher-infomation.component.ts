@@ -4,7 +4,7 @@ import { GiaoVienService } from 'src/app/services/giao-vien.service';
 import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
 import Swal from 'sweetalert2';
 import { TeacherFormComponent } from '../../form/teacher-form/teacher-form.component';
-import { teacherDialogData } from '../teacher.component';
+import { teacherDialogData } from '../../teacher/teacher.component';
 
 @Component({
   selector: 'app-teacher-infomation',
@@ -21,18 +21,15 @@ export class TeacherInfomationComponent implements OnInit {
 
     public dialog: MatDialog,
     private giaovien: GiaoVienService,
-    private taikhoan: TaiKhoanService,
+    private taikhoan: TaiKhoanService
   ) { }
 
   ngOnInit(): void {
     this.giaovien.getById(this.data.id).subscribe(
       (result) => {
         this.teacher = result;
-      }
-    );
-    this.taikhoan.getByUsername(this.data.id).subscribe(
-      (result) => {
-        this.account = result;
+        console.log('Data', this.teacher);
+
       }
     );
   }
@@ -49,69 +46,102 @@ export class TeacherInfomationComponent implements OnInit {
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
+      }
+    );
+  }
+
+  lockAccount(username: any) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Khoá tài khoản?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Khoá'
+    }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.taikhoan.lockAccount(username).subscribe(
+            (res) => {
+              if (res.status == 1) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Khoá tài khoản'
+                }).then(
+                  () => {
+                    this.ngOnInit();
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  unlockAccount(username: any) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Mở khoá tài khoản?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Mở khoá'
+    }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.taikhoan.unlockAccount(username).subscribe(
+            (res) => {
+              if (res.status == 1) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Đã mở khoá'
+                }).then(
+                  () => {
+                    this.ngOnInit();
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  resetPassword(username: any) {
+    Swal.fire({
+      icon: 'question',
+      title: 'Đặt lại mật khẩu?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Đặt lại'
+    }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.taikhoan.resetPassword(username).subscribe(
+            (res) => {
+              if (res.status == 1) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Đặt lại'
+                }).then(
+                  () => {
+                    this.ngOnInit();
+                  }
+                );
+              }
+            }
+          );
+        }
       }
     );
   }
 
   closeClick() {
     this.dialogRef.close();
-  }
-
-  lockAccount(username: string) {
-    Swal.fire({
-      title: 'Khoá tài khoản',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Vẫn khoá'
-    }).then((result) => {
-      if (result.isConfirmed) {
-
-        this.taikhoan.lockAccount(username).subscribe(
-          (res) => {
-            Swal.fire({
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: true
-            }).then(
-              () => {
-                this.ngOnInit();
-              }
-            );
-          }
-        );
-
-      }
-    })
-  }
-
-  unlockAccount(username: string) {
-    Swal.fire({
-      title: 'Mở khoá tài khoản',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#2ecc71',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Mở khoá'
-    }).then((result) => {
-      if (result.isConfirmed) {
-
-        this.taikhoan.unlockAccount(username).subscribe(
-          (res) => {
-            Swal.fire({
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: true
-            }).then(
-              () => {
-                this.ngOnInit();
-              }
-            );
-          }
-        );
-      }
-    })
   }
 }

@@ -7,8 +7,10 @@ exports.getAll = (req, res) => {
         (err, NhanVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                NhanVien.TK_MatKhau = undefined;
+                return res.json(NhanVien);
             }
-            return res.json(NhanVien);
         }
     );
 }
@@ -19,8 +21,10 @@ exports.getById = (req, res) => {
         (err, NhanVien) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
+            } else {
+                NhanVien.TK_MatKhau = undefined;
+                return res.json(NhanVien);
             }
-            return res.json(NhanVien);
         }
     );
 }
@@ -140,7 +144,6 @@ exports.addNew = (req, res) => {
 }
 
 exports.updateById = (req, res) => {
-
     const data = new NhanVienModel(req.body);
 
     if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
@@ -169,6 +172,26 @@ exports.updateById = (req, res) => {
                 }
             );
         }
+    }
+}
+
+exports.changeInfo = (req, res) => {
+
+    const NhanVienReqData = new NhanVienModel(req.body);
+    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+    } else {
+        NhanVienModel.changeInfo(
+            req.params.id,
+            NhanVienReqData,
+            (err) => {
+                if (err) {
+                    return res.status(500).json({ status: 0, message: err });
+                } else {
+                    return res.json({ status: 1, message: 'Changed successfully' });
+                }
+            }
+        );
     }
 }
 

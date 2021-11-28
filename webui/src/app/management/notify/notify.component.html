@@ -1,0 +1,45 @@
+<div class="notify-box">
+    <h2>{{data.title}}</h2>
+    <h4>{{lophoc}}</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Nội dung</th>
+                <th>Người đăng</th>
+                <th>Ngày đăng</th>
+                <th>Người sửa</th>
+                <th>Ngày sửa</th>
+                <th class="text-center">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tb of notify; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{tb.TB_NoiDung}}</td>
+                <td>{{tb.TB_CreateBy}}</td>
+                <td>{{tb.TB_CreateDate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                <td>{{tb.TB_UpdateBy}}</td>
+                <td *ngIf="tb.TB_UpdateDate=='0000-00-00 00:00:00'"></td>
+                <td *ngIf="tb.TB_UpdateDate!='0000-00-00 00:00:00'">{{tb.TB_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                <td class="text-center">
+                    <button mat-icon-button color="primary" (click)="editClick(tb.TB_Id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>&nbsp;
+                    <button mat-icon-button color="warn" (click)="deleteClick(tb.TB_Id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="nullList">
+                <td colspan="6" style="color: gray; text-align: center;">
+                    Chưa có thông báo
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="addClick()">Đăng thông báo</button>&nbsp;
+        <button mat-raised-button (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

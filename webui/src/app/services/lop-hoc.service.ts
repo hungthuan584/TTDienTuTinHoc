@@ -26,8 +26,19 @@ export class LopHocService {
     return throwError('There is a problem with the service. We are notified & working on it. Please try again later.');
   }
 
-  public getAll(): Observable<any> {
-    const url = `${this.REST_API_SERVER}`;
+  public getOpening(): Observable<any> {
+    const url = `${this.REST_API_SERVER}/opening`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+  public getCompleted(): Observable<any> {
+    const url = `${this.REST_API_SERVER}/completed`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(

@@ -1,35 +1,30 @@
 <mat-toolbar>
-    <!-- <div class="name py-4">
-        <a routerLink="trang-chu"> <img src="../../../assets/images/logo.png" alt="" style="width: 50px;">
-            TRUNG TÂM ĐIỆN TỬ & TIN HỌC
-        </a>
-    </div> -->
     <div class="spacer"></div>
     <a mat-button routerLink="trang-chu">
         Trang chủ
     </a>
     <a mat-button routerLink="gioi-thieu" routerLinkActive="router-link-active">Giới Thiệu</a>
     <a mat-button routerLink="chieu-sinh" routerLinkActive="router-link-active">Chiêu Sinh</a>
+    <a mat-button routerLink="thong-bao" routerLinkActive="router-link-active">Thông báo</a>
     <a mat-button [matMenuTriggerFor]="menuGiaoVu">Giáo Vụ</a>
     <a mat-button routerLink="lien-he" routerLinkActive="router-link-active">Liên Hệ</a>
-    <button mat-raised-button color="warn" *ngIf="!isLoggedIn" (click)="loginClick()">Đăng nhập</button>
-    <button *ngIf="isLoggedIn" mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
-        &nbsp; username &nbsp;
+    <button *ngIf="loginStatus == false" mat-raised-button color="warn" (click)="loginClick()">Đăng nhập</button>
+    <button *ngIf="loginStatus == true" mat-button [matMenuTriggerFor]="menu">
+        <img [src]="imageUrl" alt="Ảnh đại diện" width="40px" height="40px" style="border-radius: 50%;">
+        &nbsp; {{currentUser?.HV_HoTen}} &nbsp;
         <mat-icon>expand_more</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
         <a routerLink="ca-nhan" routerLinkActive="router-link-active" mat-menu-item>
             <mat-icon>person</mat-icon> Trang cá nhân
         </a>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="logoutClick()">
             <mat-icon>logout</mat-icon> Đăng xuất
         </button>
     </mat-menu>
     <mat-menu #menuGiaoVu="matMenu">
         <button mat-menu-item routerLink="score">Tra cứu điểm thi</button>
         <button mat-menu-item routerLink="certificate">Tra cứu văn bằng</button>
-        <button mat-menu-item routerLink="notification">Thông báo</button>
         <button mat-menu-item routerLink="rate">Đánh giá cuối khoá học</button>
     </mat-menu>
 </mat-toolbar>

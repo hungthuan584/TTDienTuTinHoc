@@ -13,17 +13,18 @@
 
 .search-box {
     mat-form-field {
-        margin-top: 20px;
+        margin-top: 15px;
         width: 600px;
         font-size: 14px;
     }
 }
 
+.mat-tab-group{
+    background-color: #ffffff;
+}
+
 table {
     width: 100%;
-    th {
-        font-size: 13px;
-    }
     td {
         vertical-align: middle;
     }

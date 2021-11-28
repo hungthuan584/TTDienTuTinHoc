@@ -1,0 +1,44 @@
+<div class="contact-info">
+    <h2>ĐỂ LẠI THÔNG TIN LIÊN HỆ</h2>
+    <hr style="margin-bottom: 0;">
+    <form [formGroup]="contactForm">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 60%;">
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="CT_HoTen" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.CT_HoTen">
+                    * {{ formErrors.CT_HoTen }}
+                </span>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 38%;">
+                <mat-label>Số điện thoại</mat-label>
+                <input type="text" matInput formControlName="CT_Sdt" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.CT_Sdt">
+                    * {{ formErrors.CT_Sdt }}
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 99%;">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="CT_Email" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.CT_Email">
+                    * {{ formErrors.CT_Email }}
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 99%;">
+                <mat-label>Nội dung</mat-label>
+                <textarea matInput rows="5" formControlName="CT_NoiDung" (blur)="logValidationErrors()"></textarea>
+                <span class="help-block" *ngIf="formErrors.CT_NoiDung">
+                    * {{ formErrors.CT_NoiDung }}
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="text-center">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Gửi</button> &nbsp;
+            <button mat-raised-button (click)="onReset()">Nhập lại</button>
+        </div>
+    </form>
+</div>

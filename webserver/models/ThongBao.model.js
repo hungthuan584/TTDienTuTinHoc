@@ -2,9 +2,10 @@ var dbConnect = require('../db.config');
 
 var ThongBao = function (ThongBao) {
     this.TB_Id = ThongBao.TB_Id;
-    this.GV_Id = ThongBao.GV_Id;
     this.LH_Id = ThongBao.LH_Id;
     this.TB_NoiDung = ThongBao.TB_NoiDung;
+    this.TB_CreateBy = ThongBao.TB_CreateBy;
+    this.TB_UpdateBy = ThongBao.TB_UpdateBy;
     this.TB_IsDelete = ThongBao.TB_IsDelete;
     this.TB_CreateDate = new Date();
     this.TB_UpdateDate = new Date();
@@ -13,7 +14,7 @@ var ThongBao = function (ThongBao) {
 
 ThongBao.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM ThongBao tb JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id WHERE TB_IsDelete != 1`,
+        `SELECT * FROM ThongBao tb JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id WHERE TB_IsDelete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error while selecting', err);
@@ -29,7 +30,7 @@ ThongBao.getAll = (result) => {
 
 ThongBao.conutNumber = (result) => {
     dbConnect.query(
-        `SELECT * FROM ThongBao WHERE YEAR(TB_CreateDate) = YEAR(CURDATE())`,
+        `SELECT * FROM ThongBao`,
         (err, res) => {
             if (err) {
                 console.log('Error while counting');
@@ -48,11 +49,11 @@ ThongBao.getById = (id, result) => {
         `
         SELECT *
         FROM ThongBao tb
-        JOIN GiaoVien gv ON gv.GV_Id = tb.GV_Id
-        JOIN LopHoc ON lh.LH_Id = tb.LH_Id
+        JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         WHERE 
-            (tb.TB_Id = '${id})' OR (tb.LH_Id = '${id}') OR (tb.GV_Id = '${id}')
-        `,
+            tb.TB_Id = ?
+        `, id,
         (err, res) => {
             if (err) {
                 console.log('Error while selecting', err);
@@ -61,6 +62,29 @@ ThongBao.getById = (id, result) => {
             else {
                 console.log('Selected by id Successfully');
                 result(null, res[0]);
+            }
+        }
+    );
+}
+ThongBao.getByLopHoc = (lhId, result) => {
+    dbConnect.query(
+        `
+        SELECT *
+        FROM ThongBao tb
+        JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
+        WHERE 
+            tb.LH_Id = ?
+        ORDER BY tb.TB_CreateDate DESC
+        `, lhId,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected by id Successfully');
+                result(null, res);
             }
         }
     );
@@ -88,16 +112,14 @@ ThongBao.updateById = (id, data, result) => {
         `
         UPDATE ThongBao
         SET 
-            GV_Id = ?,
-            LH_Id = ?,
             TB_NoiDung = ?,
+            TB_UpdateBy = ?,
             TB_UpdateDate = CURRENT_TIMESTAMP()
         WHERE TB_Id = ?
         `,
         [
-            data.GV_Id,
-            data.LH_Id,
             data.TB_NoiDung,
+            data.TB_UpdateBy,
             id
         ],
         (err, res) => {

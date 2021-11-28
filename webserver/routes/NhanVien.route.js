@@ -11,6 +11,8 @@ route.post('/', NhanVienController.addNew);
 
 route.put('/:id', NhanVienController.updateById);
 
+route.patch('/thongtin/:id', NhanVienController.changeInfo);
+
 route.delete(':/id', NhanVienController.deleteById);
 
 module.exports = route;

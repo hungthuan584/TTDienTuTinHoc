@@ -1,6 +1,6 @@
 .login-box {
     position: fixed;
-    top: 25%;
+    top: 20%;
     left: 40%;
     h2 {
         padding: 20px;
@@ -11,9 +11,18 @@
     z-index: 1000 !important;
     background-color: #ffffff;
     width: 20%;
-    height: 40%;
+    height: 45%;
     border-radius: 5px;
-    form{
+    form {
         margin: 20px;
     }
+}
+
+.code {
+    background-color: #b2bec3;
+    color: #000000;
+    padding: 10px 15px;
+    font-size: 20px;
+    text-decoration: wavy;
+    font-family: 'Courier New', Courier, monospace;
 }

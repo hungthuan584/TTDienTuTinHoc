@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
+import Swal from 'sweetalert2';
 import { StudentDialogData } from '../../student/student.component';
 
 @Component({
@@ -14,6 +16,17 @@ import { StudentDialogData } from '../../student/student.component';
 })
 export class StudentFormComponent implements OnInit {
 
+  fillData = {
+    HV_NgaySinh: '1999-10-06',
+    HV_NoiSinh: 'Cần Thơ',
+    HV_Cmnd: '123456789',
+    HV_NgayCapCmnd: '2017-11-03',
+    HV_NoiCapCmnd: 'Cần Thơ',
+    HV_DanToc: 'Kinh',
+    HV_QuocTich: 'Việt Nam',
+    HV_Sdt: '0987654321',
+    HV_Email: 'abcd@gmail.com',
+  }
   studentForm!: FormGroup;
   dsLopHoc: any;
 
@@ -55,11 +68,13 @@ export class StudentFormComponent implements OnInit {
     },
     HV_Sdt: {
       required: 'Nhập số điện thoại',
-      partern: 'Số điện thoại không đúng'
+      pattern: 'Số điện thoại không đúng'
     },
     HV_Email: {
       required: 'Nhập email',
-      email: 'Email không đúng'
+      email: 'Email không đúng',
+      maxlength: 'Email không được quá dài',
+      minlength: 'Email không được quá ngắn'
     }
   }
 
@@ -68,6 +83,7 @@ export class StudentFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<StudentFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: StudentDialogData,
+
     private fb: FormBuilder,
     private hocvien: HocVienService,
     private lophoc: LopHocService,
@@ -86,8 +102,8 @@ export class StudentFormComponent implements OnInit {
       HV_NoiCapCmnd: ['', Validators.required],
       HV_DanToc: ['', Validators.required],
       HV_QuocTich: ['', Validators.required],
-      HV_Sdt: ['', Validators.required],
-      HV_Email: ['', Validators.required],
+      HV_Sdt: ['', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
+      HV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
       HV_Mssv: ['']
     });
 
@@ -100,7 +116,8 @@ export class StudentFormComponent implements OnInit {
         }
       }
     );
-    this.lophoc.getAll().subscribe(
+
+    this.lophoc.getOpening().subscribe(
       (result) => {
         this.dsLopHoc = result;
       }
@@ -109,13 +126,15 @@ export class StudentFormComponent implements OnInit {
     if (this.data.id) {
       this.hocvien.getById(this.data.id).subscribe(
         (result) => {
-          
+          this.setValueForm(result);
         }
-      )
+      );
+    } else {
+      this.setValueForm(this.fillData);
     }
 
     this.studentForm.valueChanges.subscribe(
-      (data) => {
+      () => {
         this.logValidationErrors(this.studentForm);
       }
     );
@@ -154,14 +173,127 @@ export class StudentFormComponent implements OnInit {
     });
   }
 
+  setValueForm(data: any) {
+    this.studentForm.controls['LH_Id'].setValue(data.LH_Id);
+    // this.studentForm.controls['LH_Id'].disable();
+    this.studentForm.controls['HV_HoTen'].setValue(data.HV_HoTen);
+    this.studentForm.controls['HV_GioiTinh'].setValue(data.HV_GioiTinh);
+    this.studentForm.controls['HV_NgaySinh'].setValue(moment(data.HV_NgaySinh).format('YYYY-MM-DD'));
+    this.studentForm.controls['HV_NoiSinh'].setValue(data.HV_NoiSinh);
+    this.studentForm.controls['HV_Cmnd'].setValue(data.HV_Cmnd);
+    this.studentForm.controls['HV_NgayCapCmnd'].setValue(moment(data.HV_NgayCapCmnd).format('YYYY-MM-DD'));
+    this.studentForm.controls['HV_NoiCapCmnd'].setValue(data.HV_NoiCapCmnd);
+    this.studentForm.controls['HV_DanToc'].setValue(data.HV_DanToc);
+    this.studentForm.controls['HV_QuocTich'].setValue(data.HV_QuocTich);
+    this.studentForm.controls['HV_Sdt'].setValue(data.HV_Sdt);
+    this.studentForm.controls['HV_Email'].setValue(data.HV_Email);
+    this.studentForm.controls['HV_Mssv'].setValue(data.HV_Mssv);
+  }
+
   onCreate() {
     if (this.data.id) {
       if (this.studentForm.valid) {
-        console.log('Data: ', this.studentForm.value);
+        Swal.fire({
+          title: 'Cập nhật thông tin?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Cập nhật'
+        }).then(
+          (result) => {
+            if (result.isConfirmed) {
+              this.hocvien.updateById(this.data.id, this.studentForm.value).subscribe(
+                (res) => {
+                  if (res.status == 1) {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Cập nhật thành công',
+                      showConfirmButton: true
+                    }).then(
+                      () => {
+                        this.dialogRef.close();
+                      }
+                    );
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Lỗi!',
+                      showConfirmButton: true
+                    }).then(
+                      () => {
+                        this.ngOnInit();
+                      }
+                    );
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     } else {
       if (this.studentForm.valid) {
-        console.log('Data: ', this.studentForm.value);
+
+        var lop = this.studentForm.controls['LH_Id'].value;
+
+        this.dangky.getByLopHoc(lop).subscribe(
+          (danhsachlop) => {
+            if (danhsachlop.status == 1) {
+              this.lophoc.getById(lop).subscribe(
+                (timlophoc) => {
+                  console.log('So hoc vien: ', danhsachlop.siso, 'Si so lop: ', timlophoc.LH_SiSo);
+                  if (danhsachlop.siso < timlophoc.LH_SiSo) {
+                    Swal.fire({
+                      title: 'Lưu thông tin?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Lưu'
+                    }).then(
+                      (result) => {
+                        if (result.isConfirmed) {
+                          this.hocvien.addNew(this.studentForm.value).subscribe(
+                            (res) => {
+                              if (res.status == 1) {
+                                Swal.fire({
+                                  icon: 'success',
+                                  title: 'Thêm thành công',
+                                  showConfirmButton: true
+                                }).then(
+                                  () => {
+                                    this.dialogRef.close();
+                                  }
+                                );
+                              } else {
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'Lỗi!',
+                                  showConfirmButton: true
+                                }).then(
+                                  () => {
+                                    this.ngOnInit();
+                                  }
+                                );
+                              }
+                            }
+                          );
+                        }
+                      }
+                    );
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Lớp học đủ số lượng',
+                      showConfirmButton: true
+                    });
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     }
   }

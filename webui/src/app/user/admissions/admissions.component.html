@@ -6,6 +6,7 @@
                 <th>Mã lớp</th>
                 <th>Tên lớp</th>
                 <th class="text-center">Số lượng</th>
+                <th class="text-center">Thời gian học</th>
                 <th class="text-center">Ngày khai giảng</th>
                 <th class="text-center">#</th>
             </tr>
@@ -22,10 +23,13 @@
                     {{ lophoc.LH_SiSo }}
                 </td>
                 <td class="text-center">
+                    {{lophoc.LH_NgayHoc}}&nbsp;{{lophoc.LH_GioBatDau}}-{{lophoc.LH_GioKetThuc}}
+                </td>
+                <td class="text-center">
                     {{ lophoc.LH_NgayKhaiGiang | date: 'dd/MM/yyyy' }}
                 </td>
                 <td class="text-center">
-                    <button mat-raised-button color="accent">Đăng ký ngay</button>
+                    <button mat-raised-button color="accent" (click)="registerClick(lophoc.LH_Id)">Đăng ký ngay</button>
                 </td>
             </tr>
         </tbody>

@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
 import Swal from 'sweetalert2';
 import { ClassFormComponent } from '../../form/class-form/class-form.component';
+import { ClassListComponent } from '../class-list/class-list.component';
 import { ClassDialogData } from '../home.component';
 
 @Component({
@@ -13,19 +15,26 @@ import { ClassDialogData } from '../home.component';
 export class InfoClassComponent implements OnInit {
 
   lophocInfo: any;
-
+  number: any;
   constructor(
     public dialogRef: MatDialogRef<InfoClassComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ClassDialogData,
 
     public dialog: MatDialog,
-    private lophoc: LopHocService
+    private lophoc: LopHocService,
+    private dangkyhoc: DangKyHocService
   ) { }
 
   ngOnInit(): void {
     this.lophoc.getById(this.data.lhId).subscribe(
       (result) => {
         this.lophocInfo = result;
+      }
+    );
+
+    this.dangkyhoc.getByLopHoc(this.data.lhId).subscribe(
+      (result) => {
+        this.number = result.siso;
       }
     );
   }
@@ -74,6 +83,20 @@ export class InfoClassComponent implements OnInit {
             }
           );
         }
+      }
+    );
+  }
+
+  showListStudent(lhId: any) {
+    this.dialog.open(
+      ClassListComponent,
+      {
+        data: {
+          title: 'Danh sách học viên',
+          lhId: lhId
+        },
+        autoFocus: false,
+        restoreFocus: false
       }
     );
   }

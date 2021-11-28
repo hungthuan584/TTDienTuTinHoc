@@ -1,0 +1,66 @@
+<div class="class-box">
+    <div class="title">
+        <h3>{{ data.title }}</h3>
+        <h4>Lớp : {{ class?.LH_Id }} - {{ class?.LDT_Ten }} &nbsp; Sỉ số: {{ number }}/{{class?.LH_SiSo}}</h4>
+
+    </div>
+    <div class="student-list">
+        <table  *ngIf="number!=0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="stt">
+                <th mat-header-cell *matHeaderCellDef>
+                    STT
+                </th>
+                <td mat-cell *matCellDef="let i = index">
+                    {{ i+1 }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>
+                    Mã học viên
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.HV_Id }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="hoten">
+                <th mat-header-cell *matHeaderCellDef>
+                    Họ tên
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.HV_HoTen }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="gioitinh">
+                <th mat-header-cell *matHeaderCellDef>
+                    Giới tính
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ (element.HV_GioiTinh == 1)? 'Nam':'Nữ' }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef style="width: 1%; text-align: center;">
+                    #
+                </th>
+                <td mat-cell *matCellDef="let element" style="width: fit-content; text-align: right;">
+                    <button mat-icon-button color="warn" (click)="deleteClick(element.HV_Id)">
+                        <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="text-center empty" *ngIf="number==0">
+            Danh sách trống
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30, 40]"
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="closeClick()">
+            Đóng
+        </button>
+    </div>
+</div>

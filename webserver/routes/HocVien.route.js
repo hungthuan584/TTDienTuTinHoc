@@ -4,10 +4,12 @@ const route = express.Router();
 const HocVienController = require('../controllers/HocVien.controller');
 
 // Danh sach
-route.get('/', HocVienController.getAll);
+route.get('/studying', HocVienController.getStudying);
+
+route.get('/studyed', HocVienController.getStudyed);
 
 // Get by Id
-route.get('/:id', HocVienController.getById);
+route.get('/thongtin/:id', HocVienController.getById);
 
 // Them
 route.post('/', HocVienController.addNew);

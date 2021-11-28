@@ -12,40 +12,47 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 import { UserComponent } from './user.component';
 import { HomeComponent } from './home/home.component';
-import { CategoryComponent } from './category/category.component';
 import { BannerComponent } from './banner/banner.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from './contact/contact.component';
 import { ScoreComponent } from './score/score.component';
 import { AdmissionsComponent } from './admissions/admissions.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { ChangeInfoComponent } from './form/change-info/change-info.component';
+import { ChangePasswordComponent } from './form/change-password/change-password.component';
+import { StudentFormComponent } from './form/student-form/student-form.component';
+import { ChangeAvatarComponent } from './form/change-avatar/change-avatar.component';
+import { ContactFormComponent } from './form/contact-form/contact-form.component';
+
 
 
 @NgModule({
   declarations: [
     UserComponent,
     HomeComponent,
-    CategoryComponent,
     BannerComponent,
     NavbarComponent,
-    RegisterComponent,
     FooterComponent,
     ContactComponent,
     ScoreComponent,
     AdmissionsComponent,
-    CalendarComponent
+    StudentFormComponent,
+    ChangeInfoComponent,
+    ChangePasswordComponent,
+    ChangeAvatarComponent,
+    ContactFormComponent,
   ],
   imports: [
     CommonModule,
@@ -68,7 +75,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     MatListModule,
     MatTableModule,
     MatCardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatAutocompleteModule
   ]
 })
 export class UserModule { }

@@ -1,0 +1,50 @@
+<div class="classroom-box">
+    <div class="header">
+        Thông tin lớp học
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <td colspan="3">
+                <b>Lớp :</b> {{lophocInfo?.LH_Id}} - {{lophocInfo?.LDT_Ten}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Giáo viên :</b> {{lophocInfo?.GV_Id}} - {{lophocInfo?.GV_HoTen}}
+            </td>
+            <td>
+                <b>Sdt :</b> {{lophocInfo?.GV_Sdt}}
+            </td>
+            <td>
+                <b>Email :</b> {{lophocInfo?.GV_Email}}
+            </td>
+        </tr>
+    </table>
+    <div class="header">
+        Thông báo
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 2%;">#</th>
+                <th>Nội dung</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tb of dsThongBao; let i = index">
+                <td style="width: 2%;">
+                    {{i+1}}
+                </td>
+                <td>
+                    <div class="content text-left">
+                        {{tb.TB_NoiDung}}
+                    </div>
+                    <div class="text-right">
+                        <span class="author">Đăng bởi {{tb.TB_CreateBy}}&nbsp;{{tb.TB_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</span><br>
+                        <span class="author">Đã sửa bởi {{tb.TB_UpdateBy}}&nbsp;{{tb.TB_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

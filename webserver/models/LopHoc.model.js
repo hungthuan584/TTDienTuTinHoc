@@ -18,13 +18,33 @@ var LopHoc = function (LopHoc) {
 }
 
 // Danh sach lop hoc
-LopHoc.getAll = (result) => {
+LopHoc.getOpening = (result) => {
     dbConnect.query(
         `SELECT *
         FROM LopHoc lh
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
         JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id WHERE lh.LH_IsComplete != 1`,
+        (err, res) => {
+            if (err) {
+                console.log('Error While Fetching', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+LopHoc.getCompleted = (result) => {
+    dbConnect.query(
+        `SELECT *
+        FROM LopHoc lh
+        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
+        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id WHERE lh.LH_IsComplete = 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
