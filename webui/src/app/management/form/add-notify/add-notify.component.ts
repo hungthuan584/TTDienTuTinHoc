@@ -6,7 +6,7 @@ import { NhanVienService } from 'src/app/services/nhan-vien.service';
 import { ThongBaoService } from 'src/app/services/thong-bao.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Swal from 'sweetalert2';
-import { ClassDialogData } from '../../home/home.component';
+import { ClassDialogData } from '../../classroom/classroom.component';
 
 @Component({
   selector: 'app-add-notify',
@@ -36,8 +36,7 @@ export class AddNotifyComponent implements OnInit {
       LH_Id: [''],
       TB_NoiDung: ['', Validators.required],
       TB_CreateBy: [''],
-      TB_UpdateBy: [''],
-      TB_UpdateDate: ['']
+      TB_UpdateBy: ['']
     });
 
     this.lophoc.getOpening().subscribe(
@@ -84,38 +83,45 @@ export class AddNotifyComponent implements OnInit {
 
   onSubmit() {
     if (this.data.tbId) {
-      Swal.fire({
-        title: 'Cập nhât thông báo',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Cập nhật'
-      }).then(
-        (result) => {
-          if (result.isConfirmed) {
-            this.thongbao.updateById(this.data.tbId, this.notifyForm.value).subscribe(
-              (result) => {
-                if (result.status == 1) {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Cập nhật thành công'
-                  }).then(
-                    () => {
-                      this.dialogRef.close();
-                    }
-                  );
-                } else {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi!'
-                  });
+      if (this.notifyForm.valid) {
+        Swal.fire({
+          title: 'Cập nhât thông báo',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Cập nhật'
+        }).then(
+          (result) => {
+            if (result.isConfirmed) {
+              this.thongbao.updateById(this.data.tbId, this.notifyForm.value).subscribe(
+                (result) => {
+                  if (result.status == 1) {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Cập nhật thành công'
+                    }).then(
+                      () => {
+                        this.dialogRef.close();
+                      }
+                    );
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Lỗi!'
+                    });
+                  }
                 }
-              }
-            );
+              );
+            }
           }
-        }
-      );
+        );
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Điền nội dung thông báo'
+        });
+      }
     } else {
       if (this.notifyForm.valid) {
         Swal.fire({

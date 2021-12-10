@@ -38,6 +38,7 @@ exports.getById = (req, res) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
+                HocVien.TK_MatKhau = undefined;
                 return res.json(HocVien);
             }
         }
@@ -74,75 +75,88 @@ function makeId(d) {
 
 // Them hoc vien
 exports.addNew = (req, res) => {
-    HocVienModel.countNumber(
-        (err, HocVien) => {
+    DangKyHocModel.getByLopHoc(
+        req.body.LH_Id,
+        (err, LopHoc) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
-                var d = 0;
-                h = false;
-
-                if (HocVien) {
-                    d = HocVien.length;
-                }
-
-                var id = makeId(d);
-
-                if (id) {
-                    h = true;
-                } else {
-                    return res.status(500).json({ status: 0, message: 'Dữ liệu quá 9999 dòng' });
-                }
-
-                if (h == true) {
-                    const TaiKhoanReqData = new TaiKhoanModel(req.body);
-                    var password = 'u$erCit@' + new Date().getFullYear().toString();
-                    var salt = genSaltSync(10);
-                    TaiKhoanReqData.TK_MatKhau = hashSync(password, salt);
-                    TaiKhoanReqData.TK_XacThuc = 0;
-                    TaiKhoanReqData.TK_TenDangNhap = id;
-                    TaiKhoanReqData.Q_Id = 4;
-                    TaiKhoanReqData.TK_IsActive = 1;
-                    TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
-                    TaiKhoanReqData.TK_DeactivateDate = '-  -     :  :';
-
-                    TaiKhoanModel.addNew(
-                        TaiKhoanReqData,
-                        (err, TaiKhoan) => {
+                if (LopHoc.length == 0 || LopHoc.length < LopHoc[0].LH_SiSo) {
+                    HocVienModel.countNumber(
+                        (err, HocVien) => {
                             if (err) {
-                                return res.json({ status: 0, message: err });
+                                return res.status(500).json({ status: 0, message: err });
                             } else {
-                                const HocVienReqData = new HocVienModel(req.body);
+                                var d = 0;
+                                h = false;
 
-                                HocVienReqData.HV_Id = id;
-                                HocVienReqData.TK_TenDangNhap = id;
-                                HocVienReqData.HV_IsDelete = 0;
-                                HocVienReqData.HV_UpdateDate = '-  -     :  :';
-                                HocVienReqData.HV_DeleteDate = '-  -     :  :';
-
-                                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-                                    return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+                                if (HocVien) {
+                                    d = HocVien.length;
                                 }
-                                else {
-                                    HocVienModel.addNew(
-                                        HocVienReqData,
-                                        (err, HocVien) => {
+
+                                var id = makeId(d);
+
+                                if (id) {
+                                    h = true;
+                                } else {
+                                    return res.status(500).json({ status: 0, message: 'Dữ liệu quá 9999 dòng' });
+                                }
+
+                                if (h == true) {
+                                    const TaiKhoanReqData = new TaiKhoanModel(req.body);
+                                    var password = 'u$erCit@' + new Date().getFullYear().toString();
+                                    var salt = genSaltSync(10);
+                                    TaiKhoanReqData.TK_MatKhau = hashSync(password, salt);
+                                    TaiKhoanReqData.TK_XacThuc = 0;
+                                    TaiKhoanReqData.TK_TenDangNhap = id;
+                                    TaiKhoanReqData.TK_NumberOfLogin = 0;
+                                    TaiKhoanReqData.Q_Id = 4;
+                                    TaiKhoanReqData.TK_IsActive = 1;
+                                    TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
+                                    TaiKhoanReqData.TK_DeactivateDate = '-  -     :  :';
+
+                                    TaiKhoanModel.addNew(
+                                        TaiKhoanReqData,
+                                        (err, TaiKhoan) => {
                                             if (err) {
                                                 return res.json({ status: 0, message: err });
                                             } else {
-                                                const DangKyReqData = new DangKyHocModel(req.body);
+                                                const HocVienReqData = new HocVienModel(req.body);
 
-                                                DangKyReqData.HV_Id = id;
-                                                DangKyHocModel.addNew(
-                                                    DangKyReqData,
-                                                    (err) => {
-                                                        if (err) {
-                                                            return res.status(500).json({ status: 0, message: err });
-                                                        } else {
-                                                            return res.json({ status: 1, message: 'Created successfully', username: id });
+                                                HocVienReqData.HV_Id = id;
+                                                HocVienReqData.TK_TenDangNhap = id;
+                                                HocVienReqData.HV_IsDelete = 0;
+                                                HocVienReqData.HV_UpdateDate = '-  -     :  :';
+                                                HocVienReqData.HV_DeleteDate = '-  -     :  :';
+
+                                                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                                                    return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+                                                }
+                                                else {
+                                                    HocVienModel.addNew(
+                                                        HocVienReqData,
+                                                        (err, HocVien) => {
+                                                            if (err) {
+                                                                return res.json({ status: 0, message: err });
+                                                            } else {
+                                                                const DangKyReqData = new DangKyHocModel(req.body);
+                                                                DangKyReqData.LH_Id = req.body.LH_Id;
+
+                                                                DangKyReqData.HV_Id = id;
+                                                                DangKyHocModel.addNew(
+                                                                    DangKyReqData,
+                                                                    (err) => {
+                                                                        if (err) {
+                                                                            return res.status(500).json({ status: 0, message: err });
+                                                                        } else {
+                                                                            return res.json({ status: 1, message: 'Created successfully', username: id });
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
                                                         }
-                                                    }
-                                                );
+                                                    );
+                                                }
                                             }
                                         }
                                     );
@@ -150,9 +164,10 @@ exports.addNew = (req, res) => {
                             }
                         }
                     );
+                } else {
+                    return res.json({ status: 0, message: 'Lớp đã đủ số lượng' });
                 }
             }
-
         }
     );
 }

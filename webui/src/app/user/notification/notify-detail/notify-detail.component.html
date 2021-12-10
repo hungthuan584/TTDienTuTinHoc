@@ -1,0 +1,23 @@
+<div class="container">
+    <h2 class="name">Chi tiết bài viết</h2>
+    <div class="post-detail-box">
+        <h2>{{post?.BV_TieuDe}}</h2>
+        <div class="content">
+            {{post?.BV_NoiDung}}
+            <div *ngIf="post?.BV_UploadFile" style="margin-top: 20px;">
+                <span style="color: gray; font-size: 13px;">Chi tiết : </span> <a
+                    href="http://localhost:3000/api/baiviet/files/{{post?.BV_UploadFile}}" target="_blank">
+                    {{post?.BV_UploadFile}}
+                </a>
+            </div>
+            <div class="text-right" style="padding-right: 50px;">
+                <span style="font-size: 13px; color: gray;">
+                    Tạo : {{post?.BV_CreateDate | date: 'dd-MM-yyyy HH:mm:ss'}}
+                </span><br>
+                <span *ngIf="post?.BV_UpdateBy"  style="font-size: 13px; color: gray;">
+                    Sửa : {{post?.BV_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss'}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

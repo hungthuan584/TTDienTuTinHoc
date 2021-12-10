@@ -1,0 +1,43 @@
+<div class="info-box">
+    <div class="title">
+        Thông tin cá nhân
+    </div>
+    <div class="text-center">
+        <img [src]="imageUrl" alt="Ảnh đại diện" width="200px" height="200px">
+        <button style="vertical-align: bottom;" mat-icon-button color="primary" (click)="changeAvatar()">
+            <mat-icon>photo_camera</mat-icon>
+        </button>
+    </div>
+    <div class="info row">
+        <div class="spacer"></div>
+        <table class="table table-striped">
+            <tr>
+                <th>Họ tên :</th>
+                <td colspan="3">{{ teacherInfo?.GV_HoTen }}</td>
+            </tr>
+            <tr>
+                <th>Ngày sinh :</th>
+                <td>{{ teacherInfo?.GV_NgaySinh | date:'dd-MM-yyyy' }}</td>
+                <th>Giới tính :</th>
+                <td>{{ (teacherInfo?.GV_GioiTinh==1)? 'Nam':'Nữ' }}</td>
+            </tr>
+            <tr>
+                <th>Địa chỉ :</th>
+                <td colspan="3">{{ teacherInfo?.GV_DiaChi }}</td>
+            </tr>
+
+            <tr>
+                <th>Email :</th>
+                <td>{{ teacherInfo?.GV_Email }}</td>
+                <th>Số điện thoại :</th>
+                <td>{{ teacherInfo?.GV_Sdt }}</td>
+            </tr>
+
+        </table>
+        <div class="spacer"></div>
+    </div>
+    <div class="text-center">
+        <button style="margin-bottom: 10px;" mat-raised-button color="primary" (click)="changeInfo()">
+            Chỉnh sửa thông tin
+        </button>
+    </div>

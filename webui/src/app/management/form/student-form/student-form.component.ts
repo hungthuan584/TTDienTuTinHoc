@@ -4,8 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
+import { HoaDonService } from 'src/app/services/hoa-don.service';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Swal from 'sweetalert2';
 import { StudentDialogData } from '../../student/student.component';
 
@@ -87,8 +89,12 @@ export class StudentFormComponent implements OnInit {
     private fb: FormBuilder,
     private hocvien: HocVienService,
     private lophoc: LopHocService,
-    private dangky: DangKyHocService
+    private dangky: DangKyHocService,
+    private tokenStorage: TokenStorageService,
+    private hoadon: HoaDonService
   ) { }
+
+  loginAccount = this.tokenStorage.getUser();
 
   ngOnInit(): void {
     this.studentForm = this.fb.group({
@@ -104,10 +110,13 @@ export class StudentFormComponent implements OnInit {
       HV_QuocTich: ['', Validators.required],
       HV_Sdt: ['', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
       HV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
-      HV_Mssv: ['']
+      HV_Mssv: [''],
+      NV_Id: ['']
     });
 
-    this.studentForm.get('HV_NoiSinh')?.valueChanges.pipe(debounceTime(100)).subscribe(
+    this.studentForm.controls['NV_Id'].setValue(this.loginAccount.TK_TenDangNhap);
+
+    this.studentForm.get('HV_NoiSinh')?.valueChanges.pipe(debounceTime(50)).subscribe(
       (res) => {
         if (res && res.length) {
           this.filterData(res);
@@ -234,49 +243,39 @@ export class StudentFormComponent implements OnInit {
       }
     } else {
       if (this.studentForm.valid) {
-
-        var lop = this.studentForm.controls['LH_Id'].value;
-
-        this.dangky.getByLopHoc(lop).subscribe(
-          (danhsachlop) => {
-            if (danhsachlop.status == 1) {
-              this.lophoc.getById(lop).subscribe(
-                (timlophoc) => {
-                  console.log('So hoc vien: ', danhsachlop.siso, 'Si so lop: ', timlophoc.LH_SiSo);
-                  if (danhsachlop.siso < timlophoc.LH_SiSo) {
-                    Swal.fire({
-                      title: 'Lưu thông tin?',
-                      icon: 'question',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Lưu'
-                    }).then(
-                      (result) => {
-                        if (result.isConfirmed) {
-                          this.hocvien.addNew(this.studentForm.value).subscribe(
-                            (res) => {
-                              if (res.status == 1) {
-                                Swal.fire({
-                                  icon: 'success',
-                                  title: 'Thêm thành công',
-                                  showConfirmButton: true
-                                }).then(
-                                  () => {
-                                    this.dialogRef.close();
-                                  }
-                                );
-                              } else {
-                                Swal.fire({
-                                  icon: 'error',
-                                  title: 'Lỗi!',
-                                  showConfirmButton: true
-                                }).then(
-                                  () => {
-                                    this.ngOnInit();
-                                  }
-                                );
-                              }
+        Swal.fire({
+          title: 'Lưu thông tin?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Lưu'
+        }).then(
+          (result) => {
+            if (result.isConfirmed) {
+              this.hocvien.addNew(this.studentForm.value).subscribe(
+                (res) => {
+                  if (res.status == 1) {
+                    this.hoadon.addLearn(res.username, this.studentForm.value).subscribe(
+                      (hoadon) => {
+                        if (hoadon.status == 1) {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm thành công',
+                            showConfirmButton: true
+                          }).then(
+                            () => {
+                              this.dialogRef.close();
+                            }
+                          );
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: hoadon.message,
+                            showConfirmButton: true
+                          }).then(
+                            () => {
+                              this.ngOnInit();
                             }
                           );
                         }
@@ -285,9 +284,13 @@ export class StudentFormComponent implements OnInit {
                   } else {
                     Swal.fire({
                       icon: 'error',
-                      title: 'Lớp học đủ số lượng',
+                      title: res.message,
                       showConfirmButton: true
-                    });
+                    }).then(
+                      () => {
+                        this.ngOnInit();
+                      }
+                    );
                   }
                 }
               );

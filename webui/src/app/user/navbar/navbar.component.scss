@@ -1,4 +1,5 @@
 .mat-toolbar{
+    height: 55px;
     background-color: #021420;
     color: #ffffff;
     a{
@@ -6,10 +7,10 @@
         color: #ffffff;
         text-decoration: none;
     }
-    input{
-        width: 300px;
+
+    button{
+        margin: 5px;
     }
-    
 }
 
 .spacer{

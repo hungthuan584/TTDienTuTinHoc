@@ -35,6 +35,8 @@ import { ChangePasswordComponent } from './form/change-password/change-password.
 import { StudentFormComponent } from './form/student-form/student-form.component';
 import { ChangeAvatarComponent } from './form/change-avatar/change-avatar.component';
 import { ContactFormComponent } from './form/contact-form/contact-form.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotifyDetailComponent } from './notification/notify-detail/notify-detail.component';
 
 
 
@@ -53,6 +55,8 @@ import { ContactFormComponent } from './form/contact-form/contact-form.component
     ChangePasswordComponent,
     ChangeAvatarComponent,
     ContactFormComponent,
+    NotificationComponent,
+    NotifyDetailComponent,
   ],
   imports: [
     CommonModule,

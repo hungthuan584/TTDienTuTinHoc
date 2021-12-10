@@ -3,8 +3,8 @@
     <a mat-button routerLink="trang-chu">
         Trang chủ
     </a>
-    <a mat-button routerLink="gioi-thieu" routerLinkActive="router-link-active">Giới Thiệu</a>
     <a mat-button routerLink="chieu-sinh" routerLinkActive="router-link-active">Chiêu Sinh</a>
+    <a mat-button routerLink="gioi-thieu" routerLinkActive="router-link-active">Chứng Chỉ</a>
     <a mat-button routerLink="thong-bao" routerLinkActive="router-link-active">Thông báo</a>
     <a mat-button [matMenuTriggerFor]="menuGiaoVu">Giáo Vụ</a>
     <a mat-button routerLink="lien-he" routerLinkActive="router-link-active">Liên Hệ</a>
@@ -24,7 +24,7 @@
     </mat-menu>
     <mat-menu #menuGiaoVu="matMenu">
         <button mat-menu-item routerLink="score">Tra cứu điểm thi</button>
-        <button mat-menu-item routerLink="certificate">Tra cứu văn bằng</button>
+        <a mat-menu-item href="https://qlvb.ctu.edu.vn/">Tra cứu văn bằng</a>
         <button mat-menu-item routerLink="rate">Đánh giá cuối khoá học</button>
     </mat-menu>
 </mat-toolbar>

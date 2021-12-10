@@ -12,6 +12,18 @@ exports.getAll = (req, res) => {
     );
 }
 
+exports.getNoneRead = (req, res) => {
+    LienHeModel.getNoneRead(
+        (err, LienHe) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, data: LienHe, chuadoc: LienHe.length });
+            }
+        }
+    );
+}
+
 exports.addNew = (req, res) => {
     const LienHeReqData = new LienHeModel(req.body);
     LienHeReqData.CT_IsRead = 0;

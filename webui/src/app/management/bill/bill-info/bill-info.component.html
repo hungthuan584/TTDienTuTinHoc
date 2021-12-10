@@ -1,0 +1,55 @@
+<div class="bill-box">
+    <h2>{{data.title}}</h2>
+    <div class="content" id="print-document">
+        <div class="text-center">
+            <h4 style="text-transform: uppercase; font-weight: bold;">{{center?.Ten}}</h4>
+            <h1 style="font-weight: bold;">PHIẾU THU</h1>
+            <h3>
+                Ngày: {{bill?.HD_CreateDate | date:'dd-MM-yyyy'}} <br>
+                Số: {{bill?.HD_Id}}
+            </h3>
+        </div>
+        <div class="body">
+            <div>
+                <b>Người nộp tiền</b>: {{bill?.HV_HoTen}}
+            </div>
+            <div>
+                <b>Nội dung</b>: <br> &nbsp;&nbsp;&nbsp;&nbsp;{{bill?.HD_NoiDung}}
+            </div>
+            <div>
+                <b>Số tiền</b>: {{bill?.HD_SoTien | number}}
+            </div>
+            <div>
+                <b>Người lập</b>: {{bill?.HD_CreateBy}}
+            </div>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: top;">
+                        <div class="text-center">
+                            <b>NGƯỜI NỘP</b> <br>
+                            <span class="ghichu">(Ký, ghi rõ họ tên)</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <span class="ghichu">Ngày........tháng.......năm 20.....</span><br>
+                            <b>NGƯỜI THU</b> <br>
+                            <span class="ghichu">(Ký, ghi rõ họ tên)</span><br>
+                            <br><br><br>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="text-center" style="margin-top: 20px;">
+        <button *ngIf="bill?.HD_IsComplete != 1" mat-raised-button color="primary"
+            (click)="confirmPayment(bill?.HD_Id)">Xác nhận thanh toán</button>
+        <button *ngIf="bill?.HD_IsComplete == 1" mat-raised-button color="primary" printSectionId="print-document"
+            styleSheetFile="assets/print.scss" ngxPrint>
+            In
+        </button>&nbsp;
+        <button mat-raised-button color="warn">Huỷ</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="closeClick()">Đóng</button>
+    </div>
+</div>

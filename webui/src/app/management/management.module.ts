@@ -24,13 +24,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { NgxPrintModule } from 'ngx-print';
+
 import { ManagementRoutingModule } from './management-routing.module';
 
 //Component
 import { ManagementComponent } from './management.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
+import { ClassroomComponent } from './classroom/classroom.component';
 import { PostComponent } from './post/post.component';
 import { StudentComponent } from './student/student.component';
 import { StatisticalComponent } from './statistical/statistical.component';
@@ -42,26 +44,33 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { ClassFormComponent } from './form/class-form/class-form.component';
 import { TeacherFormComponent } from './form/teacher-form/teacher-form.component';
 import { TeacherInfomationComponent } from './teacher/teacher-infomation/teacher-infomation.component';
-import { InfoClassComponent } from './home/info-class/info-class.component';
+import { InfoClassComponent } from './classroom/info-class/info-class.component';
 import { StudentInfomationComponent } from './student/student-infomation/student-infomation.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeFormComponent } from './form/employee-form/employee-form.component';
 import { EmployeeInfomationComponent } from './employee/employee-infomation/employee-infomation.component';
 import { PermissionComponent } from './permission/permission.component';
-import { ClassListComponent } from './home/class-list/class-list.component';
+import { ClassListComponent } from './classroom/class-list/class-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChangeInfoComponent } from './profile/change-info/change-info.component';
 import { ChangeAvatarComponent } from './profile/change-avatar/change-avatar.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { NotifyComponent } from './notify/notify.component';
 import { AddNotifyComponent } from './form/add-notify/add-notify.component';
+import { ReplyContactComponent } from './form/reply-contact/reply-contact.component';
+import { SystemConfigComponent } from './system-config/system-config.component';
+import { TeachingFormComponent } from './form/teaching-form/teaching-form.component';
+import { PostFormComponent } from './form/post-form/post-form.component';
+import { BillComponent } from './bill/bill.component';
+import { ExamComponent } from './exam/exam.component';
+import { BillInfoComponent } from './bill/bill-info/bill-info.component';
 
 @NgModule({
   declarations: [
     ManagementComponent,
     SidenavComponent,
     HeaderComponent,
-    HomeComponent,
+    ClassroomComponent,
     PostComponent,
     StudentComponent,
     StatisticalComponent,
@@ -85,13 +94,21 @@ import { AddNotifyComponent } from './form/add-notify/add-notify.component';
     ChangeAvatarComponent,
     ChangePasswordComponent,
     NotifyComponent,
-    AddNotifyComponent
+    AddNotifyComponent,
+    ReplyContactComponent,
+    SystemConfigComponent,
+    TeachingFormComponent,
+    PostFormComponent,
+    BillComponent,
+    ExamComponent,
+    BillInfoComponent,
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPrintModule,
 
     // MaterialModule
     MatToolbarModule,

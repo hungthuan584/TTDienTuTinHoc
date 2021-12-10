@@ -1,0 +1,237 @@
+<div class="class-box">
+    <mat-tab-group>
+        <mat-tab label="Đang mở">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="stt">
+                    <th mat-header-cell *matHeaderCellDef>
+                        STT
+                    </th>
+                    <td mat-cell *matCellDef="let i = index">
+                        {{ i+1 }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Mã Lớp
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_Id }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="tenlop">
+                    <th mat-header-cell *matHeaderCellDef style="width: 25%;">
+                        Tên Lớp
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LDT_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ngaykhaigiang">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Khai Giảng
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_NgayKhaiGiang | date: 'dd-MM-yyyy' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="thoigianhoc">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Thời Gian Học
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.TG_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="soluong">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Số Lượng
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_SiSo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="phonghoc">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Phòng Học
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.PH_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="giaovien">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Giáo viên
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.GV_HoTen">{{element.GV_HoTen}}</span>
+                        <span *ngIf="!element.GV_HoTen" style="color: grey; font-size: 12px; font-style: italic;">
+                            Chưa phân công
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Đăng ký
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.LH_IsActive" class="badge badge-pill badge-success">Đang mở</span>
+                        <span *ngIf="!element.LH_IsActive" class="badge badge-pill badge-warning">
+                            Đóng
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="#">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                        #
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="text-align: center; width: 5%;">
+
+                        <button mat-icon-button color="primary" [matMenuTriggerFor]="menu"
+                            aria-label="Example icon-button with a menu">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item title="Chi tiết" (click)="infoClick(element.LH_Id)">
+                                <mat-icon>infomation</mat-icon>
+                                <span>Chi tiết</span>
+                            </button>
+                            <button mat-menu-item *ngIf="!element.GV_HoTen" title="Phân công giảng dạy"
+                                (click)="teachClick(element.LH_Id)">
+                                <mat-icon>school</mat-icon>
+                                <span>Giảng dạy</span>
+                            </button>
+                            <button mat-menu-item *ngIf="element.GV_HoTen" title="Chỉnh sửa phân công giảng dạy"
+                                (click)="editTeaching(element.LH_Id)">
+                                <mat-icon>school</mat-icon>
+                                <span>Giảng dạy</span>
+                            </button>
+                            <button mat-menu-item title="Danh sách học viên" (click)="showListStudent(element.LH_Id)">
+                                <mat-icon>folder_shared</mat-icon>
+                                <span>Học viên</span>
+                            </button>
+                            <button mat-menu-item title="Đăng thông báo" (click)="postNotify(element.LH_Id)">
+                                <mat-icon>public</mat-icon>
+                                <span>Thông báo</span>
+                            </button>
+                            <button mat-menu-item (click)="editClick(element.LH_Id)">
+                                <mat-icon>edit</mat-icon>
+                                <span>Sửa</span>
+                            </button>
+                            <button mat-menu-item *ngIf="element.LH_IsActive == 1" title="Khoá đăng ký" (click)="lockClick(element.LH_Id)">
+                                <mat-icon>lock</mat-icon>
+                                <span>Khoá đăng ký</span>
+                            </button>
+                            <button mat-menu-item *ngIf="element.LH_IsActive == 0" title="Khoá đăng ký" (click)="unlockClick(element.LH_Id)">
+                                <mat-icon>lock_open</mat-icon>
+                                <span>Mở đăng ký</span>
+                            </button>
+                            <button mat-menu-item (click)="completeClick(element.LH_Id)">
+                                <mat-icon>check_circle</mat-icon>
+                                <span>Hoàn thành</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator #paginator [pageSize]="10"></mat-paginator>
+        </mat-tab>
+        <mat-tab label="Hoàn thành">
+            <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+                <ng-container matColumnDef="stt">
+                    <th mat-header-cell *matHeaderCellDef>
+                        STT
+                    </th>
+                    <td mat-cell *matCellDef="let i = index">
+                        {{ i+1 }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Mã Lớp
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_Id }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="tenlop">
+                    <th mat-header-cell *matHeaderCellDef style="width: 25%;">
+                        Tên Lớp
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LDT_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ngaykhaigiang">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Khai Giảng
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_NgayKhaiGiang | date: 'dd-MM-yyyy' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="thoigianhoc">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Thời Gian Học
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.TG_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="soluong">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Số Lượng
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.LH_SiSo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="phonghoc">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Phòng Học
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.PH_Ten }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ngayhoanthanh">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                        Ngày hoàn thành
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="text-align: center;">
+                        {{element.LH_CompleteDate | date: 'dd-MM-yyyy'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="#">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                        #
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="text-align: center;">
+                        <button mat-icon-button color="primary" [matMenuTriggerFor]="menu"
+                            aria-label="Example icon-button with a menu">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="infoClick(element.LH_Id)">
+                                <mat-icon>infomation</mat-icon>
+                                <span>Chi tiết</span>
+                            </button>
+                            <button mat-menu-item color="primary" (click)="showListStudent(element.LH_Id)">
+                                <mat-icon>folder_shared</mat-icon>
+                                <span>Danh sách học viên</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+            </table>
+            <mat-paginator #paginator1 [pageSize]="10"></mat-paginator>
+        </mat-tab>
+    </mat-tab-group>
+</div>

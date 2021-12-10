@@ -11,7 +11,22 @@ var LienHe = function (LienHe) {
 
 LienHe.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM LienHe`,
+        `SELECT * FROM lienhe ORDER BY CT_IsRead ASC, CT_CreateDate DESC`,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            } else {
+                console.log('Selected successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+
+LienHe.getNoneRead = (result) => {
+    dbConnect.query(
+        `SELECT * FROM LienHe WHERE CT_IsRead = 0`,
         (err, res) => {
             if (err) {
                 console.log('Error while selecting', err);
@@ -40,10 +55,10 @@ LienHe.addNew = (data, result) => {
     );
 }
 
-LienHe.isRead = (id, result) => {
+LienHe.isRead = (email, result) => {
     dbConnect.query(
-        `UPDATE LienHe SET CT_IsRead = 1 WHERE CT_Id = ?`,
-        id,
+        `UPDATE lienhe SET CT_IsRead = 1 WHERE CT_Email = ?`,
+        email,
         (err, res) => {
             if (err) {
                 console.log('Error while mark', err);

@@ -14,20 +14,14 @@
     <a mat-list-item routerLink="bai-viet" routerLinkActive="list-item-active">
         <mat-icon>edit</mat-icon> Bài viết
     </a>
-    <a mat-list-item routerLink="cap-bang" routerLinkActive="list-item-active">
-        <mat-icon>wb_sunny</mat-icon> Cấp bằng
-    </a>
-    <!-- <a mat-list-item routerLink="danh-muc-chuc-nang" routerLinkActive="list-item-active">
-        <mat-icon>star_border</mat-icon> Danh mục chức năng
-    </a> -->
-    <a mat-list-item routerLink="danh-muc-chung-chi" routerLinkActive="list-item-active">
-        <mat-icon>assignment</mat-icon> Danh mục chứng chỉ
-    </a>
     <a mat-list-item routerLink="hoc-vien" routerLinkActive="list-item-active">
         <mat-icon>account_box</mat-icon> Học viên
     </a>
     <a mat-list-item routerLink="khoa-thi" routerLinkActive="list-item-active">
         <mat-icon>list_alt</mat-icon> Khoá thi
+    </a>
+    <a mat-list-item routerLink="hoa-don" routerLinkActive="list-item-active">
+        <mat-icon>receipt_long</mat-icon> Hoá đơn
     </a>
     <a mat-list-item routerLink="lien-he" routerLinkActive="list-item-active">
         <mat-icon>smartphone</mat-icon> Liên hệ
@@ -37,5 +31,8 @@
     </a>
     <a mat-list-item routerLink="thong-ke" routerLinkActive="list-item-active">
         <mat-icon>trending_up</mat-icon> Thống kê
+    </a>
+    <a *ngIf="loginAccount?.Q_Id == 0" mat-list-item routerLink="cau-hinh-he-thong" routerLinkActive="list-item-active">
+        <mat-icon>settings</mat-icon> Cấu hình hệ thống
     </a>
 </mat-nav-list>

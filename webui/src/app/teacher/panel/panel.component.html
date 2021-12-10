@@ -1,0 +1,20 @@
+<div class="panel-box">
+    <mat-nav-list>
+        <div class="name py-3">
+            Trang cá nhân
+        </div>
+        <a mat-list-item routerLink="lop-hoc" routerLinkActive="list-item-active" (click)="showList()">
+            <mat-icon>school</mat-icon> &nbsp; Quản lý lớp học
+        </a>
+        <a mat-list-item routerLink="thong-tin-ca-nhan" routerLinkActive="list-item-active">
+            <mat-icon>person</mat-icon> &nbsp;Thông tin cá nhân
+        </a>
+        <a mat-list-item routerLink="doi-mat-khau" routerLinkActive="list-item-active">
+            <mat-icon>lock</mat-icon> &nbsp; Đổi mật khẩu
+        </a>
+    </mat-nav-list>
+    <hr>
+    <mat-card>
+        <mat-calendar></mat-calendar>
+    </mat-card>
+</div>

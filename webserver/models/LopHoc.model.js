@@ -3,12 +3,9 @@ var dbConnect = require('../db.config');
 var LopHoc = function (LopHoc) {
     this.LH_Id = LopHoc.LH_Id;
     this.LDT_Id = LopHoc.LDT_Id;
-    this.PH_Id = LopHoc.PH_Id;
-    this.GV_Id = LopHoc.GV_Id;
-    this.LH_NgayHoc = LopHoc.LH_NgayHoc;
-    this.LH_GioBatDau = LopHoc.LH_GioBatDau;
-    this.LH_GioKetThuc = LopHoc.LH_GioKetThuc;
     this.LH_SiSo = LopHoc.LH_SiSo;
+    this.TG_Id = LopHoc.TG_Id;
+    this.PH_Id = LopHoc.PH_Id;
     this.LH_NgayKhaiGiang = LopHoc.LH_NgayKhaiGiang;
     this.LH_IsActive = LopHoc.LH_IsActive;
     this.LH_IsComplete = LopHoc.LH_IsComplete;
@@ -20,11 +17,16 @@ var LopHoc = function (LopHoc) {
 // Danh sach lop hoc
 LopHoc.getOpening = (result) => {
     dbConnect.query(
-        `SELECT *
+        `SELECT
+            lh.LH_Id,lh.LH_SiSo, lh.LH_NgayKhaiGiang, lh.LH_IsActive, lh.LH_IsComplete, lh.LH_CreateDate, lh.LH_UpdateDate, lh.LH_CompleteDate,
+            ldt.LDT_Ten,tg.TG_Ten, tg.TG_ThoiGianHoc,ph.PH_Ten,gv.GV_HoTen
         FROM LopHoc lh
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
-        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id WHERE lh.LH_IsComplete != 1`,
+        JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
+        LEFT JOIN giangday gd ON gd.LH_Id = lh.LH_Id
+        LEFT JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
+        WHERE lh.LH_IsComplete != 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -44,7 +46,8 @@ LopHoc.getCompleted = (result) => {
         FROM LopHoc lh
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
-        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id WHERE lh.LH_IsComplete = 1`,
+        JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
+        WHERE lh.LH_IsComplete = 1`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -62,10 +65,10 @@ LopHoc.getById = (id, result) => {
     dbConnect.query(
         `
         SELECT *
-        FROM LopHoc lh 
+        FROM LopHoc lh
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
-        JOIN GiaoVien gv ON gv.GV_Id = lh.GV_Id
+        JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
         WHERE lh.LH_Id = ?
         `,
         id,
@@ -81,6 +84,23 @@ LopHoc.getById = (id, result) => {
         }
     );
 }
+
+LopHoc.getByPH = (phId, result) => {
+    dbConnect.query(
+        `SELECT * FROM LopHoc WHERE (PH_Id = ?) AND (LH_IsComplete != 1)`, phId,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected by id Successfully');
+                result(null, res[0]);
+            }
+        }
+    );
+}
+
 
 LopHoc.countNumber = (ldtId, result) => {
     dbConnect.query(
@@ -124,11 +144,8 @@ LopHoc.updateById = (id, data, result) => {
         UPDATE lophoc
         SET
             LDT_Id = ?,
-            GV_Id = ?,
+            TG_Id = ?,
             PH_Id = ?,
-            LH_NgayHoc = ?,
-            LH_GioBatDau = ?,
-            LH_GioKetThuc = ?,
             LH_SiSo = ?,
             LH_NgayKhaiGiang = ?,
             LH_UpdateDate = CURRENT_TIMESTAMP()
@@ -136,11 +153,8 @@ LopHoc.updateById = (id, data, result) => {
         `,
         [
             data.LDT_Id,
-            data.GV_Id,
+            data.TG_Id,
             data.PH_Id,
-            data.LH_NgayHoc,
-            data.LH_GioBatDau,
-            data.LH_GioKetThuc,
             data.LH_SiSo,
             data.LH_NgayKhaiGiang,
             id
@@ -161,6 +175,21 @@ LopHoc.updateById = (id, data, result) => {
 LopHoc.deActivate = (id, result) => {
     dbConnect.query(
         `UPDATE LopHoc SET LH_IsActive = 0 WHERE LH_Id = ?`,
+        id,
+        (err, res) => {
+            if (err) {
+                console.log('Error deactivating');
+                result(err, null);
+            } else {
+                console.log('Deactivated Successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+LopHoc.activeRegister = (id, result) => {
+    dbConnect.query(
+        `UPDATE LopHoc SET LH_IsActive = 1 WHERE LH_Id = ?`,
         id,
         (err, res) => {
             if (err) {

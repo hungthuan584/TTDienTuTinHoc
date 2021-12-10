@@ -1,0 +1,17 @@
+<div class="container">
+    <h2 class="title">THÔNG BÁO</h2>
+    <table class="table table-striped">
+        <tr *ngFor="let bv of dsBaiViet; let i = index">
+            <td>{{i+1}}</td>
+            <td>
+                <h2>
+                    <a [routerLink]="[bv.BV_Id]" style="color: #1e3799;"> {{bv.BV_TieuDe}} </a>
+                </h2>
+                <span>{{bv.BV_MoTa}}</span>
+                <div class="text-right" style="padding-right: 20px;">
+                    <a [routerLink]="[bv.BV_Id]" style="color: #3c6382;">Chi tiết >>> </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

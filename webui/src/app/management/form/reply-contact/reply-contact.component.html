@@ -1,0 +1,18 @@
+<div class="email-box">
+    <h2>{{data.title}}</h2>
+    <h4 style="font-style: italic;">Gửi đến : {{data.email}}</h4>
+    <h4>Tiêu đề : {{data.subject}}</h4>
+    <form [formGroup]="replyEmail">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Nội dung</mat-label>
+            <textarea formControlName="text" rows="10" matInput (blur)="logValidationErrors()"></textarea>
+            <span class="help-block" *ngIf="formErrors.text">
+                * {{ formErrors.text }}
+            </span>
+        </mat-form-field>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Gửi</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="onCancel()">Đóng</button>
+    </div>
+</div>

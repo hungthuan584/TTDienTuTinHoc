@@ -154,6 +154,21 @@ exports.updateById = (req, res) => {
     );
 }
 
+exports.changeInfo = (req, res) => {
+    const GiaoVienReqData = new GiaoVienModel(req.body);
+    GiaoVienModel.changeInfo(
+        req.params.id,
+        GiaoVienReqData,
+        (err) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Changed successfully' });
+            }
+        }
+    );
+}
+
 exports.deleteById = (req, res) => {
     GiaoVienModel.deleteById(
         req.params.id,

@@ -1,0 +1,67 @@
+<div class="info-box">
+    <h2>{{data.title}}</h2>
+    <div class="class-info">
+        <table class="table table-striped">
+            <tr>
+                <th>Mã Lớp :</th>
+                <td>{{ lophocInfo?.LH_Id }}</td>
+                <th>Sỉ Số :</th>
+                <td>{{number}}/{{ lophocInfo?.LH_SiSo }}</td>
+
+            </tr>
+            <tr>
+                <th>Tên Lớp :</th>
+                <td colspan="3">{{ lophocInfo?.LDT_Ten }}</td>
+            </tr>
+            <tr>
+                <th>Ngày học :</th>
+                <td>{{ lophocInfo?.TG_Ten }}</td>
+                <th>Thời Gian Học :</th>
+                <td>{{ lophocInfo?.TG_ThoiGianHoc }}</td>
+            </tr>
+            <tr>
+                <th>Phòng Học :</th>
+                <td>{{ lophocInfo?.PH_Ten }}</td>
+                <th>Ngày Khai Giảng :</th>
+                <td>{{ lophocInfo?.LH_NgayKhaiGiang | date: 'dd-MM-yyyy' }}</td>
+            </tr>
+            <tr>
+                <th>Giáo viên giảng dạy :</th>
+                <td>{{ lophocInfo?.GV_HoTen }}</td>
+                <th>Trạng thái :</th>
+                <td>{{ (lophocInfo?.LH_IsComplete == 1)? 'Đã hoàn thành':'Đang mở' }}</td>
+            </tr>
+            <tr>
+                <th>Ngày Tạo :</th>
+                <td colspan="3">{{ lophocInfo?.LH_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+            </tr>
+            <tr>
+                <th>Ngày Sửa :</th>
+                <td colspan="3" *ngIf="lophocInfo?.LH_UpdateDate!='0000-00-00 00:00:00'">
+                    {{ lophocInfo?.LH_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                </td>
+                <td colspan="3" *ngIf="lophocInfo?.LH_UpdateDate=='0000-00-00 00:00:00'">
+                    Chưa sửa đổi
+                </td>
+            </tr>
+            <tr>
+                <th>Ngày Hoàn Thành :</th>
+                <td colspan="3" *ngIf="lophocInfo?.LH_CompleteDate!='0000-00-00'">
+                    {{ lophocInfo?.LH_CompleteDate | date: 'dd-MM-yyyy' }}
+                </td>
+                <td colspan="3" *ngIf="lophocInfo?.LH_CompleteDate=='0000-00-00'">
+                    Chưa hoàn thành
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center">
+        <button mat-stroked-button color="primary" (click)="showListStudent(data.lhId)">Danh sách học
+            viên</button>&nbsp;
+        <span *ngIf="lophocInfo?.LH_IsComplete == 0">
+            <button mat-stroked-button color="primary" (click)="editClick(data.lhId)">Sửa</button>&nbsp;
+            <button mat-stroked-button color="warn" (click)="completeClick(data.lhId)">Hoàn thành</button>
+        </span>&nbsp;
+        <button mat-stroked-button (click)="closeClick()">Đóng</button>
+    </div>
+</div>

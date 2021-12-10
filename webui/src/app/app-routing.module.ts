@@ -10,9 +10,10 @@ const routes: Routes = [
   { path: 'chungchitinhoc', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
   { path: 'dang-nhap', component: LoginComponent },
   { path: 'quantrihethong', loadChildren: () => import('./management/management.module').then(m => m.ManagementModule), canActivate: [AuthGuard] },
-  {path: 'diachi', component: ConvertAddressComponent},
+  { path: 'quanlylophoc', loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule), canActivate: [AuthGuard] },
+  { path: 'diachi', component: ConvertAddressComponent },
   { path: '**', component: PageNotFoundComponent }
-  
+
 ];
 
 @NgModule({

@@ -31,7 +31,7 @@ export class DangKyHocService {
       'Something bad happened; please try again later.');
   }
 
-  public getByLopHoc(lhId: string): Observable<any> {
+  public getByLopHoc(lhId: any): Observable<any> {
     const url = `${this.REST_API_SERVER}/lophoc/${lhId}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)

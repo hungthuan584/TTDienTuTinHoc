@@ -5,6 +5,8 @@ const LienHeController = require('../controllers/LienHe.controller');
 
 route.get('/', LienHeController.getAll);
 
+route.get('/noneread', LienHeController.getNoneRead);
+
 route.post('/', LienHeController.addNew);
 
 route.patch('/:id', LienHeController.isRead);

@@ -1,0 +1,43 @@
+.name {
+    width: 100%;
+    margin: 0;
+    background-color: #192a56;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 15px;
+}
+
+table {
+    width: 100%;
+    td {
+        padding: 5px;
+    }
+}
+
+.title {
+    width: 100%;
+    background-color: #192a56;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 15px;
+    margin: 0;
+}
+
+.body {
+    margin: 10px;
+}
+
+.classroom {
+    padding: 15px;
+    font-size: 15px;
+    background-color: #f4f4f4;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.notify {
+    width: 100%;
+    margin: 0;
+}

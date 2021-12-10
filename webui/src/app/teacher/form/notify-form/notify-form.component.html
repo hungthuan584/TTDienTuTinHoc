@@ -1,0 +1,21 @@
+<div class="notify-box">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="notifyForm">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Lớp học</mat-label>
+            <mat-select formControlName="LH_Id" readonly>
+                <mat-option *ngFor="let lh of dsLopHoc" [value]="lh.LH_Id">
+                    {{lh.LH_Id}} - {{ lh.LDT_Ten }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Nội dung thông báo</mat-label>
+            <textarea formControlName="TB_NoiDung" matInput rows="10"></textarea>
+        </mat-form-field>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{(data.isUpdate==true)? 'Cập nhật':'Đăng'}}</button>&nbsp;
+        <button mat-raised-button (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

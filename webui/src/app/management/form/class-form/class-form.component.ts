@@ -7,7 +7,8 @@ import { LopHocService } from 'src/app/services/lop-hoc.service';
 import { PhongHocService } from 'src/app/services/phong-hoc.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
-import { ClassDialogData } from '../../home/home.component';
+import { ClassDialogData } from '../../classroom/classroom.component';
+import { ThoiGianHocService } from 'src/app/services/thoi-gian-hoc.service';
 
 @Component({
   selector: 'app-class-form',
@@ -30,28 +31,20 @@ export class ClassFormComponent implements OnInit {
       max: 'Sỉ số không quá 60',
       min: 'Sỉ số không ít hơn 10'
     },
-    LH_NgayHoc: {
-      required: 'Nhập ngày học VD: T2,T4,T6'
-    },
-    LH_GioBatDau: {
-      required: 'Nhập giờ bắt đầu lớp học'
-    },
-    LH_GioKetThuc: {
-      required: 'Nhập giờ kết thúc lớp học'
+    TG_Id: {
+      required: 'Chọn thời gian học'
     },
     PH_Id: {
       required: 'Chọn phòng học'
     },
     LH_NgayKhaiGiang: {
       required: 'Chọn ngày khai giảng'
-    },
-    GV_Id: {
-      required: 'Chọn giáo viên giảng dạy'
     }
   }
 
   classForm!: FormGroup;
   formErrors: any = {}
+  times: any;
 
   constructor(
     public dialogRef: MatDialogRef<ClassFormComponent>,
@@ -59,7 +52,7 @@ export class ClassFormComponent implements OnInit {
 
     private lopdaotao: LopDaoTaoService,
     private phonghoc: PhongHocService,
-    private giaovien: GiaoVienService,
+    private thoigian: ThoiGianHocService,
     private fb: FormBuilder,
     private lophoc: LopHocService
   ) { }
@@ -68,12 +61,9 @@ export class ClassFormComponent implements OnInit {
     this.classForm = this.fb.group({
       LDT_Id: ['', Validators.required],
       LH_SiSo: ['', [Validators.required, Validators.max(80), Validators.min(10)]],
-      LH_NgayHoc: ['', Validators.required],
-      LH_GioBatDau: ['', Validators.required],
-      LH_GioKetThuc: ['', Validators.required],
+      TG_Id: ['', Validators.required],
       PH_Id: ['', Validators.required],
       LH_NgayKhaiGiang: ['', Validators.required],
-      GV_Id: ['', Validators.required]
     });
 
     this.lopdaotao.getAll().subscribe(
@@ -86,11 +76,12 @@ export class ClassFormComponent implements OnInit {
         this.dsPH = result;
       }
     );
-    this.giaovien.getAll().subscribe(
+    this.thoigian.getAll().subscribe(
       (result) => {
-        this.dsGV = result;
+        this.times = result;
       }
     );
+
 
     if (this.data.lhId) {
       this.isUpdate = true;
@@ -108,12 +99,9 @@ export class ClassFormComponent implements OnInit {
     this.classForm.controls['LDT_Id'].setValue(data.LDT_Id);
     this.classForm.controls['LDT_Id'].disable();
     this.classForm.controls['LH_SiSo'].setValue(data.LH_SiSo);
-    this.classForm.controls['LH_NgayHoc'].setValue(data.LH_NgayHoc);
-    this.classForm.controls['LH_GioBatDau'].setValue(data.LH_GioBatDau);
-    this.classForm.controls['LH_GioKetThuc'].setValue(data.LH_GioKetThuc);
+    this.classForm.controls['TG_Id'].setValue(data.TG_Id);
     this.classForm.controls['PH_Id'].setValue(data.PH_Id);
     this.classForm.controls['LH_NgayKhaiGiang'].setValue(moment(data.LH_NgayKhaiGiang).format('YYYY-MM-DD'));
-    this.classForm.controls['GV_Id'].setValue(data.GV_Id);
   }
 
   logValidationErrors(group: FormGroup = this.classForm): void {
@@ -198,6 +186,11 @@ export class ClassFormComponent implements OnInit {
                         this.dialogRef.close();
                       }
                     );
+                  }else{
+                    Swal.fire({
+                      icon: 'error',
+                      title: result.message
+                    });
                   }
                 }
               )

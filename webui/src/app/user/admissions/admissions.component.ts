@@ -10,6 +10,7 @@ import { StudentFormComponent } from '../form/student-form/student-form.componen
 export interface StudentDialogData {
   title: string;
   id: string;
+  hvId: string;
 }
 
 @Component({
@@ -20,6 +21,7 @@ export interface StudentDialogData {
 export class AdmissionsComponent implements OnInit {
 
   status = this.tokenStorage.getStatus();
+  loginAccount = this.tokenStorage.getUser();
   listLopHoc: any;
   listLopDaoTao: any;
 
@@ -27,8 +29,7 @@ export class AdmissionsComponent implements OnInit {
     public dialog: MatDialog,
     private lopdaotao: LopDaoTaoService,
     private lophoc: LopHocService,
-    private tokenStorage: TokenStorageService,
-    private dangkyhoc: DangKyHocService
+    private tokenStorage: TokenStorageService
 
   ) { }
 
@@ -58,41 +59,12 @@ export class AdmissionsComponent implements OnInit {
       }).then(
         (result) => {
           if (result.isConfirmed) {
-            var loginUser = this.tokenStorage.getUser();
-            var data = {
-              LH_Id: LH_Id,
-              HV_Id: loginUser.TK_TenDangNhap
-            }
-
-            this.dangkyhoc.checkUnique(data.LH_Id, data.HV_Id).subscribe(
-              (result) => {
-                if (result.status == 1) {
-                  this.dangkyhoc.addNew(data).subscribe(
-                    (res) => {
-                      if (res.status == 1) {
-                        Swal.fire({
-                          icon: 'success',
-                          title: 'Đăng ký thành công'
-                        }).then(
-                          () => {
-                            window.location.reload();
-                          }
-                        );
-                      } else {
-                        Swal.fire({
-                          icon: 'error',
-                          title: 'Lỗi!'
-                        });
-                      }
-                    }
-                  );
-                } else {
-                  Swal.fire({
-                    icon: 'error',
-                    title: result.message
-                  });
-                }
-              }
+            this.dialog.open(
+              StudentFormComponent,
+              {
+                data: { title: 'Đăng ký học', id: LH_Id, hvId: this.loginAccount.TK_TenDangNhap },
+                autoFocus: false, restoreFocus: false
+              },
             );
           }
         }

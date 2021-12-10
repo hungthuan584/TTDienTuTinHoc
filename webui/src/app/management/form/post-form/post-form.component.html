@@ -1,0 +1,39 @@
+<div class="post-box">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="postForm">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Tiêu đề</mat-label>
+                <input type="text" formControlName="BV_TieuDe" matInput (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.BV_TieuDe">
+                    * {{ formErrors.BV_TieuDe }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Mô tả</mat-label>
+                <input type="text" formControlName="BV_MoTa" matInput (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.BV_MoTa">
+                    * {{ formErrors.BV_MoTa }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Tiêu đề</mat-label>
+                <textarea formControlName="BV_NoiDung" rows="7" matInput (blur)="logValidationErrors()"></textarea>
+                <span class="help-block" *ngIf="formErrors.BV_NoiDung">
+                    * {{ formErrors.BV_NoiDung }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            Tập tin <input type="file" (change)="onSelectFile($event)">
+        </div>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{(data.id)? 'Cập nhật':'Đăng'}}</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

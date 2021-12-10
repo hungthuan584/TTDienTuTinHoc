@@ -44,6 +44,20 @@ export class LienHeService {
       .pipe(catchError(this.handleError));
   }
 
+  public getNoneRead(): Observable<any> {
+    const url = `${this.REST_API_SERVER}/noneread`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   public addNew(data: any): Observable<any> {
     const url = `${this.REST_API_SERVER}`;
 

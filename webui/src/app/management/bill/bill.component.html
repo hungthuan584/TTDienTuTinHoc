@@ -1,0 +1,122 @@
+<div class="bill-box">
+    <mat-toolbar>
+        <div class="search-box">
+            <mat-form-field appearance="outline">
+                <mat-label>Tìm kiếm</mat-label>
+                <input type="text" matInput autocomplete="off">
+            </mat-form-field>
+        </div>
+        <div class="spacer"></div>
+        <div class="date">
+            <form>
+                <label style="font-size: 14px;"> Từ </label>&nbsp; <input type="date">&nbsp;&nbsp;
+                <label style="font-size: 14px;"> Đến </label>&nbsp; <input type="date">&nbsp;&nbsp;
+                <button mat-icon-button color="primary" style="background-color: #ecf0f1;">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </form>
+        </div>
+        <div class="spacer"></div>
+        <div class="sort-box">
+            <label style="font-size: 14px;"><i class="fa fa-sort"></i> Sắp xếp </label> &nbsp;
+            <select class="form-control-sm">
+                <option value="0" selected>Tất cả</option>
+                <option value="1">Đã thanh toán</option>
+                <option value="2">Chưa thanh toán</option>
+                <option value="3">Đã huỷ</option>
+            </select>
+        </div>
+    </mat-toolbar>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="stt">
+            <th mat-header-cell *matHeaderCellDef>
+                STT
+            </th>
+            <td mat-cell *matCellDef="let i = index">
+                {{ i+1 }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>
+                Mã Học Viên
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.HV_Id }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="hoten">
+            <th mat-header-cell *matHeaderCellDef>
+                Họ Tên
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.HV_HoTen }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="gioitinh">
+            <th mat-header-cell *matHeaderCellDef>
+                Giới Tính
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ (element.HV_GioiTinh==1)? 'Nam':'Nữ' }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="noidung">
+            <th mat-header-cell *matHeaderCellDef>
+                Nội Dung
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.HD_NoiDung }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ngaydangky">
+            <th mat-header-cell *matHeaderCellDef>
+                Ngày Đăng Ký
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.HD_CreateDate | date: 'dd-MM-yyyy'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="sotien">
+            <th mat-header-cell *matHeaderCellDef>
+                Số Tiền
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.HD_SoTien | number }} VND
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>
+                Trạng Thái
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ (element.HD_IsComplete==1)? 'Đã thanh toán':'Chưa thanh toán'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="#">
+            <th mat-header-cell *matHeaderCellDef>
+                #
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: right;">
+                <button mat-icon-button color="primary" [matMenuTriggerFor]="menu"
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item title="Chi tiết" (click)="infoClick(element.HD_Id)">
+                        <mat-icon>infomation</mat-icon>
+                        <span>Chi tiết</span>
+                    </button>
+
+                    <button *ngIf="element.HD_IsDelete != 1" mat-menu-item title="Chi tiết" (click)="cancelClick(element.HD_Id)">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Huỷ</span>
+                    </button>
+
+                </mat-menu>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

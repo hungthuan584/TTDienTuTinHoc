@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
-import { PhanQuyenService } from '../services/phan-quyen.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
 @Injectable({

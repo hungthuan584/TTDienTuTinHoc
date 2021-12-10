@@ -1,1 +1,86 @@
-<p>post works!</p>
+<div class="post-box">
+    <mat-toolbar>
+        <button mat-raised-button color="primary" (click)="addClick()">
+            <mat-icon>person_add</mat-icon>
+            Thêm
+        </button>
+        <div class="spacer"></div>
+        <div class="search-box">
+            <mat-form-field appearance="outline">
+                <mat-label>Tìm kiếm</mat-label>
+                <input type="text" matInput autocomplete="off" (keyup)="filterData($event);">
+            </mat-form-field>
+        </div>
+    </mat-toolbar>
+    <div class=" post-list">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="stt">
+                <th mat-header-cell *matHeaderCellDef>
+                    STT
+                </th>
+                <td mat-cell *matCellDef="let i = index" style="width: 8%;">
+                    {{ i+1 }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tieude">
+                <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;">
+                    Bài viết
+                </th>
+                <td mat-cell *matCellDef="let element" style="padding-left: 20px; padding-right: 20px;">
+                    <div class="text-left" style="margin: 10px;">
+                        <h4 style="color: #2980b9; margin: 0; text-transform: uppercase;">{{element.BV_TieuDe}}
+                        </h4>
+                        <div class="content">
+                            {{element.BV_NoiDung}}
+                        </div>
+                        <div *ngIf="element.BV_UploadFile" class="file" style="font-size: 13px; color: grey;">
+                            Văn bản : <a href="http://localhost:3000/api/baiviet/files/{{element.BV_UploadFile}}"
+                                target="_blank">{{element.BV_UploadFile}}</a>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span style="color: gray; font-size: 12px; font-style: italic;">
+                            Tạo bởi : {{element.BV_CreateBy}} lúc {{element.BV_CreateDate | date: 'dd-MM-yyyy
+                            HH:mm:ss'}}
+                        </span>
+                        <span *ngIf="element.BV_UpdateBy" style="color: gray; font-size: 12px; font-style: italic;">
+                            &nbsp;|&nbsp; Sửa bởi : {{element.BV_UpdateBy}} lúc {{element.BV_UpdateDate | date:
+                            'dd-MM-yyyy HH:mm:ss'}}
+                        </span>
+                        <span *ngIf="element.BV_IsDelete==1" style="color: gray; font-size: 12px; font-style: italic;">
+                            &nbsp;|&nbsp; Xoá lúc : {{element.BV_DeleteDate | date: 'dd-MM-yyyy HH:mm:ss'}}
+                        </span>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef style="width: 8%; text-align: center;">
+                    #
+                </th>
+                <td mat-cell *matCellDef="let element" style="width: 8%; text-align: right;">
+                    <button [disabled]="element.BV_IsDelete==1" mat-icon-button color="primary"
+                        [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="editClick(element.BV_Id)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Chỉnh sửa</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteClick(element.BV_Id)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Xoá</span>
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>

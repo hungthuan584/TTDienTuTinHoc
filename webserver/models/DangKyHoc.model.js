@@ -75,6 +75,7 @@ DangKyHoc.getByLopHoc = (lhId, result) => {
         `
         SELECT * FROM DangKyHoc dk
         JOIN HocVien hv ON hv.HV_Id = dk.HV_Id
+        JOIN LopHoc lh ON lh.LH_Id = dk.LH_Id
         WHERE dk.LH_Id = ?
         `,
         lhId,

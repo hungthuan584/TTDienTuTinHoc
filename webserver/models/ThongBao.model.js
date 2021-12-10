@@ -74,7 +74,7 @@ ThongBao.getByLopHoc = (lhId, result) => {
         JOIN LopHoc lh ON lh.LH_Id = tb.LH_Id
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         WHERE 
-            tb.LH_Id = ?
+            (tb.LH_Id = ?) AND (tb.TB_IsDelete != 1)
         ORDER BY tb.TB_CreateDate DESC
         `, lhId,
         (err, res) => {

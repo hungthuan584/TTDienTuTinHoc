@@ -1,0 +1,21 @@
+<div class="teaching-box">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="teachingForm">
+        <h4><b>Lớp :</b> {{class?.LH_Id}} - {{class?.LDT_Ten}}</h4>
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Giáo viên</mat-label>
+            <mat-select formControlName="GV_Id">
+                <mat-option *ngFor="let gv of dsGiaoVien" [value]="gv.GV_Id">
+                    {{gv.GV_Id}} - {{gv.GV_HoTen}}
+                </mat-option>
+            </mat-select>
+            <span class="help-block" *ngIf="formErrors.GV_Id">
+                * {{ formErrors.GV_Id }} <br>
+            </span>
+        </mat-form-field>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{(data.isUpdate)? 'Cập nhật':'Lưu'}}</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

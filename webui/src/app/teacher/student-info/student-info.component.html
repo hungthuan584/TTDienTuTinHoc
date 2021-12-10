@@ -1,0 +1,42 @@
+<div class="infomation-box">
+    <h2>{{data.title}}</h2>
+    <div class="text-left row" style="width: 100%; margin: 0;">
+        <div>
+            <img [src]="imageUrl" alt="Ảnh đại diện" width="200px">
+        </div>
+        <div class="spacer" style="width: 30px;"></div>
+        <table>
+            <tr>
+                <th>Mã :</th>
+                <td>{{studentInfo?.HV_Id}}</td>
+            </tr>
+            <tr>
+                <th>Họ tên :</th>
+                <td>{{studentInfo?.HV_HoTen}}</td>
+            </tr>
+            <tr>
+                <th>Giới tính :</th>
+                <td>{{(studentInfo?.HV_GioiTinh == 1)? 'Nam':'Nữ'}}</td>
+            </tr>
+            <tr>
+                <th>Ngày sinh :</th>
+                <td>{{studentInfo?.HV_NgaySinh | date: 'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <th>Nơi sinh :</th>
+                <td>{{studentInfo?.HV_NoiSinh}}</td>
+            </tr>
+            <tr>
+                <th>SĐT :</th>
+                <td>{{studentInfo?.HV_Sdt}}</td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td>{{studentInfo?.HV_Email}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center" style="margin-top: 20px;">
+        <button mat-stroked-button color="primary" (click)="onCancel()">Đóng</button>
+    </div>
+</div>

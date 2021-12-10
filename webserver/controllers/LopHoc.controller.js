@@ -37,41 +37,68 @@ exports.getById = (req, res) => {
     );
 }
 
-exports.addNew = (req, res) => {
-    const LopHocReqData = new LopHocModel(req.body);
-    LopHocReqData.LH_UpdateDate = '-  -     :  :';
-    LopHocReqData.LH_IsComplete = 0;
-    LopHocReqData.LH_CompleteDate = '-  -     :  :';
-
-    LopHocModel.countNumber(
-        LopHocReqData.LDT_Id,
+exports.getByGiaoVien = (req, res) => {
+    LopHocModel.getByGiaoVien(
+        req.params.id,
         (err, LopHoc) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
-                var d = 0;
-                if (LopHoc) {
-                    d = LopHoc.length;
-                }
+                return res.json(LopHoc);
+            }
+        }
+    );
+}
 
-                var id = LopHocReqData.LDT_Id + (d + 1).toString();
+exports.addNew = (req, res) => {
+    const LopHocReqData = new LopHocModel(req.body);
+    LopHocReqData.LH_UpdateDate = '-  -     :  :';
+    LopHocReqData.LH_IsActive = 1;
+    LopHocReqData.LH_IsComplete = 0;
+    LopHocReqData.LH_CompleteDate = '-  -     :  :';
 
-                LopHocReqData.LH_Id = id;
-
-                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-                    return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-                }
-                else {
-                    LopHocModel.addNew(
-                        LopHocReqData,
-                        (err) => {
+    LopHocModel.getByPH(
+        req.body.PH_Id,
+        (err, PhongHoc) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                if (!PhongHoc) {
+                    LopHocModel.countNumber(
+                        LopHocReqData.LDT_Id,
+                        (err, LopHoc) => {
                             if (err) {
-                                return res.json({ status: 0, message: err });
+                                return res.status(500).json({ status: 0, message: err });
                             } else {
-                                return res.json({ status: 1, message: 'Created successfully' });
+                                var d = 0;
+                                if (LopHoc) {
+                                    d = LopHoc.length;
+                                }
+
+                                var id = LopHocReqData.LDT_Id + (d + 1).toString();
+
+                                LopHocReqData.LH_Id = id;
+
+                                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                                    return req.send(400).send({ status: 0, message: 'Please fill all fields' });
+                                }
+                                else {
+                                    LopHocModel.addNew(
+                                        LopHocReqData,
+                                        (err) => {
+                                            if (err) {
+                                                return res.json({ status: 0, message: err });
+                                            } else {
+                                                return res.json({ status: 1, message: 'Created successfully' });
+                                            }
+                                        }
+                                    );
+                                }
                             }
                         }
                     );
+                } else {
+                    return res.json({ status: 0, message: 'Trùng phòng học' });
                 }
             }
         }
@@ -106,6 +133,18 @@ exports.deActivate = (req, res) => {
                 return res.status(500).json({ status: 0, message: err });
             } else {
                 return res.json({ status: 1, message: 'Deactivated successfully' });
+            }
+        }
+    )
+}
+exports.activeRegister = (req, res) => {
+    LopHocModel.activeRegister(
+        req.params.id,
+        (err) => {
+            if (err) {
+                return res.status(500).json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Actived successfully' });
             }
         }
     )

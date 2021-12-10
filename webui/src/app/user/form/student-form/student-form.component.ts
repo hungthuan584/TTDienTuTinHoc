@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
-import { AuthService } from 'src/app/services/auth.service';
 import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
+import { HoaDonService } from 'src/app/services/hoa-don.service';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
+import { SendEmailService } from 'src/app/services/send-email.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Swal from 'sweetalert2';
 import { StudentDialogData } from '../../admissions/admissions.component';
@@ -79,9 +80,9 @@ export class StudentFormComponent implements OnInit {
     private fb: FormBuilder,
     private hocvien: HocVienService,
     private lophoc: LopHocService,
-    private dangky: DangKyHocService,
     private tokenStorage: TokenStorageService,
-    private authService: AuthService,
+    private email: SendEmailService,
+    private hoadon: HoaDonService
   ) { }
 
   ngOnInit(): void {
@@ -89,15 +90,15 @@ export class StudentFormComponent implements OnInit {
       LH_Id: ['', Validators.required],
       HV_HoTen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       HV_GioiTinh: ['', Validators.required],
-      HV_NgaySinh: ['', Validators.required],
-      HV_NoiSinh: ['', Validators.required],
+      HV_NgaySinh: ['1999-06-19', Validators.required],
+      HV_NoiSinh: ['Cần Thơ', Validators.required],
       HV_Cmnd: ['335689798', Validators.required],
-      HV_NgayCapCmnd: ['', Validators.required],
-      HV_NoiCapCmnd: ['', Validators.required],
+      HV_NgayCapCmnd: ['2014-12-01', Validators.required],
+      HV_NoiCapCmnd: ['Cần Thơ', Validators.required],
       HV_DanToc: ['Kinh', Validators.required],
       HV_QuocTich: ['Việt Nam', Validators.required],
       HV_Sdt: ['0987654321', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
-      HV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
+      HV_Email: ['abcd@gmail.com', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
       HV_Mssv: ['']
     });
 
@@ -124,6 +125,14 @@ export class StudentFormComponent implements OnInit {
         this.logValidationErrors(this.studentForm);
       }
     );
+
+    if (this.data.hvId) {
+      this.hocvien.getById(this.data.hvId).subscribe(
+        (result) => {
+          this.setValueForm(result);
+        }
+      );
+    }
   }
 
   filterData(data: any) {
@@ -176,78 +185,82 @@ export class StudentFormComponent implements OnInit {
 
   onSubmit() {
     if (this.studentForm.valid) {
-      var lop = this.studentForm.controls['LH_Id'].value;
-      this.dangky.getByLopHoc(lop).subscribe(
-        (danhsachlop) => {
-          if (danhsachlop.status == 1) {
-            this.lophoc.getById(lop).subscribe(
-              (timlophoc) => {
-                if (danhsachlop.siso < timlophoc.LH_SiSo) {
+      Swal.fire({
+        title: 'Đăng ký học?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đăng ký'
+      }).then(
+        (result) => {
+          if (result.isConfirmed) {
+            this.hocvien.addNew(this.studentForm.value).subscribe(
+              (hocvien) => {
+                if (hocvien.status == 1) {
                   Swal.fire({
-                    title: 'Đăng ký học?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Lưu'
-                  }).then(
-                    (result) => {
-                      if (result.isConfirmed) {
-                        this.hocvien.addNew(this.studentForm.value).subscribe(
-                          (res) => {
-                            if (res.status == 1) {
-                              var loginData = {
-                                TK_TenDangNhap: res.username,
-                                TK_MatKhau: 'u$erCit@2021'
-                              }
-                              this.authService.login(loginData).subscribe(
-                                (result) => {
-                                  if (result.isLoggedIn == 1) {
-                                    this.tokenStorage.saveStatus(result.isLoggedIn);
-                                    this.tokenStorage.saveToken(result.token);
-                                    this.tokenStorage.saveUser(result.loginAccount);
-                                    Swal.fire({
-                                      icon: 'success',
-                                      title: 'Đăng ký thành công',
-                                      showConfirmButton: true
-                                    }).then(
-                                      () => {
-                                        this.dialogRef.close();
-                                      }
-                                    );
-                                  } else {
-                                    console.log('Result: ', result);
-                                  }
+                    title: 'Đang gửi thông tin ...',
+                    text: 'Vui lòng đợi trung giây lát!',
+                    timer: 10000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                  });
+
+                  this.hoadon.addLearn(hocvien.username, this.studentForm.value).subscribe(
+                    (hoadon) => {
+                      if (hoadon.status == 1) {
+                        this.email.sendAccount(hocvien.username, this.studentForm.value).subscribe(
+                          (result) => {
+                            if (result.status == 1) {
+                              Swal.fire({
+                                icon: 'success',
+                                title: 'Đăng ký thành công',
+                                text: 'Vui lòng kiểm tra email để xem thông tin đăng nhập',
+                                showConfirmButton: true
+                              }).then(
+                                () => {
+                                  this.dialogRef.close();
                                 }
                               );
                             } else {
                               Swal.fire({
                                 icon: 'error',
-                                title: 'Lỗi!',
+                                title: result.message,
                                 showConfirmButton: true
-                              }).then(
-                                () => {
-                                  this.ngOnInit();
-                                }
-                              );
+                              });
                             }
                           }
                         );
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: hoadon.message,
+                          showConfirmButton: true
+                        });
                       }
                     }
                   );
                 } else {
                   Swal.fire({
                     icon: 'error',
-                    title: 'Lớp học đủ số lượng',
+                    title: hocvien.message,
                     showConfirmButton: true
-                  });
+                  }).then(
+                    () => {
+                      this.ngOnInit();
+                    }
+                  );
                 }
               }
             );
           }
         }
       );
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Nhập đầy đủ thông tin'
+      });
     }
   }
 

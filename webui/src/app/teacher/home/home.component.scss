@@ -1,0 +1,26 @@
+.home-box {
+    background-color: #ffffff;
+    width: 100%;
+    table {
+        
+        width: 100%;
+        height: 100%;
+        td {
+            vertical-align: middle;
+            a:hover {
+                text-decoration: none;
+            }
+        }
+        th {
+            vertical-align: middle;
+        }
+    }
+}
+
+.name {
+    width: 100%;
+    background-color: #192a56;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 15px;
+}

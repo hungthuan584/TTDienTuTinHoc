@@ -5,7 +5,7 @@ import { NhanVienService } from 'src/app/services/nhan-vien.service';
 import { ThongBaoService } from 'src/app/services/thong-bao.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Swal from 'sweetalert2';
-import { ClassDialogData } from '../home/home.component';
+import { ClassDialogData } from '../classroom/classroom.component';
 import { AddNotifyComponent } from '../form/add-notify/add-notify.component';
 
 @Component({

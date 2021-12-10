@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.code = randomCode(6);
+    this.loginForm.controls['MaAnToan'].setValue(this.code);
   }
 
   submit(): void {
@@ -53,21 +54,36 @@ export class LoginComponent implements OnInit {
                 this.tokenStorage.saveStatus(result.isLoggedIn);
                 this.tokenStorage.saveToken(result.token);
                 this.tokenStorage.saveUser(result.loginAccount);
+
                 if (result.loginAccount.TK_NumberOfLogin == 0) {
                   this.tokenStorage.saveReqChange(1);
                 } else {
                   this.tokenStorage.saveReqChange(0);
                 }
-                if (result.loginAccount.Q_Id <= 2) {
-                  if (this.data.isDialog) {
+
+                if (this.data.isDialog) {
+                  if (result.loginAccount.Q_Id <= 2) {
                     this.router.navigate(['quantrihethong']);
                     this.dialogRef.close();
                   } else {
-                    this.router.navigate(['quantrihethong']);
+                    if (result.loginAccount.Q_Id == 3) {
+                      this.router.navigate(['quanlylophoc']);
+                      this.dialogRef.close();
+                    } else {
+                      this.router.navigate(['chungchitinhoc']);
+                      this.dialogRef.close();
+                    }
                   }
                 } else {
-                  this.router.navigate(['chungchitinhoc']);
-                  this.dialogRef.close();
+                  if (result.loginAccount.Q_Id <= 2) {
+                    this.router.navigate(['quantrihethong']);
+                  } else {
+                    if (result.loginAccount.Q_Id == 3) {
+                      this.router.navigate(['quanlylophoc']);
+                    } else {
+                      this.router.navigate(['chungchitinhoc']);
+                    }
+                  }
                 }
               }
             );

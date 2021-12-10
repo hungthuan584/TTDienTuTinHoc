@@ -205,7 +205,7 @@ export class ChangeInfoComponent implements OnInit {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Lỗi!'
+        title: 'Nhập đầy đủ tất cả các trường'
       }).then(
         () => {
           this.ngOnInit();

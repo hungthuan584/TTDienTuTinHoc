@@ -11,6 +11,8 @@ route.post('/', GiaoVienController.addNew);
 
 route.put('/:id', GiaoVienController.updateById);
 
+route.patch('/:id', GiaoVienController.changeInfo);
+
 route.delete('/:id', GiaoVienController.deleteById);
 
 module.exports = route;

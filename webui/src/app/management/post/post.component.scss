@@ -1,0 +1,23 @@
+.mat-toolbar {
+    height: fit-content;
+    background-color: #ffffff;
+}
+
+.spacer {
+    width: 5%;
+}
+
+.search-box {
+    mat-form-field {
+        margin-top: 15px;
+        width: 600px;
+        font-size: 14px;
+    }
+}
+
+table{
+    width: 100%;
+    td{
+        vertical-align: middle;
+    }
+}

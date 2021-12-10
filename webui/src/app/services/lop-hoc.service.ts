@@ -51,7 +51,20 @@ export class LopHocService {
 
   public getById(id: string): Observable<any> {
 
-    const url = `${this.REST_API_SERVER}/${id}`;
+    const url = `${this.REST_API_SERVER}/thongtin/${id}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getByTeacher(gvId: any): Observable<any> {
+
+    const url = `${this.REST_API_SERVER}/giaovien/${gvId}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(
@@ -87,7 +100,18 @@ export class LopHocService {
   }
 
   public deActivate(id: string): Observable<any> {
-    const url = `${this.REST_API_SERVER}/${id}`;
+    const url = `${this.REST_API_SERVER}/deactivate/${id}`;
+
+    return this.httpClient.patch<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+  public activeRegister(id: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/active/${id}`;
 
     return this.httpClient.patch<any>(url, this.httpOptions)
       .pipe(

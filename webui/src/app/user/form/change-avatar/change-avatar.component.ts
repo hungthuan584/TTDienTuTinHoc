@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
 import { HinhAnhService } from 'src/app/services/hinh-anh.service';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
-import { image } from 'src/app/_helpers/image.const';
 import Swal from 'sweetalert2';
 import { InfoDialogData } from '../../person/infomation/infomation.component';
 

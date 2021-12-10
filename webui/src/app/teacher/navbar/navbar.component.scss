@@ -1,0 +1,22 @@
+.mat-toolbar {
+    background-color: #021420;
+    height: fit-content;
+    color: #ffffff;
+    a {
+        margin: 5px;
+        color: #ffffff;
+        text-decoration: none;
+    }
+}
+
+.logo{
+    padding: 5px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+a:hover {
+    text-decoration: none;
+}

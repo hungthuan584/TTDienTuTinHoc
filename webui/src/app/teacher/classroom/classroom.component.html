@@ -1,0 +1,81 @@
+<div class="classroom-box">
+    <div class="name row">
+        Quản lý lớp học
+    </div>
+    <div class="body">
+        <div class="title">
+            Thông tin
+        </div>
+        <div class="classroom">
+            <table>
+                <tr>
+                    <td>
+                        <b>Lớp</b>: {{classInfo?.LH_Id}} - {{classInfo?.LDT_Ten}}
+                    </td>
+                    <td>
+                        <b>Sỉ số</b>: {{soluong}}/{{classInfo?.LH_SiSo}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Thời gian học</b>: {{classInfo?.LH_NgayHoc}} &nbsp;
+                        {{classInfo?.LH_GioBatDau}}-{{classInfo?.LH_GioKetThuc}}
+                    </td>
+                    <td>
+                        <b>Phòng học</b>: {{classInfo?.PH_Ten}}
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <button mat-stroked-button color="primary" (click)="showList()">Danh sách lớp học</button>
+            </div>
+        </div>
+        <div class="title row">
+            Thông báo
+        </div>
+        <div class="row" style="width: 100%; margin: 0; padding: 5px;">
+            <div class="spacer"></div>
+            <button mat-flat-button color="primary" (click)="addNotify()">
+                Đăng thông báo
+            </button>
+        </div>
+        <div class="classroom" style="height: 300px; background-color: #ffffff;">
+            <table class="table table-striped">
+                <tbody>
+                    <tr *ngFor="let tb of dsThongBao; let i = index">
+                        <td style="vertical-align: top; padding-left: 20px;">{{i+1}}</td>
+                        <td style="vertical-align: middle;">
+                            {{tb.TB_NoiDung}} <br>
+                            <div class="text-right">
+                                <span style="font-size: 12px; color: gray; font-style: italic;">
+                                    Đăng {{tb.TB_CreateDate | date: 'dd-MM-yyyy HH:mm:ss'}} bởi {{tb.TB_CreateBy}}
+                                </span><br>
+                                <span *ngIf="tb.TB_UpdateDate != '0000-00-00 00:00:00'"
+                                    style="font-size: 12px; color: gray; font-style: italic;">
+                                    Chỉnh sửa {{tb.TB_UpdateDate | date: 'dd-MM-yyyy HH:mm:ss'}} bởi
+                                    {{tb.TB_UpdateBy}}
+                                </span>
+                            </div>
+                        </td>
+
+                        <td style="text-align: right; vertical-align: middle;">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="editClick(tb.TB_Id)">
+                                    <mat-icon>edit</mat-icon>
+                                    Sửa
+                                </button>
+                                <button mat-menu-item (click)="deleteClick(tb.TB_Id)">
+                                    <mat-icon>delete</mat-icon>
+                                    Xoá
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

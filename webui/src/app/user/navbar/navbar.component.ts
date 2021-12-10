@@ -27,13 +27,12 @@ export class NavbarComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private hocvien: HocVienService,
     private authService: AuthService,
-    private image: HinhAnhService,
-    private sanitizer: DomSanitizer,
+    private image: HinhAnhService
   ) { }
 
   public data: any;
   loginStatus: any;
-  loginAccount = this.tokenStorage.getUser();;
+  loginAccount = this.tokenStorage.getUser();
   currentUser: any;
   imageUrl: any;
 
@@ -41,13 +40,18 @@ export class NavbarComponent implements OnInit {
     if (this.tokenStorage.getStatus().includes('0')) {
       this.loginStatus = false;
     } else {
-      this.loginStatus = true;
-      this.hocvien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
-        (result: any) => {
-          this.currentUser = result;
-          this.imageUrl = this.image.getAvatar(result.TK_AnhDaiDien);
-        }
-      );
+      if (this.loginAccount.Q_Id != 4) {
+        window.sessionStorage.clear();
+        this.loginStatus = false;
+      } else {
+        this.loginStatus = true;
+        this.hocvien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
+          (result: any) => {
+            this.currentUser = result;
+            this.imageUrl = this.image.getAvatar(result.TK_AnhDaiDien);
+          }
+        );
+      }
     }
   }
 

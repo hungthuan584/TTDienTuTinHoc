@@ -7,7 +7,7 @@ exports.getByLopHoc = (req, res) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
-                return res.json({ status: 1, siso: HocVien.length, data: HocVien });
+                return res.json(HocVien);
             }
         }
     );

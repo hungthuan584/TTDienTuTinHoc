@@ -85,7 +85,6 @@ GiaoVien.addNew = (data, result) => {
     );
 }
 
-// Sua thong tin hoc vien
 GiaoVien.updateById = (id, data, result) => {
     dbConnect.query(
         `
@@ -117,6 +116,41 @@ GiaoVien.updateById = (id, data, result) => {
                 result(err, null);
             } else {
                 console.log('Updated Successfully!');
+                result(null, res);
+            }
+        }
+    );
+}
+
+GiaoVien.changeInfo = (id, data, result) => {
+    dbConnect.query(
+        `
+        UPDATE GiaoVien
+	    SET
+            GV_HoTen = ?,
+            GV_GioiTinh = ?,
+            GV_NgaySinh = ?,
+            GV_DiaChi = ?,
+            GV_Sdt = ?,
+            GV_Email = ?,
+            GV_UpdateDate = CURRENT_TIMESTAMP()
+	    WHERE GV_Id = ?
+        `,
+        [
+            data.GV_HoTen,
+            data.GV_GioiTinh,
+            data.GV_NgaySinh,
+            data.GV_DiaChi,
+            data.GV_Sdt,
+            data.GV_Email,
+            id
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error While Changing', err);
+                result(err, null);
+            } else {
+                console.log('Changed Successfully!');
                 result(null, res);
             }
         }

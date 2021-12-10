@@ -57,8 +57,6 @@ export class AuthService {
       return false;
     } else {
       var tokenExpired = helper.isTokenExpired(this.tokenStorage.getToken());
-      console.log(tokenExpired);
-
       if (this.tokenStorage.getToken() !== null && tokenExpired == true) {
         Swal.fire({
           icon: 'info',
@@ -77,10 +75,21 @@ export class AuthService {
 
   public canAccess(url: string) {
     var user = this.tokenStorage.getUser();
-    if ((url.includes('quantrihethong') && user.Q_Id <= 2) || (url.includes('chungchitinhoc/ca-nhan') && user.Q_Id == 4)) {
+    if ((url.includes('quantrihethong') && user.Q_Id <= 2) ||
+      (url.includes('quanlylophoc') && user.Q_Id == 3) ||
+      (url.includes('chungchitinhoc') && user.Q_Id == 4)) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public childrenAccess(url: string) {
+    var user = this.tokenStorage.getUser();
+    if (url.includes('ca-nhan') && user.Q_Id != 4) {
+      return false;
+    } else {
+      return true;
     }
   }
 

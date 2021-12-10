@@ -75,6 +75,16 @@ export class GiaoVienService {
       .pipe(catchError(this.handleError));
   }
 
+  public changeInfo(id: any, data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/${id}`;
+
+    return this.httpClient.patch<any>(url, data, this.httpOptions)
+      .pipe(
+        map((data) => { return data; })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   public deleteById(id: any): Observable<any> {
     const url = `${this.REST_API_SERVER}/${id}`;
 

@@ -40,7 +40,7 @@ export class HinhAnhService {
   }
 
   public getAvatar(filename: any): string {
-    if (!filename) {
+    if (!filename || filename == undefined || filename == '') {
       return `${this.REST_AIP_SERVER}/default_avatar.png`;
     } else {
       return `${this.REST_AIP_SERVER}/${filename}`;
