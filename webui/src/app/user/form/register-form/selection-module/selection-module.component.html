@@ -1,0 +1,29 @@
+<div class="module-box">
+    <h2>Chọn module dự thi</h2>
+    <table class="table table-striped" style="width: 700px;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Module</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let md of dsModule">
+                <td>
+                    <input type="checkbox" (change)="onSelect($event)" [value]="md.MD_Id">
+                </td>
+                <td>
+                    {{md.MD_Id}}
+                </td>
+                <td>
+                    {{md.MD_Ten}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Chọn</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="onClose()">Đóng</button>
+    </div>
+</div>

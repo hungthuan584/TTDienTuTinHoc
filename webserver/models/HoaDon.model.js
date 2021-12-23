@@ -8,7 +8,6 @@ var HoaDon = function (HoaDon) {
     this.HD_IsComplete = HoaDon.HD_IsComplete;
     this.HD_CreateBy = HoaDon.HD_CreateBy;
     this.HD_CreateDate = new Date();
-    this.HD_CompleteDate = new Date();
     this.HD_IsDelete = HoaDon.HD_IsDelete;
 }
 
@@ -18,6 +17,7 @@ HoaDon.getAll = (result) => {
         SELECT *
         FROM HoaDon hd
         JOIN HocVien hv ON hv.HV_Id = hd.HV_Id
+        ORDER BY hd.HD_IsComplete ASC, hd.HV_Id DESC
         `,
         (err, res) => {
             if (err) {
@@ -133,8 +133,7 @@ HoaDon.confirmComplete = (id, result) => {
         `
         UPDATE HoaDon
         SET 
-            HD_IsComplete = 1,
-            HD_CompleteDate = CURDATE()
+            HD_IsComplete = 1
         WHERE HD_Id = ?
         `,
         id,
@@ -149,6 +148,22 @@ HoaDon.confirmComplete = (id, result) => {
             }
         }
     );
+}
+
+HoaDon.deleteById = (id, result) => {
+    dbConnect.query(
+        `UPDATE HoaDon SET HD_IsDelete = 1 WHERE HD_Id = ?`, id,
+        (err, res) => {
+            if (err) {
+                console.log('Error While Updating', err);
+                result(null, err);
+            }
+            else {
+                console.log('Updated Successfully');
+                result(null, res);
+            }
+        }
+    )
 }
 
 module.exports = HoaDon;

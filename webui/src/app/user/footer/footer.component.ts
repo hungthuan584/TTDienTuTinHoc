@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeThongService } from 'src/app/services/he-thong.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private hethong: HeThongService
+  ) { }
+  sys: any;
 
   ngOnInit(): void {
+    this.hethong.getInfo().subscribe(
+      (result) => {
+        this.sys = result;
+      }
+    );
   }
 
 }

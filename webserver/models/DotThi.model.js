@@ -4,14 +4,14 @@ var DotThi = function (DotThi) {
     this.DT_Ten = DotThi.DT_Ten;
     this.DT_HanDangKy = DotThi.DT_HanDangKy;
     this.DT_IsActive = DotThi.DT_IsActive;
+    this.DT_IsComplete = DotThi.DT_IsComplete;
     this.DT_CreateDate = new Date();
     this.DT_UpdateDate = new Date();
-    this.DT_HoanThanh = DotThi.DT_HoanThanh;
 }
 
 DotThi.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM DotThi`,
+        `SELECT * FROM DotThi ORDER BY DT_Id DESC`,
         (err, res) => {
             if (err) {
                 console.log('Error while select', err);
@@ -26,7 +26,7 @@ DotThi.getAll = (result) => {
 
 DotThi.getCurrent = (result) => {
     dbConnect.query(
-        `SELECT * FROM DotThi WHERE DT_HoanThanh = 0`,
+        `SELECT * FROM DotThi WHERE DT_IsComplete = 0`,
         (err, res) => {
             if (err) {
                 console.log('Error while select', err);
@@ -96,7 +96,7 @@ DotThi.completeById = (id, result) => {
     dbConnect.query(
         `UPDATE DotThi
         SET
-            DT_HoanThanh = 1
+            DT_IsComplete = 1
         WHERE DT_Id = ?`,
         id,
         (err, res) => {
@@ -115,7 +115,7 @@ DotThi.lockRegister = (id, result) => {
     dbConnect.query(
         `UPDATE DotThi
         SET
-            DT_IsActive = 1
+            DT_IsActive = 0
         WHERE DT_Id = ?`,
         id,
         (err, res) => {

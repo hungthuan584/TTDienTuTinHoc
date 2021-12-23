@@ -1,36 +1,79 @@
 <div class="bill-box">
     <h2>{{data.title}}</h2>
     <div class="content" id="print-document">
-        <div class="text-center">
-            <h4 style="text-transform: uppercase; font-weight: bold;">{{center?.Ten}}</h4>
-            <h1 style="font-weight: bold;">PHIẾU THU</h1>
-            <h3>
-                Ngày: {{bill?.HD_CreateDate | date:'dd-MM-yyyy'}} <br>
-                Số: {{bill?.HD_Id}}
-            </h3>
+        <table style="width: 100%; ">
+            <tr>
+                <td style="width: 60%;">
+                    <div class="address text-center" style="width: 100%;">
+                        <span style="text-transform: uppercase; font-weight: bold;">{{center?.Ten}}</span><br>
+                        <span style="font-size: 13px;">{{center?.DiaChi}}</span>
+                    </div>
+                </td>
+                <td style="width: 40%; vertical-align: bottom; text-align: right;">
+                    <div class="address" style="width: 100%; vertical-align: bottom; padding-right: 50px;">
+                        <span>
+                            Số: {{bill?.HD_Id}} <br>
+                            Ngày: {{bill?.HD_CreateDate | date:'dd-MM-yyyy'}}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="text-center" style="padding: 30px;">
+
+            <span style="font-weight: bold; font-size: 24px; margin: auto;">
+                HOÁ ĐƠN
+            </span><br>
+            <span style="font-size: 13px; font-style: italic;">
+                ( Hóa đơn thu học phí, lệ phí dự thi )
+            </span>
+
         </div>
         <div class="body">
-            <div>
-                <b>Người nộp tiền</b>: {{bill?.HV_HoTen}}
-            </div>
-            <div>
-                <b>Nội dung</b>: <br> &nbsp;&nbsp;&nbsp;&nbsp;{{bill?.HD_NoiDung}}
-            </div>
-            <div>
-                <b>Số tiền</b>: {{bill?.HD_SoTien | number}}
-            </div>
-            <div>
-                <b>Người lập</b>: {{bill?.HD_CreateBy}}
-            </div>
+            <table >
+                <tr>
+                    <th>
+                        Người nộp tiền:
+                    </th>
+                    <td>
+                        {{bill?.HV_HoTen}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Nội dung:
+                    </th>
+                    <td>
+                        {{bill?.HD_NoiDung}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Số tiền:
+                    </th>
+                    <td>
+                        {{bill?.HD_SoTien | number}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Người lập:
+                    </th>
+                    <td>
+                        {{bill?.HD_CreateBy}}
+                    </td>
+                </tr>
+            </table>
             <table style="width: 100%;">
                 <tr>
-                    <td style="vertical-align: top;">
+                    <td style="vertical-align: top; width: 50%;">
                         <div class="text-center">
+                            <br>
                             <b>NGƯỜI NỘP</b> <br>
                             <span class="ghichu">(Ký, ghi rõ họ tên)</span>
                         </div>
                     </td>
-                    <td>
+                    <td style="width: 50%;">
                         <div class="text-center">
                             <span class="ghichu">Ngày........tháng.......năm 20.....</span><br>
                             <b>NGƯỜI THU</b> <br>

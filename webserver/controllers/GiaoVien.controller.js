@@ -1,6 +1,7 @@
 const GiaoVienModel = require('../models/GiaoVien.model');
 const TaiKhoanModel = require('../models/TaiKhoan.model');
 const { genSaltSync, hashSync } = require('bcrypt');
+const HeThongModel = require('../models/HeThong.model');
 
 exports.getAll = (req, res) => {
     GiaoVienModel.getAll(
@@ -22,7 +23,7 @@ exports.getById = (req, res) => {
             if (err) {
                 return res.status(500).json({ status: 0, message: err });
             } else {
-                GiaoVien.TK_MatKhau = undefined;
+                // GiaoVien.TK_MatKhau = undefined;
                 return res.json(GiaoVien);
             }
         }
@@ -90,48 +91,56 @@ exports.addNew = (req, res) => {
                 }
 
                 if (h == true) {
-                    const TaiKhoanReqData = new TaiKhoanModel(req.body);
-                    var salt = genSaltSync(10);
-
-                    TaiKhoanReqData.TK_TenDangNhap = id;
-                    TaiKhoanReqData.TK_MatKhau = hashSync('u$erCit@' + new Date().getFullYear().toString(), salt);
-                    TaiKhoanReqData.Q_Id = 3;
-                    TaiKhoanReqData.TK_XacThuc = 1;
-                    TaiKhoanReqData.TK_IsActive = 1;
-                    TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
-                    TaiKhoanReqData.TK_DeactivateDate = '-  -     :  :';
-
-                    TaiKhoanModel.addNew(
-                        TaiKhoanReqData,
-                        (err) => {
+                    HeThongModel.getConfig(
+                        (err, HeThong) => {
                             if (err) {
-                                return res.status(500).json({ status: 0, message: err });
+                                return res.json({ status: 0, message: err });
                             } else {
-                                const GiaoVienReqData = new GiaoVienModel(req.body);
+                                const TaiKhoanReqData = new TaiKhoanModel(req.body);
+                                var salt = genSaltSync(10);
 
-                                GiaoVienReqData.GV_Id = id;
-                                GiaoVienReqData.TK_TenDangNhap = id;
-                                GiaoVienReqData.GV_IsDelete = 0;
-                                GiaoVienReqData.GV_UpdateDate = '-  -     :  :';
-                                GiaoVienReqData.GV_DeleteDate = '-  -     :  :';
+                                var password = HeThong.DefaultPassword;
 
-                                if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-                                    return req.send(400).send({ status: 0, message: 'Nhập đầy đủ tất cả các trường' });
-                                } else {
-                                    GiaoVienModel.addNew(
-                                        GiaoVienReqData,
-                                        (err) => {
-                                            if (err) {
-                                                return res.status(500).json({ status: 0, message: err });
+                                TaiKhoanReqData.TK_TenDangNhap = id;
+                                TaiKhoanReqData.TK_MatKhau = hashSync(password, salt);
+                                TaiKhoanReqData.Q_Id = 3;
+                                TaiKhoanReqData.TK_NumberOfLogin = 0;
+                                TaiKhoanReqData.TK_IsActive = 1;
+                                TaiKhoanReqData.TK_UpdateDate = '-  -     :  :';
+
+                                TaiKhoanModel.addNew(
+                                    TaiKhoanReqData,
+                                    (err) => {
+                                        if (err) {
+                                            return res.status(500).json({ status: 0, message: err });
+                                        } else {
+                                            const GiaoVienReqData = new GiaoVienModel(req.body);
+
+                                            GiaoVienReqData.GV_Id = id;
+                                            GiaoVienReqData.TK_TenDangNhap = id;
+                                            GiaoVienReqData.GV_IsDelete = 0;
+                                            GiaoVienReqData.GV_UpdateDate = '-  -     :  :';
+
+                                            if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
+                                                return req.send(400).send({ status: 0, message: 'Nhập đầy đủ tất cả các trường' });
                                             } else {
-                                                return res.json({ status: 1, message: 'Thêm thành công' });
+                                                GiaoVienModel.addNew(
+                                                    GiaoVienReqData,
+                                                    (err) => {
+                                                        if (err) {
+                                                            return res.status(500).json({ status: 0, message: err });
+                                                        } else {
+                                                            return res.json({ status: 1, message: 'Thêm thành công' });
+                                                        }
+                                                    }
+                                                );
                                             }
                                         }
-                                    );
-                                }
+                                    }
+                                );
                             }
                         }
-                    );
+                    )
                 }
             }
         }

@@ -1,0 +1,42 @@
+<div class="container" *ngIf="!show">
+    <h2 class="title">Thông báo {{exam?.DT_Ten}}</h2>
+    <h4 style="font-weight: bold; padding-left: 50px; padding-top: 20px; margin: 0;">HẠN ĐĂNG KÝ: {{exam?.DT_HanDangKy|
+        date:'dd-MM-yyyy'}}</h4>
+    <div class="body">
+
+        <table style="width: 100%;" class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="padding-left: 100px;">Chứng chỉ</th>
+                    <th>Lệ phí</th>
+                    <th class="text-center">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cc of dsChungChi">
+                    <td style="padding-left: 100px;">
+                        {{cc.CC_Id}} - {{cc.CC_Ten}}
+                    </td>
+                    <td>
+                        {{cc.CC_LePhi | number}} VND
+                    </td>
+                    <td class="text-center">
+                        <button [disabled]="exam?.DT_IsActive == 0" mat-raised-button color="primary" (click)="registerClick(cc.CC_Id, exam?.DT_Id)">Đăng ký</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="note">
+            <span style="font-weight: bold;">Lưu ý</span><br><br>
+            * Chuẩn bị 02 ảnh 4x6 và 02 ảnh 3x4 + giấy CMND photo <br><br>
+            * Lệ phí: đối với thí sinh tự do là 600.000đ cho CC UD CNTT cơ bản
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="show" style="height: 530px;">
+    <div class="text-center" style="height: 100%;">
+        <div class="null-content" style="margin: auto; padding-top: 20%; font-size: 28px; color: gray; font-style: italic;">
+            Chưa mở đợt thi mới
+        </div>
+    </div>
+</div>

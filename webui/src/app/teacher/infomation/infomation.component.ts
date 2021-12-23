@@ -28,7 +28,6 @@ export class InfomationComponent implements OnInit {
   ngOnInit(): void {
     this.giaovien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
       (result) => {
-        console.log(result);
         this.teacherInfo = result;
         this.imageUrl = this.hinhanh.getAvatar(result.TK_AnhDaiDien);
       }

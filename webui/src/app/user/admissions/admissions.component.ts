@@ -65,6 +65,10 @@ export class AdmissionsComponent implements OnInit {
                 data: { title: 'Đăng ký học', id: LH_Id, hvId: this.loginAccount.TK_TenDangNhap },
                 autoFocus: false, restoreFocus: false
               },
+            ).afterClosed().subscribe(
+              () => {
+                window.location.reload();
+              }
             );
           }
         }
@@ -76,6 +80,10 @@ export class AdmissionsComponent implements OnInit {
           data: { title: 'Đăng ký học', id: LH_Id },
           autoFocus: false,
           restoreFocus: false
+        }
+      ).afterClosed().subscribe(
+        () => {
+          window.location.reload();
         }
       );
     }

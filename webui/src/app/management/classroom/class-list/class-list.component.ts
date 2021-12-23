@@ -36,8 +36,7 @@ export class ClassListComponent implements OnInit {
     );
     this.dangkyhoc.getByLopHoc(this.data.lhId).subscribe(
       (result) => {
-        this.dataSource = new MatTableDataSource(result.data);
-        this.number = result.siso;
+        this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
       }
     );

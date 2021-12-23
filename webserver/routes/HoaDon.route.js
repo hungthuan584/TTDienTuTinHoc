@@ -15,8 +15,10 @@ route.get('/thongtin/:id', HoaDonController.getById);
 
 route.post('/learn/:hvId', HoaDonController.addLearn);
 
-route.post('/exam', HoaDonController.addExam);
+route.post('/exam/:hvId', HoaDonController.addExam);
 
 route.delete('/:id', HoaDonController.confirmComplete);
+
+route.delete('/cancel/:id',HoaDonController.deleteById);
 
 module.exports = route;

@@ -1,9 +1,10 @@
 .profile-box {
-    background-color: #ffffff;
+    // background-color: #ffffff;
+    height: 90% !important;
 }
 
 h2 {
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
     background-color: #30336b;
     color: #ffffff;
@@ -11,8 +12,9 @@ h2 {
 }
 
 .profile {
-    background-color: #f1f4f6;
-    padding: 20px;
+    margin: auto;
+    width: 60%;
+    background-color: #ffffff;
     table {
         width: 100%;
         th {

@@ -1,10 +1,23 @@
 const LopHocModel = require('../models/LopHoc.model');
 
+
+exports.getAll = (req, res) => {
+    LopHocModel.getAll(
+        (err, LopHoc) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(LopHoc);
+            }
+        }
+    )
+}
+
 exports.getOpening = (req, res) => {
     LopHocModel.getOpening(
         (err, LopHoc) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
                 return res.json(LopHoc);
             }
@@ -16,7 +29,7 @@ exports.getCompleted = (req, res) => {
     LopHocModel.getCompleted(
         (err, LopHoc) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
                 return res.json(LopHoc);
             }
@@ -29,7 +42,7 @@ exports.getById = (req, res) => {
         req.params.id,
         (err, LopHoc) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
                 return res.json(LopHoc);
             }
@@ -37,25 +50,12 @@ exports.getById = (req, res) => {
     );
 }
 
-exports.getByGiaoVien = (req, res) => {
-    LopHocModel.getByGiaoVien(
-        req.params.id,
-        (err, LopHoc) => {
-            if (err) {
-                return res.status(500).json({ status: 0, message: err });
-            } else {
-                return res.json(LopHoc);
-            }
-        }
-    );
-}
 
 exports.addNew = (req, res) => {
     const LopHocReqData = new LopHocModel(req.body);
     LopHocReqData.LH_UpdateDate = '-  -     :  :';
     LopHocReqData.LH_IsActive = 1;
     LopHocReqData.LH_IsComplete = 0;
-    LopHocReqData.LH_CompleteDate = '-  -     :  :';
 
     LopHocModel.getByPH(
         req.body.PH_Id,
@@ -68,7 +68,7 @@ exports.addNew = (req, res) => {
                         LopHocReqData.LDT_Id,
                         (err, LopHoc) => {
                             if (err) {
-                                return res.status(500).json({ status: 0, message: err });
+                                return res.json({ status: 0, message: err });
                             } else {
                                 var d = 0;
                                 if (LopHoc) {
@@ -130,7 +130,7 @@ exports.deActivate = (req, res) => {
         req.params.id,
         (err) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
                 return res.json({ status: 1, message: 'Deactivated successfully' });
             }
@@ -142,7 +142,7 @@ exports.activeRegister = (req, res) => {
         req.params.id,
         (err) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
             } else {
                 return res.json({ status: 1, message: 'Actived successfully' });
             }

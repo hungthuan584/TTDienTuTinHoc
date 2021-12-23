@@ -3,7 +3,7 @@
         <div class="search-box">
             <mat-form-field appearance="outline">
                 <mat-label>Tìm kiếm</mat-label>
-                <input type="text" matInput autocomplete="off">
+                <input type="text" matInput autocomplete="off" (keyup)="filterData($event);">
             </mat-form-field>
         </div>
         <div class="spacer"></div>
@@ -90,7 +90,12 @@
                 Trạng Thái
             </th>
             <td mat-cell *matCellDef="let element">
-                {{ (element.HD_IsComplete==1)? 'Đã thanh toán':'Chưa thanh toán'}}
+                <span *ngIf="element.HD_IsComplete==1" class="badge badge-pill badge-success">
+                    Đã thanh toán
+                </span>
+                <span *ngIf="element.HD_IsComplete==0" class="badge badge-pill badge-warning">
+                    Chưa thanh toán
+                </span>
             </td>
         </ng-container>
         <ng-container matColumnDef="#">
@@ -107,8 +112,13 @@
                         <mat-icon>infomation</mat-icon>
                         <span>Chi tiết</span>
                     </button>
+                    <button *ngIf="element.HD_IsComplete!=1" mat-menu-item (click)="confirmClick(element.HD_Id)">
+                        <mat-icon>task_alt</mat-icon>
+                        <span>Đã thanh toán</span>
+                    </button>
 
-                    <button *ngIf="element.HD_IsDelete != 1" mat-menu-item title="Chi tiết" (click)="cancelClick(element.HD_Id)">
+                    <button *ngIf="element.HD_IsDelete != 1" mat-menu-item title="Chi tiết"
+                        (click)="cancelClick(element.HD_Id)">
                         <mat-icon>cancel</mat-icon>
                         <span>Huỷ</span>
                     </button>

@@ -1,43 +1,46 @@
 <div class="profile-box">
-    <h2>{{data.title}}</h2>
+    <div class="spacer" style="height: 10%;"></div>
     <div class="profile">
-        <div class="text-center">
-            <img [src]="imageUrl" width="200px" height="200px" alt="Ảnh đại diện">
-            <button style="vertical-align: bottom;" mat-icon-button color="primary" title="Đổi ảnh đại diện"
-                (click)="changeAvatar()">
-                <mat-icon>photo_camera</mat-icon>
-            </button>
-        </div>
-        <table class="table table-striped">
-            <tr>
-                <th>Họ tên :</th>
-                <td>{{info?.NV_HoTen}}</td>
-                <th>Tài khoản :</th>
-                <td>{{ info?.TK_TenDangNhap }}</td>
-            </tr>
-            <tr>
-                <th>Giới tính :</th>
-                <td>{{ (info?.NV_GioiTinh == 1)? 'Nam':'Nữ' }}</td>
-                <th>Ngày sinh :</th>
-                <td>{{ info?.NV_NgaySinh | date: 'dd-MM-yyyy' }}</td>
-            </tr>
-            <tr>
-                <th>Địa chỉ :</th>
-                <td colspan="3">{{ info?.NV_DiaChi }}</td>
-            </tr>
-            <tr>
-                <th>Email :</th>
-                <td>{{ info?.NV_Email }}</td>
-                <th>Số điện thoại :</th>
-                <td>{{ info?.NV_Sdt }}</td>
-            </tr>
-        </table>
-        <div class="text-center">
-            <button mat-raised-button color="primary" (click)="editClick(info?.NV_Id)">Sửa thông tin</button>&nbsp;
-            <button mat-raised-button color="primary" (click)="changePassword(info?.TK_TenDangNhap)">
-                Đổi mật khẩu
-            </button>&nbsp;
-            <button mat-raised-button (click)="onCancel()">Đóng</button>
+        <h2>Thông tin cá nhân</h2>
+        <div class="body" style="padding: 20px;">
+            <div class="text-center">
+                <img [src]="imageUrl" width="200px" height="200px" alt="Ảnh đại diện">
+                <button style="vertical-align: bottom;" mat-icon-button color="primary" title="Đổi ảnh đại diện"
+                    (click)="changeAvatar()">
+                    <mat-icon>photo_camera</mat-icon>
+                </button>
+            </div>
+            <table class="table table-striped" style="margin: 20px;">
+                <tr>
+                    <th>Họ tên :</th>
+                    <td>{{info?.NV_HoTen}}</td>
+                    <th>Tài khoản :</th>
+                    <td>{{ info?.TK_TenDangNhap }}</td>
+                </tr>
+                <tr>
+                    <th>Giới tính :</th>
+                    <td>{{ (info?.NV_GioiTinh == 1)? 'Nam':'Nữ' }}</td>
+                    <th>Ngày sinh :</th>
+                    <td>{{ info?.NV_NgaySinh | date: 'dd-MM-yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th>Địa chỉ :</th>
+                    <td colspan="3">{{ info?.NV_DiaChi }}</td>
+                </tr>
+                <tr>
+                    <th>Email :</th>
+                    <td>{{ info?.NV_Email }}</td>
+                    <th>Số điện thoại :</th>
+                    <td>{{ info?.NV_Sdt }}</td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <button mat-raised-button color="primary" (click)="editClick(info?.NV_Id)">Sửa thông tin</button>&nbsp;
+                <button mat-raised-button color="primary" (click)="changePassword(info?.TK_TenDangNhap)">
+                    Đổi mật khẩu
+                </button>&nbsp;
+                <button mat-raised-button (click)="onCancel()">Đóng</button>
+            </div>
         </div>
     </div>
 </div>

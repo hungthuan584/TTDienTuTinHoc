@@ -11,6 +11,6 @@ route.get('/:lh_id/:hv_id', DangKyHocController.checkUnique);
 
 route.post('/', DangKyHocController.addNew);
 
-route.delete('/lophoc/:id', DangKyHocController.deleteByStudent);
+route.delete('/:id', DangKyHocController.deleteByStudent);
 
 module.exports = route;

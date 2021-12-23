@@ -7,7 +7,6 @@ var PhongHoc = function (PhongHoc) {
     this.PH_IsDelete = PhongHoc.PH_IsDelete;
     this.PH_CreateDate = new Date();
     this.PH_UpdateDate = new Date();
-    this.PH_DeleteDate = new Date();
 }
 
 // Get all
@@ -27,6 +26,29 @@ PhongHoc.getAll = (result) => {
     );
 }
 
+PhongHoc.getPhongThi = (ktId, result) => {
+    dbConnect.query(
+        `SELECT *
+        FROM phonghoc WHERE PH_Id NOT IN
+        ( SELECT ds.PH_Id FROM danhsachphongthi ds
+            JOIN thoigianthi tgt ON tgt.TGT_Id = ds.TGT_Id
+            JOIN kythi kt ON kt.KT_Id = ds.KT_Id
+            JOIN dotthi dt ON dt.DT_Id = kt.DT_Id
+            WHERE (dt.DT_IsActive = 1) AND (ds.KT_Id = ?)
+        )`, ktId,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected phong thi successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
 // Get by Id
 PhongHoc.getById = (id, result) => {
     dbConnect.query(
@@ -39,7 +61,7 @@ PhongHoc.getById = (id, result) => {
             }
             else {
                 console.log('Selected successfully');
-                result(null, res);
+                result(null, res[0]);
             }
         }
     );
@@ -112,8 +134,7 @@ PhongHoc.deleteById = (id, result) => {
         `
         UPDATE PhongHoc
         SET
-            PH_IsDelete = 1,
-            PH_DeleteDate = CURRENT_TIMESTAMP()
+            PH_IsDelete = 1
         WHERE PH_Id = ?`,
         id,
         (err, res) => {

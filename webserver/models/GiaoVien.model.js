@@ -13,7 +13,6 @@ var GiaoVien = function (GiaoVien) {
     this.GV_IsDelete = GiaoVien.GV_IsDelete;
     this.GV_CreateDate = new Date();
     this.GV_UpdateDate = new Date();
-    this.GV_DeleteDate = new Date();
 }
 
 GiaoVien.getAll = (result) => {
@@ -47,6 +46,29 @@ GiaoVien.getById = (id, result) => {
             } else {
                 console.log('Selected by id successfully');
                 result(null, res[0]);
+            }
+        }
+    );
+}
+
+GiaoVien.thongKe = (data, result) => {
+    dbConnect.query(
+        `SELECT *,gv.GV_Id
+        FROM giaovien gv
+        LEFT JOIN giangday gd ON gd.GV_Id = gv.GV_Id
+        LEFT JOIN lophoc lh ON lh.LH_Id = gd.LH_Id
+        LEFT JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        LEFT JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        ${data}
+        GROUP BY gv.GV_Id
+        `,
+        (err, res) => {
+            if (err) {
+                console.log('Error while fetching', err);
+                result(null, err);
+            } else {
+                console.log('Thống kê successfully');
+                result(null, res);
             }
         }
     );
@@ -163,8 +185,7 @@ GiaoVien.deleteById = (id, result) => {
         `
         UPDATE GiaoVien
         SET
-            GV_IsDelete = 1,
-            GV_DeleteDate = CURRENT_TIMESTAMP()
+            GV_IsDelete = 1
         WHERE GV_Id = ?
         `,
         id,

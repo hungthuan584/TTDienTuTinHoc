@@ -1,0 +1,137 @@
+<div class="exam-room">
+    <mat-toolbar>
+        <div class="form" style="width: 100%;">
+            <form [formGroup]="sortForm" style="width: 100%;">
+                <mat-form-field appearance="outline">
+                    <mat-label>Đợt thi</mat-label>
+                    <mat-select formControlName="DT_Id" (selectionChange)="changeDotThi($event)">
+                        <mat-option *ngFor="let dt of dsDotThi" [value]="dt.DT_Id">
+                            {{dt.DT_Ten}} - Hạn đăng ký {{dt.DT_HanDangKy |date:'dd-MM-yyyy'}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> &nbsp;
+                <mat-form-field appearance="outline">
+                    <mat-label>Chứng chỉ</mat-label>
+                    <mat-select formControlName="CC_Id" (selectionChange)="changeChungChi($event)">
+                        <mat-option *ngFor="let cc of dsChungChi" [value]="cc.CC_Id">
+                            {{cc.CC_Id}} - {{cc.CC_Ten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+        <div class="spacer" style="flex: 1 1 auto;"></div>
+        <div class="button-group" style="padding-right: 40px;">
+            <button mat-raised-button color="primary" (click)="onArrangeSelected()" *ngIf="selectionList.length>0">
+                Xếp đã chọn <span class="badge badge-pill badge-warning">{{selectionList.length}}</span>
+            </button> &nbsp;
+            <button mat-raised-button color="primary" (click)="onArrange()">Xếp tất cả</button>
+        </div>
+    </mat-toolbar>
+    <div class="title">
+        Danh sách thí sinh dự thi
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
+        <ng-container matColumnDef="#">
+            <th mat-header-cell *matHeaderCellDef>
+                #
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <input [disabled]="!show" type="checkbox" [value]="element.HV_Id" (change)="onSelect($event)">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>
+                Mã học viên
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_Id}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hoten">
+            <th mat-header-cell *matHeaderCellDef>
+                Họ tên
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_HoTen}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gioitinh">
+            <th mat-header-cell *matHeaderCellDef>
+                Giới tính
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{(element.HV_GioiTinh==1)? 'Nam':'Nữ'}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ngaysinh">
+            <th mat-header-cell *matHeaderCellDef>
+                Ngày sinh
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_NgaySinh |date:'dd-MM-yyyy'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="noisinh">
+            <th mat-header-cell *matHeaderCellDef>
+                NoiSinh
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_NoiSinh}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="sdt">
+            <th mat-header-cell *matHeaderCellDef>
+                SĐT
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_Sdt}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>
+                Email
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.HV_Email}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="chungchi">
+            <th mat-header-cell *matHeaderCellDef>
+                Chứng chỉ
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.CC_Ten}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="module">
+            <th mat-header-cell *matHeaderCellDef>
+                Module
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.DKT_Module}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+                #
+            </th>
+            <td mat-cell *matCellDef="let element" style="width: 2%; text-align: right;">
+                <button (click)="arrangeOne(element.HV_Id, element.CC_Id)" mat-icon-button color="primary" title="Xếp phòng">
+                    <mat-icon>meeting_room</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

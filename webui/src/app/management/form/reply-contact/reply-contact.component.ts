@@ -98,7 +98,7 @@ export class ReplyContactComponent implements OnInit {
                   );
                 } else {
                   Swal.fire({
-                    title: 'Lỗi!',
+                    title: result.message,
                     icon: 'error'
                   });
                 }

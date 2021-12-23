@@ -11,22 +11,43 @@ var LopHoc = function (LopHoc) {
     this.LH_IsComplete = LopHoc.LH_IsComplete;
     this.LH_CreateDate = new Date();
     this.LH_UpdateDate = new Date();
-    this.LH_CompleteDate = new Date();
+}
+
+LopHoc.getAll = (result) => {
+    dbConnect.query(
+        `SELECT * FROM lophoc lh
+        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        JOIN phonghoc ph ON ph.PH_Id = lh.PH_Id
+        JOIN giangday gd ON gd.LH_Id = lh.LH_Id
+        JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
+        ORDER BY lh.LH_IsComplete ASC, lh.LH_Id DESC`,
+        (err, res) => {
+            if (err) {
+                console.log('Error While Fetching', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
 }
 
 // Danh sach lop hoc
 LopHoc.getOpening = (result) => {
     dbConnect.query(
-        `SELECT
-            lh.LH_Id,lh.LH_SiSo, lh.LH_NgayKhaiGiang, lh.LH_IsActive, lh.LH_IsComplete, lh.LH_CreateDate, lh.LH_UpdateDate, lh.LH_CompleteDate,
-            ldt.LDT_Ten,tg.TG_Ten, tg.TG_ThoiGianHoc,ph.PH_Ten,gv.GV_HoTen
-        FROM LopHoc lh
-        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
-        JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
-        JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
+        `SELECT *,lh.LH_Id, COUNT(dk.HV_Id) AS soluong
+        FROM lophoc lh
+        LEFT JOIN dangkyhoc dk ON dk.LH_Id = lh.LH_Id
+        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        JOIN phonghoc ph ON ph.PH_Id = lh.PH_Id
         LEFT JOIN giangday gd ON gd.LH_Id = lh.LH_Id
         LEFT JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
-        WHERE lh.LH_IsComplete != 1`,
+        WHERE lh.LH_IsComplete = 0
+        GROUP  BY lh.LH_Id;`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -42,12 +63,15 @@ LopHoc.getOpening = (result) => {
 
 LopHoc.getCompleted = (result) => {
     dbConnect.query(
-        `SELECT *
-        FROM LopHoc lh
-        JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
-        JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
-        JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
-        WHERE lh.LH_IsComplete = 1`,
+        `SELECT *, COUNT(dk.HV_Id) AS soluong
+        FROM lophoc lh LEFT JOIN dangkyhoc dk ON dk.LH_Id = lh.LH_Id
+        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        JOIN phonghoc ph ON ph.PH_Id = lh.PH_Id
+        LEFT JOIN giangday gd ON gd.LH_Id = lh.LH_Id
+        LEFT JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
+        WHERE lh.LH_IsComplete != 0
+        GROUP  BY lh.LH_Id;`,
         (err, res) => {
             if (err) {
                 console.log('Error While Fetching', err);
@@ -60,8 +84,62 @@ LopHoc.getCompleted = (result) => {
         }
     );
 }
+
+LopHoc.thongKe = (data, result) => {
+    dbConnect.query(
+        `SELECT *, lh.LH_Id
+        FROM lophoc lh
+        LEFT JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        LEFT JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        LEFT JOIN phonghoc ph ON ph.PH_Id = lh.PH_Id
+        LEFT JOIN dangkyhoc dk ON dk.LH_Id = lh.LH_Id
+        LEFT JOIN giangday gd ON gd.LH_Id = lh.LH_Id
+        LEFT JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
+        ${data}
+        GROUP BY lh.LH_Id
+        ORDER BY lh.LH_IsComplete ASC
+        `,
+        (err, res) => {
+            if (err) {
+                console.log('Error While get data', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
 // Get by Id
 LopHoc.getById = (id, result) => {
+    dbConnect.query(
+        `
+        SELECT *,lh.LH_Id, COUNT(dk.HV_Id) AS soluong
+        FROM lophoc lh LEFT JOIN dangkyhoc dk ON dk.LH_Id = lh.LH_Id
+        JOIN lopdaotao ldt ON ldt.LDT_Id = lh.LDT_Id
+        JOIN thoigianhoc tg ON tg.TG_Id = lh.TG_Id
+        JOIN phonghoc ph ON ph.PH_Id = lh.PH_Id
+        LEFT JOIN giangday gd ON gd.LH_Id = lh.LH_Id
+        LEFT JOIN giaovien gv ON gv.GV_Id = gd.GV_Id
+        GROUP  BY lh.LH_Id HAVING lh.LH_Id = ?
+        `,
+        id,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected by id Successfully');
+                result(null, res[0]);
+            }
+        }
+    );
+}
+
+LopHoc.getByInCompleteId = (id, result) => {
     dbConnect.query(
         `
         SELECT *
@@ -69,7 +147,7 @@ LopHoc.getById = (id, result) => {
         JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
         JOIN PhongHoc ph ON ph.PH_Id = lh.PH_Id
         JOIN ThoiGianHoc tg ON tg.TG_Id = lh.TG_Id
-        WHERE lh.LH_Id = ?
+        WHERE (lh.LH_Id = ?) AND (lh.LH_IsComplete = 0)
         `,
         id,
         (err, res) => {
@@ -208,8 +286,7 @@ LopHoc.isComplete = (id, result) => {
         `
         UPDATE LopHoc
         SET
-            LH_IsComplete = 1,
-            LH_CompleteDate = CURRENT_TIMESTAMP()
+            LH_IsComplete = 1
         WHERE LH_Id = ?
         `,
         id,

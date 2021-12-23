@@ -1,8 +1,8 @@
 <mat-nav-list>
     <div class="name py-3 text-center">
-        <img src="./../../../assets/images/logo.png" alt="Logo"><br>
+        <img [src]="logoSrc" alt="Logo"><br>
         <div class="center-name text-center">
-            Trung Tâm Điện Tử Tin Học
+            {{info?.Ten}}
         </div>
     </div>
     <mat-divider></mat-divider>
@@ -11,15 +11,33 @@
     <a mat-list-item routerLink="trang-chu" routerLinkActive="list-item-active">
         <mat-icon>home</mat-icon> Trang chủ
     </a>
+
+    <a mat-list-item routerLink="lop-hoc" routerLinkActive="list-item-active">
+        <mat-icon>class</mat-icon> Lớp học
+    </a>
     <a mat-list-item routerLink="bai-viet" routerLinkActive="list-item-active">
         <mat-icon>edit</mat-icon> Bài viết
     </a>
     <a mat-list-item routerLink="hoc-vien" routerLinkActive="list-item-active">
         <mat-icon>account_box</mat-icon> Học viên
     </a>
-    <a mat-list-item routerLink="khoa-thi" routerLinkActive="list-item-active">
-        <mat-icon>list_alt</mat-icon> Khoá thi
+    <a mat-list-item routerLink="khoa-thi" routerLinkActive="list-item-active" (click)="examShowClick()">
+        <mat-icon>list_alt</mat-icon> <span>Khoá thi</span>
+        <div class="spacer" style="flex: 1 1 auto;"></div>
+        <mat-icon *ngIf="!examShow">expand_more</mat-icon>
+        <mat-icon *ngIf="examShow">expand_less</mat-icon>
     </a>
+    <div class="list-exam" *ngIf="examShow">
+        <a mat-list-item routerLink="khoa-thi/danh-sach-dang-ky-thi" routerLinkActive="list-item-active">
+            <mat-icon>view_list</mat-icon> Đăng ký thi
+        </a>
+        <a mat-list-item routerLink="khoa-thi/xep-phong-thi" routerLinkActive="list-item-active">
+            <mat-icon>format_list_numbered</mat-icon> Xếp phòng thi
+        </a>
+        <a mat-list-item routerLink="khoa-thi/ket-qua-thi" routerLinkActive="list-item-active">
+            <mat-icon>checklist_rtl</mat-icon> Kết quả thi
+        </a>
+    </div>
     <a mat-list-item routerLink="hoa-don" routerLinkActive="list-item-active">
         <mat-icon>receipt_long</mat-icon> Hoá đơn
     </a>
@@ -29,9 +47,23 @@
     <a mat-list-item routerLink="tai-khoan" routerLinkActive="list-item-active">
         <mat-icon>account_circle</mat-icon> Quản lý tài khoản
     </a>
-    <a mat-list-item routerLink="thong-ke" routerLinkActive="list-item-active">
-        <mat-icon>trending_up</mat-icon> Thống kê
+    <a mat-list-item routerLink="thong-ke" (click)="statisticalShowClick()">
+        <mat-icon>trending_up</mat-icon> <span>Thống kê</span>
+        <div class="spacer" style="flex: 1 1 auto;"></div>
+        <mat-icon *ngIf="!statisticalShow">expand_more</mat-icon>
+        <mat-icon *ngIf="statisticalShow">expand_less</mat-icon>
     </a>
+    <div class="list-statistical" *ngIf="statisticalShow">
+        <a mat-list-item routerLink="thong-ke/theo-lop-hoc" routerLinkActive="list-item-active">
+            <mat-icon>school</mat-icon> Theo lớp học
+        </a>
+        <a mat-list-item routerLink="thong-ke/theo-hoc-vien" routerLinkActive="list-item-active">
+            <mat-icon>person_outline</mat-icon> Theo học viên
+        </a>
+        <a mat-list-item routerLink="thong-ke/theo-giao-vien" routerLinkActive="list-item-active">
+            <mat-icon>people</mat-icon> Theo giáo viên
+        </a>
+    </div>
     <a *ngIf="loginAccount?.Q_Id == 0" mat-list-item routerLink="cau-hinh-he-thong" routerLinkActive="list-item-active">
         <mat-icon>settings</mat-icon> Cấu hình hệ thống
     </a>

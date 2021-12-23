@@ -1,0 +1,29 @@
+.container {
+    background-color: #ffffff;
+    padding: 10px;
+}
+.title {
+    background-color: #30336b;
+    padding: 20px;
+    color: #ffffff;
+}
+.help-block {
+    font-size: 13px;
+    color: red;
+    font-style: italic;
+}
+
+.table-result{
+    margin: auto;
+    table{
+        th{
+            padding: 5px;
+        }
+        td{
+            padding: 5px;
+        }
+    }
+    padding: 20px;
+    width: 60%;
+    background-color: #dfe4ea;
+}

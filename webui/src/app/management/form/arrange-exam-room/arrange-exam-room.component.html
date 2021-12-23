@@ -1,0 +1,36 @@
+<div class="exam-box">
+    <h2>{{data.title}}</h2>
+    <h3>{{exam?.DT_Ten}}</h3>
+    <div class="body">
+        <form [formGroup]="arrangeRoom">
+            <div class="form-group">
+                <h4>Kỳ thi {{infoKyThi?.CC_Ten}} - {{infoKyThi?.KT_Id}} <br>Ngày thi: {{infoKyThi?.KT_NgayThi
+                    |date:'dd-MM-yyyy'}} <br> Số thí sinh: {{data.dsHocVien.length}}</h4>
+            </div>
+            <div class="form-group">
+                <mat-form-field appearance="outline">
+                    <mat-label>Số thí sinh mỗi phòng</mat-label>
+                    <input matInput type="number" formControlName="SoHocVien" (blur)="logValidationErrors()">
+                    <span class="help-block" *ngIf="formErrors.SoHocVien">
+                        * {{ formErrors.SoHocVien }} <br>
+                    </span>
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline">
+                    <mat-label>Thời gian thi</mat-label>
+                    <mat-select formControlName="TGT_Id" (closed)="logValidationErrors()">
+                        <mat-option *ngFor="let tg of dsThoiGian" [value]="tg.TGT_Id">
+                            {{tg.TGT_Ten}}
+                        </mat-option>
+                    </mat-select>
+                    <span class="help-block" *ngIf="formErrors.TGT_Id">
+                        * {{ formErrors.TGT_Id }} <br>
+                    </span>
+                </mat-form-field>
+            </div>
+        </form>
+        <div class="text-center">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Xếp phòng</button>&nbsp;
+            <button mat-stroked-button color="primary" (click)="onClose()">Đóng</button>
+        </div>
+    </div>
+</div>

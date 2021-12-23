@@ -4,12 +4,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { HocVienService } from 'src/app/services/hoc-vien.service';
 import Swal from 'sweetalert2';
+import { RegisterFormComponent } from '../form/register-form/register-form.component';
 import { StudentFormComponent } from '../form/student-form/student-form.component';
 import { StudentInfomationComponent } from './student-infomation/student-infomation.component';
 
 export interface StudentDialogData {
   title: string;
   id: string;
+  isUpdate: boolean;
+  dangKyHoc: boolean;
+  dangKyThi: boolean;
 }
 
 @Component({
@@ -23,31 +27,21 @@ export class StudentComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   number1: any;
   number2: any;
-  displayedColumns1: string[] = ['stt', 'TK_TenDangNhap', 'HV_Id', 'HV_HoTen', 'HV_GioiTinh', 'HV_NgaySinh', 'HV_NoiSinh', 'HV_Sdt', 'HV_Email', '#'];
-  dataSource1!: MatTableDataSource<any>;
 
   constructor(
     public dialog: MatDialog,
     private hocvien: HocVienService
   ) { }
 
-  @ViewChild('paginator1') paginator1!: MatPaginator;
-  @ViewChild('paginator2') paginator2!: MatPaginator;
+  // @ViewChild('paginator1') paginator1!: MatPaginator;
+  // @ViewChild('paginator2') paginator2!: MatPaginator;
 
   ngOnInit(): void {
-    this.hocvien.getStudying().subscribe(
+    this.hocvien.getAll().subscribe(
       (data) => {
         this.number1 = data.length;
         this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator1;
-      }
-    );
-
-    this.hocvien.getStudyed().subscribe(
-      (result) => {
-        this.number2 = result.length;
-        this.dataSource1 = new MatTableDataSource(result);
-        this.dataSource1.paginator = this.paginator2;
+        // this.dataSource.paginator = this.paginator1;
       }
     );
   }
@@ -60,13 +54,28 @@ export class StudentComponent implements OnInit {
     this.dialog.open(
       StudentFormComponent,
       {
-        data: { title: 'Thêm học viên' },
+        data: { title: 'Thêm học viên đăng ký học' },
         autoFocus: false,
         restoreFocus: false
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
+      }
+    );
+  }
+
+  registerClick() {
+    this.dialog.open(
+      RegisterFormComponent,
+      {
+        data: { title: 'Thêm học viên đăng ký thi' },
+        autoFocus: false,
+        restoreFocus: false
+      }
+    ).afterClosed().subscribe(
+      () => {
+        this.ngOnInit();
       }
     );
   }
@@ -81,7 +90,7 @@ export class StudentComponent implements OnInit {
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
       }
     );
   }
@@ -90,12 +99,38 @@ export class StudentComponent implements OnInit {
     this.dialog.open(
       StudentFormComponent,
       {
-        data: { title: 'Sửa thông tin học viên', id: hvId },
+        data: { title: 'Sửa thông tin học viên', id: hvId, isUpdate: true },
         autoFocus: false
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
+      }
+    );
+  }
+
+  newRegister(hvId: any) {
+    this.dialog.open(
+      RegisterFormComponent,
+      {
+        data: {
+          title: 'Đăng ký thi chứng chỉ',
+          id: hvId,
+          dangKyThi: true
+        }, autoFocus: false, restoreFocus: false,
+      }
+    )
+  }
+
+  newStudy(hvId: any) {
+    this.dialog.open(
+      StudentFormComponent,
+      {
+        data: {
+          title: 'Đăng ký học',
+          id: hvId,
+          dangKyHoc: true
+        }, autoFocus: false, restoreFocus: false
       }
     );
   }
@@ -120,7 +155,7 @@ export class StudentComponent implements OnInit {
                   showConfirmButton: true
                 }).then(
                   () => {
-                    window.location.reload();
+                    this.ngOnInit();
                   }
                 );
               }

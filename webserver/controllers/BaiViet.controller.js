@@ -73,12 +73,11 @@ exports.addNew = (req, res) => {
 
         const BaiVietReqData = new BaiVietModel(req.body);
         BaiVietReqData.BV_TieuDe = formData.BV_TieuDe;
+        BaiVietReqData.BV_MoTa = formData.BV_MoTa;
         BaiVietReqData.BV_NoiDung = formData.BV_NoiDung;
-        BaiVietReqData.BV_CreateBy = formData.BV_CreateBy;
         BaiVietReqData.BV_UploadFile = name;
         BaiVietReqData.BV_IsDelete = 0;
         BaiVietReqData.BV_UpdateDate = '-  -     :  :';
-        BaiVietReqData.BV_DeleteDate = '-  -     :  :';
 
         BaiVietModel.addNew(
             BaiVietReqData,
@@ -94,7 +93,6 @@ exports.addNew = (req, res) => {
         const BaiVietReqData = new BaiVietModel(req.body);
         BaiVietReqData.BV_IsDelete = 0;
         BaiVietReqData.BV_UpdateDate = '-  -     :  :';
-        BaiVietReqData.BV_DeleteDate = '-  -     :  :';
 
         BaiVietModel.addNew(
             BaiVietReqData,
@@ -128,7 +126,6 @@ exports.updateById = (req, res) => {
                         BaiVietReqData.BV_TieuDe = formData.BV_TieuDe;
                         BaiVietReqData.BV_NoiDung = formData.BV_NoiDung;
                         BaiVietReqData.BV_UploadFile = name;
-                        BaiVietReqData.BV_UpdateBy = formData.BV_UpdateBy;
                         BaiVietModel.updateWithFile(
                             req.params.id,
                             BaiVietReqData,
@@ -153,7 +150,6 @@ exports.updateById = (req, res) => {
                                     BaiVietReqData.BV_TieuDe = formData.BV_TieuDe;
                                     BaiVietReqData.BV_NoiDung = formData.BV_NoiDung;
                                     BaiVietReqData.BV_UploadFile = name;
-                                    BaiVietReqData.BV_UpdateBy = formData.BV_UpdateBy;
                                     BaiVietModel.updateWithFile(
                                         req.params.id,
                                         BaiVietReqData,

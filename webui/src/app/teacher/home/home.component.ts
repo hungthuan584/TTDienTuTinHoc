@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { GiangDayService } from 'src/app/services/giang-day.service';
 import { GiaoVienService } from 'src/app/services/giao-vien.service';
 import { HinhAnhService } from 'src/app/services/hinh-anh.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
@@ -15,16 +16,14 @@ export class HomeComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private tokenStorage: TokenStorageService,
-    private giaovien: GiaoVienService,
-    private lophoc: LopHocService,
-    private image: HinhAnhService
+    private giangday: GiangDayService
   ) { }
 
   loginAccount = this.tokenStorage.getUser();
   dsLopHoc: any;
 
   ngOnInit(): void {
-    this.lophoc.getByTeacher(this.loginAccount.TK_TenDangNhap).subscribe(
+    this.giangday.getByGV(this.loginAccount.TK_TenDangNhap).subscribe(
       (result) => {
         this.dsLopHoc = result;
         console.log(this.dsLopHoc);

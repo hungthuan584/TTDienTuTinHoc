@@ -1,0 +1,117 @@
+<div class="register-box">
+    <h2>{{data.title}} {{statitis?.CC_Ten}}</h2>
+    <form [formGroup]="registerForm">
+        <div class="form-group" *ngIf="show">
+            <mat-form-field appearance="outline" style="width: 50%;">
+                <mat-label>Chọn module dự thi</mat-label>
+                <input type="text" matInput formControlName="DKT_Module" readonly (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.DKT_Module">
+                    * {{ formErrors.DKT_Module }}
+                </span>
+            </mat-form-field>&nbsp;
+            <button mat-stroked-button color="primary" (click)="selectModule()" [disabled]="!show">Chọn module</button>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 50%;">
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="HV_HoTen" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_HoTen">
+                    * {{ formErrors.HV_HoTen }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 20%;">
+                <mat-label>Giới tính</mat-label>
+                <mat-select formControlName="HV_GioiTinh" (closed)="logValidationErrors()">
+                    <mat-option [value]="1">Nam</mat-option>
+                    <mat-option [value]="0">Nữ</mat-option>
+                </mat-select>
+                <span class="help-block" *ngIf="formErrors.HV_GioiTinh">
+                    * {{ formErrors.HV_GioiTinh }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>MSSV</mat-label>
+                <input type="text" matInput formControlName="HV_Mssv">
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 30%;">
+                <mat-label>Ngày sinh</mat-label>
+                <input type="date" matInput formControlName="HV_NgaySinh" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NgaySinh">
+                    * {{ formErrors.HV_NgaySinh }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 40%;">
+                <mat-label>Nơi sinh</mat-label>
+                <input type="text" matInput formControlName="HV_NoiSinh" [matAutocomplete]="auto"
+                    (blur)="logValidationErrors()">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let item of filteredOptions" [value]="item">
+                        {{ item }}
+                    </mat-option>
+                </mat-autocomplete>
+                <span class="help-block" *ngIf="formErrors.HV_NoiSinh">
+                    * {{ formErrors.HV_NoiSinh }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Quốc tịch</mat-label>
+                <input type="text" matInput formControlName="HV_QuocTich" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_QuocTich">
+                    * {{ formErrors.HV_QuocTich }}
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 20%;">
+                <mat-label>Dân tộc</mat-label>
+                <input type="text" matInput formControlName="HV_DanToc" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_DanToc">
+                    * {{ formErrors.HV_DanToc }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%;">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="HV_Email" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Email">
+                    * {{ formErrors.HV_Email }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Số điện thoại</mat-label>
+                <input type="text" matInput formControlName="HV_Sdt" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Sdt">
+                    * {{ formErrors.HV_Sdt }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 40%;">
+                <mat-label>Số CMND/CCCD</mat-label>
+                <input type="text" matInput formControlName="HV_Cmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Cmnd">
+                    * {{ formErrors.HV_Cmnd }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 25%;">
+                <mat-label>Ngày cấp</mat-label>
+                <input type="date" matInput formControlName="HV_NgayCapCmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NgayCapCmnd">
+                    * {{ formErrors.HV_NgayCapCmnd }}
+                </span>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 30%;">
+                <mat-label>Nơi cấp</mat-label>
+                <input type="text" matInput formControlName="HV_NoiCapCmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NoiCapCmnd">
+                    * {{ formErrors.HV_NoiCapCmnd }}
+                </span>
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Đăng ký</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="onCancel()">Huỷ</button>
+    </div>
+</div>

@@ -1,15 +1,110 @@
-<div class="exam-box">
-    <mat-toolbar>
-        <button mat-raised-button color="primary" (click)="addClick()">
-            <mat-icon>person_add</mat-icon>
-            Thêm
-        </button>
-        <div class="spacer"></div>
-        <div class="search-box">
-            <mat-form-field appearance="outline">
-                <mat-label>Tìm kiếm</mat-label>
-                <input type="text" matInput autocomplete="off">
-            </mat-form-field>
+<div class="exam-box" style="padding: 5%; background-color: #ffffff;">
+    <div class="certify-box">
+        <h3>Danh sách chứng chỉ</h3>
+        <table class="table table-hover">
+            <thead>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Lệ phí</th>
+                <th>Điểm chuẩn</th>
+                <th>#</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cc of dsChungChi">
+                    <td>
+                        {{cc.CC_Id}}
+                    </td>
+                    <td>
+                        {{cc.CC_Ten}}
+                    </td>
+                    <td>
+                        {{cc.CC_LePhi | number}} VND
+                    </td>
+                    <td>
+                        {{cc.CC_DiemChuan}}
+                    </td>
+                    <td>
+                        <!-- <button (click)=""></button> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="certify-box">
+        <div class="row" style="margin: 0; width: 100%;">
+            <div class="exam" style="width: 60%;">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Đợt thi</mat-label>
+                    <mat-select [(value)]="dotThiSelected" (selectionChange)="onChangeDotThi($event)">
+                        <mat-option *ngFor="let dt of dsDotThi" [value]="dt.DT_Id">
+                            {{dt.DT_Ten}} - Hạn đăng ký {{dt.DT_HanDangKy |date:'dd-MM-yyyy'}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="exam" style="margin: 0; width: 35%; padding: 10px;">
+                <button mat-icon-button color="primary" [matMenuTriggerFor]="menu1">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
         </div>
-    </mat-toolbar>
+
+    </div>
+    <div class="certify-box">
+        <h3>Danh sách kỳ thi</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Mã kỳ thi</th>
+                    <th>Tên kỳ thi</th>
+                    <th class="text-right">Thời gian thi</th>
+                    <th class="text-center">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let kt of dsKyThi">
+                    <td>
+                        {{kt.KT_Id}}
+                    </td>
+                    <td>
+                        {{kt.CC_Ten}}
+                        <div class="text-right">
+                            <span style="color: gray;font-size: 12px; font-style: italic;">
+                                Ngày mở: {{kt.KT_CreateDate | date: 'dd-MM-yyyy HH:mm:ss' }}
+                            </span><br>
+                            <span *ngIf="kt.KT_UpdateDate!='0000-00-00 00:00:00'"
+                                style="font-size: 12px; font-style: italic; color: gray;">
+                                Chỉnh sửa: {{kt.KT_UpdateDate | date:'dd-MM-yyyy HH:mm:ss' }}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        {{kt.KT_NgayThi | date:'dd-MM-yyyy'}}
+                    </td>
+                    <td class="text-right">
+                        <button mat-stroked-button color="primary" (click)="editKyThi(kt.KT_Id)">Chỉnh sửa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<mat-menu #menu1="matMenu">
+    <button mat-menu-item (click)="addDotThi()">
+        <mat-icon>add</mat-icon>
+        <span>Mở đợt thi</span>
+    </button>
+    <button mat-menu-item (click)="editDotThi(dotThiSelected)">
+        <mat-icon>edit</mat-icon>
+        <span>Sửa</span>
+    </button>
+    <button mat-menu-item (click)="addKyThi()">
+        <mat-icon>control_point</mat-icon>
+        <span>Thêm kỳ thi</span>
+    </button>
+    <button mat-menu-item (click)="closeDotThi(dotThiSelected)">
+        <mat-icon>lock</mat-icon>
+        <span>Đóng</span>
+    </button>
+</mat-menu>

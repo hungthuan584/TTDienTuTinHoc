@@ -12,6 +12,19 @@ exports.getAll = (req, res) => {
     );
 }
 
+exports.getPhongThi = (req, res) => {
+    PhongHocModel.getPhongThi(
+        req.params.ktId,
+        (err, PhongHoc) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(PhongHoc);
+            }
+        }
+    );
+}
+
 // Get By Id
 exports.getById = (req, res) => {
     PhongHocModel.getById(

@@ -1,7 +1,7 @@
 <div class="post-box">
     <mat-toolbar>
         <button mat-raised-button color="primary" (click)="addClick()">
-            <mat-icon>person_add</mat-icon>
+            <mat-icon>post_add</mat-icon>
             Thêm
         </button>
         <div class="spacer"></div>
@@ -18,7 +18,7 @@
                 <th mat-header-cell *matHeaderCellDef>
                     STT
                 </th>
-                <td mat-cell *matCellDef="let i = index" style="width: 8%;">
+                <td mat-cell *matCellDef="let i = index" style="width: 4%;">
                     {{ i+1 }}
                 </td>
             </ng-container>
@@ -29,8 +29,12 @@
                 </th>
                 <td mat-cell *matCellDef="let element" style="padding-left: 20px; padding-right: 20px;">
                     <div class="text-left" style="margin: 10px;">
-                        <h4 style="color: #2980b9; margin: 0; text-transform: uppercase;">{{element.BV_TieuDe}}
+                        <h4 style="color: #2980b9; margin: 0; text-transform: uppercase;">
+                            {{element.BV_TieuDe}}
                         </h4>
+                        <h3 style="color: gray;">
+                            {{element.BV_MoTa}}
+                        </h3>
                         <div class="content">
                             {{element.BV_NoiDung}}
                         </div>
@@ -41,20 +45,17 @@
                     </div>
                     <div class="text-right">
                         <span style="color: gray; font-size: 12px; font-style: italic;">
-                            Tạo bởi : {{element.BV_CreateBy}} lúc {{element.BV_CreateDate | date: 'dd-MM-yyyy
+                            Tạo lúc {{element.BV_CreateDate | date: 'dd-MM-yyyy
                             HH:mm:ss'}}
                         </span>
-                        <span *ngIf="element.BV_UpdateBy" style="color: gray; font-size: 12px; font-style: italic;">
-                            &nbsp;|&nbsp; Sửa bởi : {{element.BV_UpdateBy}} lúc {{element.BV_UpdateDate | date:
+                        <span *ngIf="element.BV_UpdateDate!='0000-00-00 00:00:00'"
+                            style="color: gray; font-size: 12px; font-style: italic;">
+                            <br> Sửa lúc {{element.BV_UpdateDate | date:
                             'dd-MM-yyyy HH:mm:ss'}}
-                        </span>
-                        <span *ngIf="element.BV_IsDelete==1" style="color: gray; font-size: 12px; font-style: italic;">
-                            &nbsp;|&nbsp; Xoá lúc : {{element.BV_DeleteDate | date: 'dd-MM-yyyy HH:mm:ss'}}
                         </span>
                     </div>
                 </td>
             </ng-container>
-
             <ng-container matColumnDef="#">
                 <th mat-header-cell *matHeaderCellDef style="width: 8%; text-align: center;">
                     #

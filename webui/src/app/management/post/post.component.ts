@@ -30,7 +30,7 @@ export class PostComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
 
   ngOnInit(): void {
-    this.baiviet.getAll().subscribe(
+    this.baiviet.getNew().subscribe(
       (result) => {
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
@@ -55,7 +55,7 @@ export class PostComponent implements OnInit {
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
       }
     );
   }
@@ -69,14 +69,19 @@ export class PostComponent implements OnInit {
       }
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
       }
     );
   }
 
   deleteClick(id: any) {
     Swal.fire({
-
+      title: 'Xóa bài viết?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xóa'
     }).then(
       (result) => {
         if (result.isConfirmed) {
@@ -85,10 +90,10 @@ export class PostComponent implements OnInit {
               if (result.status == 1) {
                 Swal.fire({
                   icon: 'success',
-                  title: 'Đã xoá'
+                  title: 'Đã ẩn'
                 }).then(
                   () => {
-                    window.location.reload();
+                    this.ngOnInit();
                   }
                 );
               }

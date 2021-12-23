@@ -6,6 +6,11 @@ const TaiKhoanModel = require('./models/TaiKhoan.model');
 
 route.post('/', (req, res) => {
 
+    // {
+    //     "":"",
+    //     "base64":"dlsakdhj'asd"
+    // }
+
     TaiKhoanModel.getByUsername(
         req.body.user,
         (err, TaiKhoan) => {

@@ -73,8 +73,11 @@ DangKyHoc.checkUnique = (lhId, hvId, result) => {
 DangKyHoc.getByLopHoc = (lhId, result) => {
     dbConnect.query(
         `
-        SELECT * FROM DangKyHoc dk
+        SELECT *,dk.HV_Id
+        FROM
+        DangKyHoc dk
         JOIN HocVien hv ON hv.HV_Id = dk.HV_Id
+        LEFT JOIN dangkythi dkt ON dkt.HV_Id = hv.HV_Id
         JOIN LopHoc lh ON lh.LH_Id = dk.LH_Id
         WHERE dk.LH_Id = ?
         `,

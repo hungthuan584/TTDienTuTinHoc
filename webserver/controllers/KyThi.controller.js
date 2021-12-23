@@ -1,12 +1,13 @@
 const KyThiModel = require('../models/KyThi.model');
 
 exports.getAll = (req, res) => {
-    KyThiModel.addNew(
+    KyThiModel.getAll(
         (err, KyThi) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(KyThi);
             }
-            return res.json(KyThi);
         }
     );
 }
@@ -16,49 +17,86 @@ exports.getById = (req, res) => {
         req.params.id,
         (err, KyThi) => {
             if (err) {
-                return res.status(500).json({ status: 0, message: err });
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(KyThi);
             }
-            return res.json(KyThi);
+        }
+    );
+}
+
+exports.getByChungChi = (req, res) => {
+    KyThiModel.getByCC(
+        req.params.ccId,
+        (err, KyThi) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(KyThi);
+            }
+        }
+    );
+}
+
+exports.getByDotThi = (req, res) => {
+    KyThiModel.getByDT(
+        req.params.dtId,
+        (err, KyThi) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json(KyThi);
+            }
         }
     );
 }
 
 exports.addNew = (req, res) => {
 
-    const data = new KyThiModel(req.body);
-
-    data.KT_UpdateDate = '-  -     :  :';
-
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-    } else {
-        KyThiModel.addNew(
-            data,
-            (err, KyThi) => {
-                if (err) {
-                    return res.json({ status: 0, message: err });
+    KyThiModel.getByCC(
+        req.body.CC_Id,
+        (err, KyThi) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                console.log(KyThi);
+                var d = 0;
+                var id = "";
+                if (KyThi.length != 0) {
+                    d = KyThi.length;
                 }
-                return res.json(KyThi);
+
+                id = req.body.CC_Id + (d + 1).toString();
+
+                const KyThiReqData = new KyThiModel(req.body);
+                KyThiReqData.KT_Id = id;
+                KyThiReqData.KT_UpdateDate = '-  -     :  :';
+                KyThiModel.addNew(
+                    KyThiReqData,
+                    (err) => {
+                        if (err) {
+                            return res.json({ status: 0, message: err });
+                        } else {
+                            return res.json({ status: 1, message: 'Created successfully' });
+                        }
+                    }
+                );
             }
-        );
-    }
+        }
+    );
 }
 
 exports.updateById = (req, res) => {
-    const data = KyThiModel(req.body);
-
-    if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
-        return req.send(400).send({ status: 0, message: 'Please fill all fields' });
-    } else {
-        KyThiModel.updateById(
-            req.params.id,
-            data,
-            (err) => {
-                if (err) {
-                    return res.json({ status: 0, message: err });
-                }
-                return res.json({ status: 1, message: 'Updated Successfully' });
+    const KyThiReqData = new KyThiModel(req.body);
+    KyThiModel.updateById(
+        req.params.id,
+        KyThiReqData,
+        (err) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                return res.json({ status: 1, message: 'Updated successfully' });
             }
-        );
-    }
+        }
+    );
 }

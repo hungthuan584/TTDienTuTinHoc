@@ -54,7 +54,7 @@ export class TeacherComponent implements OnInit {
       },
     ).afterClosed().subscribe(
       () => {
-        window.location.reload();
+        this.ngOnInit();
       }
     );
   }

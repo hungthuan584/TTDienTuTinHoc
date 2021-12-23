@@ -33,6 +33,19 @@ export class HocVienService {
       'Something bad happened; please try again later.');
   }
 
+  public getAll(): Observable<any> {
+    const url = `${this.REST_API_SERVER}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
   public getStudying(): Observable<any> {
     const url = `${this.REST_API_SERVER}/studying`;
 
@@ -49,6 +62,34 @@ export class HocVienService {
 
   public getStudyed(): Observable<any> {
     const url = `${this.REST_API_SERVER}/studyed`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getAllHocVienDuThi(dtId: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/duthi/${dtId}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getHocVienDuThiByCC(dtId: any, ccId: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/chungchi/${dtId}/${ccId}`;
 
     return this.httpClient.get<any>(url, this.httpOptions)
       .pipe(

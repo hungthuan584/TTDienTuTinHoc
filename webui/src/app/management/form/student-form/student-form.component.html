@@ -1,7 +1,7 @@
 <div class="student-form">
     <h2>{{ data.title }}</h2>
     <form [formGroup]="studentForm">
-        <div class="form-group">
+        <div class="form-group" *ngIf="show">
             <mat-form-field appearance="outline" style="width: 98%;">
                 <mat-label>Lớp đăng ký</mat-label>
                 <mat-select formControlName="LH_Id" (closed)="logValidationErrors()">
@@ -9,12 +9,18 @@
                         {{ lh.LDT_Ten }} - {{ lh.LH_Id }}
                     </mat-option>
                 </mat-select>
+                <span class="help-block" *ngIf="formErrors.LH_Id">
+                    * {{ formErrors.LH_Id }}
+                </span>
             </mat-form-field>
         </div>
         <div class="form-group">
             <mat-form-field appearance="outline" style="width: 50%;">
                 <mat-label>Họ tên</mat-label>
                 <input type="text" matInput formControlName="HV_HoTen" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_HoTen">
+                    * {{ formErrors.HV_HoTen }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 20%;">
                 <mat-label>Giới tính</mat-label>
@@ -22,6 +28,9 @@
                     <mat-option [value]="1">Nam</mat-option>
                     <mat-option [value]="0">Nữ</mat-option>
                 </mat-select>
+                <span class="help-block" *ngIf="formErrors.HV_GioiTinh">
+                    * {{ formErrors.HV_GioiTinh }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 25%;">
                 <mat-label>MSSV</mat-label>
@@ -32,6 +41,9 @@
             <mat-form-field appearance="outline" style="width: 30%;">
                 <mat-label>Ngày sinh</mat-label>
                 <input type="date" matInput formControlName="HV_NgaySinh" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NgaySinh">
+                    * {{ formErrors.HV_NgaySinh }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 40%;">
                 <mat-label>Nơi sinh</mat-label>
@@ -42,83 +54,68 @@
                         {{ item }}
                     </mat-option>
                 </mat-autocomplete>
+                <span class="help-block" *ngIf="formErrors.HV_NoiSinh">
+                    * {{ formErrors.HV_NoiSinh }} <br>
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 25%;">
                 <mat-label>Quốc tịch</mat-label>
                 <input type="text" matInput formControlName="HV_QuocTich" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_QuocTich">
+                    * {{ formErrors.HV_QuocTich }}
+                </span>
             </mat-form-field>
         </div>
         <div class="form-group">
             <mat-form-field appearance="outline" style="width: 20%;">
                 <mat-label>Dân tộc</mat-label>
                 <input type="text" matInput formControlName="HV_DanToc" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_DanToc">
+                    * {{ formErrors.HV_DanToc }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 50%;">
                 <mat-label>Email</mat-label>
                 <input type="email" matInput formControlName="HV_Email" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Email">
+                    * {{ formErrors.HV_Email }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 25%;">
                 <mat-label>Số điện thoại</mat-label>
                 <input type="text" matInput formControlName="HV_Sdt" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Sdt">
+                    * {{ formErrors.HV_Sdt }} <br>
+                </span>
             </mat-form-field>
         </div>
         <div class="form-group">
             <mat-form-field appearance="outline" style="width: 40%;">
                 <mat-label>Số CMND/CCCD</mat-label>
                 <input type="text" matInput formControlName="HV_Cmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_Cmnd">
+                    * {{ formErrors.HV_Cmnd }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 25%;">
                 <mat-label>Ngày cấp</mat-label>
                 <input type="date" matInput formControlName="HV_NgayCapCmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NgayCapCmnd">
+                    * {{ formErrors.HV_NgayCapCmnd }}
+                </span>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 30%;">
                 <mat-label>Nơi cấp</mat-label>
                 <input type="text" matInput formControlName="HV_NoiCapCmnd" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.HV_NoiCapCmnd">
+                    * {{ formErrors.HV_NoiCapCmnd }}
+                </span>
             </mat-form-field>
-        </div>
-        <div class="form-group">
-            <span class="help-block" *ngIf="formErrors.LH_Id">
-                * {{ formErrors.LH_Id }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_HoTen">
-                * {{ formErrors.HV_HoTen }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_GioiTinh">
-                * {{ formErrors.HV_GioiTinh }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_NgaySinh">
-                * {{ formErrors.HV_NgaySinh }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_NoiSinh">
-                * {{ formErrors.HV_NoiSinh }} <br>
-            </span>
-           
-            <span class="help-block" *ngIf="formErrors.HV_QuocTich">
-                * {{ formErrors.HV_QuocTich }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_DanToc">
-                * {{ formErrors.HV_DanToc }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_Email">
-                * {{ formErrors.HV_Email }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_Sdt">
-                * {{ formErrors.HV_Sdt }} <br>
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_Cmnd">
-                * {{ formErrors.HV_Cmnd }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_NgayCapCmnd">
-                * {{ formErrors.HV_NgayCapCmnd }} &nbsp;&nbsp;&nbsp;
-            </span>
-            <span class="help-block" *ngIf="formErrors.HV_NoiCapCmnd">
-                * {{ formErrors.HV_NoiCapCmnd }} &nbsp;&nbsp;&nbsp;
-            </span>
         </div>
     </form>
     <div class="spacer"></div>
     <div class="text-center">
-        <button mat-raised-button (click)="onCreate()" color="primary">{{ (data.id)? 'Cập nhật':'Lưu' }}</button>&nbsp;
+        <button mat-raised-button (click)="onCreate()" color="primary">{{ (data.isUpdate)? 'Cập nhật':'Lưu' }}</button>&nbsp;
         <button mat-raised-button (click)="onCancel()">Huỷ</button>
     </div>
 </div>

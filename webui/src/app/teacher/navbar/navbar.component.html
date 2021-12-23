@@ -4,13 +4,10 @@
         TRUNG TÂM ĐIỆN TỬ TIN HỌC
     </div>
     <div class="spacer"></div>
-    <a mat-button routerLink="trang-chu">
+    <a mat-button routerLink="lop-hoc">
         Trang chủ
     </a>
-    <a mat-button routerLink="gioi-thieu" routerLinkActive="router-link-active">Giới Thiệu</a>
-    <a mat-button routerLink="chieu-sinh" routerLinkActive="router-link-active">Chiêu Sinh</a>
-    <a mat-button routerLink="thong-bao" routerLinkActive="router-link-active">Thông báo</a>
-    <a mat-button routerLink="lien-he" routerLinkActive="router-link-active">Liên Hệ</a>
+
     <button mat-button [matMenuTriggerFor]="menu">
         <img [src]="imageUrl" alt="Ảnh đại diện" width="40px" height="40px" style="border-radius: 50%;">
         &nbsp; {{loginUser?.GV_HoTen}} &nbsp;

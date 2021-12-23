@@ -1,1 +1,100 @@
-<p>score works!</p>
+<div class="container">
+    <h2 class="title">TRA CỨU KẾT QUẢ THI</h2>
+    <div class="form" style="padding-left: 30%; padding-right: 30%;">
+        <form [formGroup]="searchForm" style="margin: 20px;">
+            <div class="form-group">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Mã học viên</mat-label>
+                    <input type="text" matInput formControlName="HV_Id" (blur)="logValidationErrors()">
+                    <span class="help-block" *ngIf="formErrors.HV_Id">
+                        * {{ formErrors.HV_Id }}
+                    </span>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Mã kỳ thi</mat-label>
+                    <input type="text" matInput formControlName="KT_Id" (blur)="logValidationErrors()">
+                    <span class="help-block" *ngIf="formErrors.KT_Id">
+                        * {{ formErrors.KT_Id }}
+                    </span>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Ngày thi</mat-label>
+                    <input type="date" matInput formControlName="KT_NgayThi" (blur)="logValidationErrors()">
+                    <span class="help-block" *ngIf="formErrors.KT_NgayThi">
+                        * {{ formErrors.KT_NgayThi }}
+                    </span>
+                </mat-form-field>
+            </div>
+            <div class="text-center">
+                <button mat-raised-button color="primary" (click)="onSubmit()">Tìm kiếm</button>&nbsp;
+                <button mat-raised-button (click)="reset()">Nhập lại</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="result" style=" width: 100%;" *ngIf="ketQua">
+        <div class="table-result">
+            <table>
+                <tr>
+                    <th>
+                        Kỳ thi:
+                    </th>
+                    <td colspan="3">
+                        {{ketQua?.KT_Id}} - {{ketQua?.CC_Ten}}
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        Ngày thi:
+                    </th>
+                    <td colspan="3">
+                        {{ketQua?.KT_NgayThi | date:'dd-MM-yyyy'}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Học viên:
+                    </th>
+                    <td>
+                        {{ketQua?.HV_HoTen}}
+                    </td>
+                    <th>
+                        Mã số:
+                    </th>
+                    <td>
+                        {{ketQua?.HV_Id}}
+                    </td>
+                </tr>
+                <tr>
+                    <th  colspan="2">
+                        Điểm thi lý thuyết:
+                    </th>
+                    <td colspan="2">
+                        {{ketQua?.KQ_LyThuyet | number}}
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        Điểm thi thực hành :
+                    </th>
+                    <td colspan="2">
+                        {{ketQua?.KQ_ThucHanh | number}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Kết quả:
+                    </th>
+                    <td colspan="3">
+                        {{(ketQua?.KQ_DanhGia==1)? 'Đậu':'Rớt'}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

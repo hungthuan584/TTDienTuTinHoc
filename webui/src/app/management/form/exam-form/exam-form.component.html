@@ -1,0 +1,25 @@
+<div class="exam-box" style="width: 600px;">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="examForm">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 63%;">
+                <mat-label>Tên</mat-label>
+                <input type="text" matInput formControlName="DT_Ten" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.DT_Ten">
+                    * {{ formErrors.DT_Ten }} <br>
+                </span>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 35%;">
+                <mat-label>Hạn đăng ký</mat-label>
+                <input type="date" matInput formControlName="DT_HanDangKy" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.DT_HanDangKy">
+                    * {{ formErrors.DT_HanDangKy }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{(!data.id)? 'Lưu':'Cập nhật'}}</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="closeClick()">Đóng</button>
+    </div>
+</div>

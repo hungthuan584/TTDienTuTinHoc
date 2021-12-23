@@ -63,11 +63,11 @@ export class TeacherFormComponent implements OnInit {
     this.teacherForm = this.fb.group({
       GV_HoTen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       GV_GioiTinh: ['', Validators.required],
-      GV_NgaySinh: ['', Validators.required],
+      GV_NgaySinh: ['1983-12-01', Validators.required],
       GV_DiaChi: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
       GV_Sdt: ['', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
       GV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
-      GV_TrinhDo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+      GV_TrinhDo: ['ThS.CNTT', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
     });
 
     this.teacherForm.valueChanges.subscribe((data: any) => {

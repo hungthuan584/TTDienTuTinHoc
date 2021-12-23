@@ -61,7 +61,6 @@ exports.addNew = (req, res) => {
                 data.TB_Id = id;
                 data.TB_IsDelete = 0;
                 data.TB_UpdateDate = '-  -     :  :';
-                data.TB_DeleteDate = '-  -     :  :';
 
                 if (req.body.contructor === Object && Object.keys(req.body).length === 0) {
                     return req.send(400).send({ status: 0, massage: 'Please fill all fields' });

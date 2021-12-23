@@ -40,4 +40,29 @@ export class PhongHocService {
       )
       .pipe(catchError(this.handleError));
   }
+  public getById(id: any): Observable<any> {
+
+    const url = `${this.REST_API_SERVER}/thongtin/${id}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getPhongThi(ktId: any): Observable<any> {
+
+    const url = `${this.REST_API_SERVER}/phongthi/${ktId}`;
+
+    return this.httpClient.get<any>(url, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      )
+      .pipe(catchError(this.handleError));
+  }
 }

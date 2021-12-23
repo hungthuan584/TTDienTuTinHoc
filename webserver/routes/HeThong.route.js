@@ -9,4 +9,6 @@ route.get('/config', HeThongController.getConfig);
 
 route.put('/', HeThongController.updateSystem);
 
+route.get('/hinhanh/:filename', HeThongController.getImages);
+
 module.exports = route;

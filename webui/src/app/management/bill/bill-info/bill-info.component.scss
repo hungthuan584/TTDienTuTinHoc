@@ -4,14 +4,25 @@
 
 .content{
     width: 800px;
-    background-color: #dfe6e9;
+    background-color: #ffffff;
     padding: 10px;
+    border: 1px solid;
 }
 
 .body{
-    padding: 20px;
+    padding: 10px;
     div{
         margin: 5px;
+    }
+    table{
+        width: 100%;
+        th{
+            padding: 5px;
+            width: 20%;
+        }
+        td{
+            padding: 5px;
+        }
     }
 }
 

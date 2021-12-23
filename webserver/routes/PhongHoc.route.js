@@ -6,8 +6,10 @@ const PhongHocController = require('../controllers/PhongHoc.controller');
 // get all
 route.get('/', PhongHocController.getAll);
 
+route.get('/phongthi/:ktId', PhongHocController.getPhongThi);
+
 // get by id
-route.get('/:id', PhongHocController.getById);
+route.get('/thongtin/:id', PhongHocController.getById);
 
 // create
 route.post('/', PhongHocController.addNew);

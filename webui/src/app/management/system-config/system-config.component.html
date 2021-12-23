@@ -1,0 +1,106 @@
+<div class="system-box">
+    <div class="title">
+        Cấu hình hệ thống
+    </div>
+    <div class="body row">
+        <div class="form">
+            <form [formGroup]="systemForm">
+                <div class="form-group">
+                    <mat-form-field appearance="outline" style="width: 73%;">
+                        <mat-label>Tên trung tâm</mat-label>
+                        <input type="text" matInput formControlName="Ten" (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.Ten">
+                            * {{ formErrors.Ten }} <br>
+                        </span>
+                    </mat-form-field>&nbsp;
+                    <mat-form-field appearance="outline" style="width: 25%;">
+                        <mat-label>Số điện thoại</mat-label>
+                        <input type="text" matInput formControlName="Sdt" (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.Sdt">
+                            * {{ formErrors.Sdt }} <br>
+                        </span>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field appearance="outline" style="width: 65%;">
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="Email" (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.Email">
+                            * {{ formErrors.Email }} <br>
+                        </span>
+                    </mat-form-field>&nbsp;
+                    <mat-form-field appearance="outline" style="width: 33%;">
+                        <mat-label>Mật khẩu</mat-label>
+                        <input matInput [type]="hide? 'password':'text'" formControlName="Password"
+                            (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.Password">
+                            * {{ formErrors.Password }} <br>
+                        </span>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field appearance="outline" style="width: 99%;">
+                        <mat-label>Địa chỉ</mat-label>
+                        <textarea matInput formControlName="DiaChi" rows="4" (blur)="logValidationErrors()"></textarea>
+                        <span class="help-block" *ngIf="formErrors.DiaChi">
+                            * {{ formErrors.DiaChi }} <br>
+                        </span>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field appearance="outline" style="width: 33%;">
+                        <mat-label>Mật khẩu tài khoản mặt định</mat-label>
+                        <input matInput [type]="hide1? 'password':'text'" formControlName="DefaultPassword"
+                            (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.DefaultPassword">
+                            * {{ formErrors.DefaultPassword }} <br>
+                        </span>
+                        <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>&nbsp;
+                    <mat-form-field appearance="outline" style="width: 65%;">
+                        <mat-label>Link fanpage</mat-label>
+                        <input type="text" matInput formControlName="LinkFB" (blur)="logValidationErrors()">
+                        <span class="help-block" *ngIf="formErrors.LinkFB">
+                            * {{ formErrors.LinkFB }} <br>
+                        </span>
+                    </mat-form-field>
+                </div>
+                <div class="text-center">
+                    <button mat-raised-button color="primary" (click)="onSubmit()">Lưu thay đổi</button>&nbsp;
+                    <button mat-stroked-button color="primary" (click)="onCancel()">Huỷ</button>
+                </div>
+            </form>
+        </div>
+        <div class="image-box">
+            <div class="logo">
+                <div>
+                    Logo
+                </div>
+                <div class="logo-img text-center">
+                    <img [src]="logoSrc" alt="logo" style="width: 150px; height: 150px;"><br><br>
+                    <input type="file" style="font-size: 10px;" (change)="changeLogo($event)">
+                </div>
+            </div>
+
+            <div class="poster" style="margin-top: 30px;">
+                <div>
+                    Poster
+                </div>
+                <div class="logo-img text-center">
+                    <img [src]="posterSrc" alt="Poster" style="width: 450px; height: 164px;"><br><br>
+                    <input type="file" style="font-size: 10px;" (change)="changePoster($event)">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

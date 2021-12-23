@@ -1,4 +1,6 @@
 const HeThongModel = require('../models/HeThong.model');
+const fs = require('fs');
+const path = require('path');
 
 exports.getInfo = (req, res) => {
     HeThongModel.getInfo(
@@ -25,6 +27,21 @@ exports.getConfig = (req, res) => {
 }
 
 exports.updateSystem = (req, res) => {
+
+    if (req.body.Logo) {
+        var logoPath = '../files/images/logo.png';
+        var bufferLogo = Buffer.from(req.body.Logo.split(',')[1], "base64");
+
+        fs.writeFileSync(path.join(__dirname, logoPath), bufferLogo);
+    }
+
+    if (req.body.Poster) {
+        var posterPath = '../files/images/poster.png';
+        var bufferPoster = Buffer.from(req.body.Poster.split(',')[1], "base64");
+
+        fs.writeFileSync(path.join(__dirname, posterPath), bufferPoster);
+    }
+
     const HeThongReqData = new HeThongModel(req.body);
     HeThongModel.updateSystem(
         HeThongReqData,
@@ -36,4 +53,9 @@ exports.updateSystem = (req, res) => {
             }
         }
     );
+}
+
+exports.getImages = (req, res) => {
+    var filePath = path.join(__dirname, `../files/images/${req.params.filename}`);
+    res.sendFile(filePath);
 }

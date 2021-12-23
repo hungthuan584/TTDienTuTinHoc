@@ -42,32 +42,23 @@ export class PostFormComponent implements OnInit {
 
   formErrors: any = {};
   ngOnInit(): void {
-    this.nhanvien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
-      (result) => {
-        if (this.data.id) {
-          this.postForm.controls['BV_UpdateBy'].setValue(result.NV_HoTen);
-          this.baiviet.getById(this.data.id).subscribe(
-            (result) => {
-              this.setValueForm(result);
-            }
-          );
-        } else {
-          this.postForm.controls['BV_CreateBy'].setValue(result.NV_HoTen);
-        }
-      }
-    );
-
     this.postForm = this.fb.group({
       BV_TieuDe: ['', Validators.required],
-      BV_MoTa: ['', Validators.required],
+      BV_MoTa: [''],
       BV_NoiDung: ['', Validators.required],
-      BV_CreateBy: [''],
-      BV_UpdateBy: ['']
     });
 
     this.postForm.valueChanges.subscribe((data) => {
       this.logValidationErrors(this.postForm);
     });
+
+    if (this.data.id) {
+      this.baiviet.getById(this.data.id).subscribe(
+        (result) => {
+          this.setValueForm(result);
+        }
+      );
+    }
 
   }
 

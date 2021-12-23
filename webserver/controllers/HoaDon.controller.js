@@ -1,6 +1,11 @@
 const HoaDonModel = require('../models/HoaDon.model');
 const LopDaoTaoModel = require('../models/LopDaoTao.model');
 const NhanVienModel = require('../models/NhanVien.model');
+const ChungChiModel = require('../models/ChungChi.model');
+const DangKyHocModel = require('../models/DangKyHoc.model');
+const DangKyThiModel = require('../models/DangKyThi.model');
+const TaiKhoanModel = require('../models/TaiKhoan.model');
+const HocVienModel = require('../models/HocVien.model');
 
 exports.getAll = (req, res) => {
     HoaDonModel.getAll(
@@ -89,7 +94,6 @@ exports.addLearn = (req, res) => {
                     HoaDonReqData.HD_CreateBy = 'ONLINE_WEBSITE';
                     HoaDonReqData.HD_IsComplete = 0;
                     HoaDonReqData.HD_IsDelete = 0;
-                    HoaDonReqData.HD_CompleteDate = '-  -     :  :';
                     HoaDonModel.addNew(
                         HoaDonReqData,
                         (err) => {
@@ -118,7 +122,6 @@ exports.addLearn = (req, res) => {
                                 }
                                 HoaDonReqData.HD_IsComplete = 0;
                                 HoaDonReqData.HD_IsDelete = 0;
-                                HoaDonReqData.HD_CompleteDate = '-  -     :  :';
                                 HoaDonReqData.HD_CreateBy = NhanVien.NV_Id + ' - ' + NhanVien.NV_HoTen;
 
                                 HoaDonModel.addNew(
@@ -142,6 +145,64 @@ exports.addLearn = (req, res) => {
 
 exports.addExam = (req, res) => {
 
+    ChungChiModel.getById(
+        req.body.CC_Id,
+        (err, ChungChi) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                if (!req.body.NV_Id) {
+                    const HoaDonReqData = new HoaDonModel(req.body);
+                    HoaDonReqData.HD_Id = makeId();
+                    HoaDonReqData.HV_Id = req.params.hvId;
+                    HoaDonReqData.HD_NoiDung = 'Đăng ký thi ' + ChungChi.CC_Ten;
+                    HoaDonReqData.HD_SoTien = ChungChi.CC_LePhi;
+                    HoaDonReqData.HD_CreateBy = 'ONLINE_WEBSITE';
+                    HoaDonReqData.HD_IsComplete = 0;
+                    HoaDonReqData.HD_IsDelete = 0;
+                    HoaDonModel.addNew(
+                        HoaDonReqData,
+                        (err) => {
+                            if (err) {
+                                return res.json({ status: 0, message: err });
+                            } else {
+                                return res.json({ status: 1, message: 'Created successfully' });
+                            }
+                        }
+                    );
+                } else {
+                    NhanVienModel.getById(
+                        req.body.NV_Id,
+                        (err, NhanVien) => {
+                            if (err) {
+                                return res.json({ status: 0, message: err });
+                            } else {
+                                const HoaDonReqData = new HoaDonModel(req.body);
+                                HoaDonReqData.HD_Id = makeId();
+                                HoaDonReqData.HV_Id = req.params.hvId;
+                                HoaDonReqData.HD_NoiDung = 'Đăng ký thi ' + ChungChi.CC_Ten;
+                                HoaDonReqData.HD_SoTien = ChungChi.CC_LePhi;
+                                HoaDonReqData.HD_IsComplete = 0;
+                                HoaDonReqData.HD_IsDelete = 0;
+                                HoaDonReqData.HD_CreateBy = NhanVien.NV_Id + ' - ' + NhanVien.NV_HoTen;
+
+                                HoaDonModel.addNew(
+                                    HoaDonReqData,
+                                    (err) => {
+                                        if (err) {
+                                            return res.json({ status: 0, message: err });
+                                        } else {
+                                            return res.json({ status: 1, message: 'Created successfully' });
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    );
+                }
+            }
+        }
+    );
 }
 
 exports.confirmComplete = (req, res) => {
@@ -152,6 +213,56 @@ exports.confirmComplete = (req, res) => {
                 return res.json({ status: 0, message: err });
             } else {
                 return res.json({ status: 1, message: 'Confirm Successfully' });
+            }
+        }
+    );
+}
+
+exports.deleteById = (req, res) => {
+
+    HoaDonModel.getById(
+        req.params.id,
+        (err, HoaDon) => {
+            if (err) {
+                return res.json({ status: 0, message: err });
+            } else {
+                HoaDonModel.deleteById(
+                    req.params.id,
+                    (err) => {
+                        if (err) {
+                            return res.json({ status: 0, message: err });
+                        } else {
+                            DangKyHocModel.deleteByStudent(
+                                HoaDon.HV_Id,
+                                (err) => {
+                                    if (err) {
+                                        return res.json({ status: 0, message: err });
+                                    } else {
+                                        DangKyThiModel.deleteByHV(
+                                            HoaDon.HV_Id,
+                                            (err) => {
+                                                if (err) {
+                                                    return res.json({ status: 0, message: err });
+                                                } else {
+                                                    TaiKhoanModel.blockedByUsername(
+                                                        HoaDon.HV_Id,
+                                                        (err) => {
+                                                            if (err) {
+                                                                return res.json({ status: 0, message: err });
+                                                            } else {
+                                                                return res.json({ status: 1, message: 'Deleted successfully' });
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
             }
         }
     );

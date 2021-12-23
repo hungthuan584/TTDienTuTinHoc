@@ -3,6 +3,8 @@ const route = express.Router();
 
 const HocVienController = require('../controllers/HocVien.controller');
 
+
+route.get('/', HocVienController.getAll);
 // Danh sach
 route.get('/studying', HocVienController.getStudying);
 

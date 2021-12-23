@@ -35,7 +35,6 @@ import { HeaderComponent } from './header/header.component';
 import { ClassroomComponent } from './classroom/classroom.component';
 import { PostComponent } from './post/post.component';
 import { StudentComponent } from './student/student.component';
-import { StatisticalComponent } from './statistical/statistical.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from '../login/login.component';
 import { AccountComponent } from './account/account.component';
@@ -64,6 +63,21 @@ import { PostFormComponent } from './form/post-form/post-form.component';
 import { BillComponent } from './bill/bill.component';
 import { ExamComponent } from './exam/exam.component';
 import { BillInfoComponent } from './bill/bill-info/bill-info.component';
+import { ExamFormComponent } from './form/exam-form/exam-form.component';
+import { ExaminationFormComponent } from './form/examination-form/examination-form.component';
+import { RegisterFormComponent } from './form/register-form/register-form.component';
+import { ExamRoomComponent } from './exam/exam-room/exam-room.component';
+
+import { ChangeLogoComponent } from './system-config/change-logo/change-logo.component';
+import { ChangePosterComponent } from './system-config/change-poster/change-poster.component';
+import { OpeningClassComponent } from './classroom/opening-class/opening-class.component';
+import { CompletedClassComponent } from './classroom/completed-class/completed-class.component';
+import { SelectionModuleComponent } from './form/register-form/selection-module/selection-module.component';
+import { ArrangeExamRoomComponent } from './form/arrange-exam-room/arrange-exam-room.component';
+import { RegisterExamComponent } from './exam/register-exam/register-exam.component';
+import { ExamPointComponent } from './exam/exam-point/exam-point.component';
+import { ArrangeExamComponent } from './form/arrange-exam/arrange-exam.component';
+import { PointFormComponent } from './form/point-form/point-form.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +87,6 @@ import { BillInfoComponent } from './bill/bill-info/bill-info.component';
     ClassroomComponent,
     PostComponent,
     StudentComponent,
-    StatisticalComponent,
     ContactComponent,
     LoginComponent,
     AccountComponent,
@@ -102,6 +115,21 @@ import { BillInfoComponent } from './bill/bill-info/bill-info.component';
     BillComponent,
     ExamComponent,
     BillInfoComponent,
+    ExamFormComponent,
+    ExaminationFormComponent,
+    RegisterFormComponent,
+    ExamRoomComponent,
+    
+    ChangeLogoComponent,
+    ChangePosterComponent,
+    OpeningClassComponent,
+    CompletedClassComponent,
+    SelectionModuleComponent,
+    ArrangeExamRoomComponent,
+    RegisterExamComponent,
+    ExamPointComponent,
+    ArrangeExamComponent,
+    PointFormComponent
   ],
   imports: [
     CommonModule,

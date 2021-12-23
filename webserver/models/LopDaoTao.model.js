@@ -8,7 +8,6 @@ var LopDaoTao = function (LopDaoTao) {
     this.LDT_IsDelete = LopDaoTao.LDT_IsDelte;
     this.LDT_CreateDate = new Date();
     this.LDT_UpdateDate = new Date();
-    this.LDT_DeleteDate = new Date();
 }
 
 LopDaoTao.getAll = (result) => {
@@ -98,8 +97,7 @@ LopDaoTao.deleteById = (id, result) => {
         `
         UPDATE LopDaoTao
         SET
-            LDT_IsDelete = 1,
-            LDT_DeleteDate = CURRENT_TIMESTAMP()
+            LDT_IsDelete = 1
         WHERE LDT_Id = ?
         `,
         id,

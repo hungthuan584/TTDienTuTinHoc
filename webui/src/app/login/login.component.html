@@ -1,26 +1,41 @@
 <div class="login-box">
     <h2>Đăng Nhập</h2>
     <form autocomplete="off" [formGroup]="loginForm">
-        <mat-form-field appearance="fill" style="width: 100%;">
-            <mat-label>Tài khoản</mat-label>
-            <input matInput type="text" formControlName="TK_TenDangNhap">
-        </mat-form-field><br>
-        <mat-form-field appearance="fill" style="width: 100%;">
-            <mat-label>Mật khẩu</mat-label>
-            <input matInput [type]="hide? 'password':'text'" formControlName="TK_MatKhau">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-        </mat-form-field>
-        <mat-form-field appearance="fill" style="width: 60%;">
-            <mat-label>Mã an toàn</mat-label>
-            <input type="text" matInput formControlName="MaAnToan">
-        </mat-form-field>&nbsp;<span class="code">{{code}}</span>
-        <div class="text-center">
-            <button mat-raised-button color="warn" (click)="submit()">Đăng nhập</button>&nbsp;
-            <button mat-raised-button color="primary" type="reset">Nhập lại</button>&nbsp;
-            <button mat-raised-button (click)="exitClick()">Thoát</button>&nbsp;
-        </div>
+
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Tài khoản</mat-label>
+                <input matInput type="text" formControlName="TK_TenDangNhap">
+            </mat-form-field><br>
+   
+            <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Mật khẩu</mat-label>
+                <input matInput [type]="hide? 'password':'text'" formControlName="TK_MatKhau">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <table style="width: 100% !important;">
+                <tr>
+                    <td>
+                        <mat-form-field appearance="fill" style="width: 130px;">
+                            <mat-label>Mã an toàn</mat-label>
+                            <input type="text" matInput formControlName="MaAnToan">
+                        </mat-form-field>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <div class="code">
+                            <div class="security">
+                                {{code}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <button mat-raised-button color="warn" (click)="submit()">Đăng nhập</button>&nbsp;
+                <button mat-raised-button color="primary" type="reset">Nhập lại</button>&nbsp;
+                <button mat-raised-button (click)="exitClick()">Thoát</button>&nbsp;
+            </div>
     </form>
 </div>

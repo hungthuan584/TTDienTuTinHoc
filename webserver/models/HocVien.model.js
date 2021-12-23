@@ -18,7 +18,25 @@ var HocVien = function (HocVien) {
     this.HV_IsDelete = HocVien.HV_IsDelete;
     this.HV_CreateDate = new Date();
     this.HV_UpdateDate = new Date();
-    this.HV_DeleteDate = new Date();
+}
+
+HocVien.getAll = (result) => {
+    dbConnect.query(
+        `SELECT * FROM hocvien hv
+        JOIN taikhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
+        WHERE hv.HV_IsDelete != 1
+        ORDER BY hv.HV_Id DESC`,
+        (err, res) => {
+            if (err) {
+                console.log('Error While Fetching', err);
+                result(null, err);
+            }
+            else {
+                console.log('Selected Successfully');
+                result(null, res);
+            }
+        }
+    );
 }
 
 // Danh sach hoc vien
@@ -29,6 +47,7 @@ HocVien.getStudying = (result) => {
         FROM hocvien hv
         JOIN taikhoan tk ON tk.TK_TenDangNhap = hv.TK_TenDangNhap
         WHERE tk.TK_IsActive != 0
+        ORDER BY hv.HV_Id DESC
         `,
         (err, res) => {
             if (err) {
@@ -100,6 +119,31 @@ HocVien.getById = (id, result) => {
     );
 }
 
+HocVien.thongKe = (data, result) => {
+    dbConnect.query(
+        `SELECT *, hv.HV_Id
+        FROM hocvien hv
+        LEFT JOIN dangkyhoc dkh ON dkh.HV_Id = hv.HV_Id
+        LEFT JOIN LopHoc lh ON lh.LH_Id = dkh.LH_Id
+        LEFT JOIN LopDaoTao ldt ON ldt.LDT_Id = lh.LDT_Id
+        LEFT JOIN ketquathi kq ON kq.HV_Id = hv.HV_Id
+        LEFT JOIN hoadon hd ON hd.HV_Id = hv.HV_Id
+        LEFT JOIN dangkythi dkt ON dkt.HV_Id = hv.HV_Id
+        LEFT JOIN chungchi cc ON cc.CC_Id = dkt.CC_Id ${data}
+        ORDER BY hv.HV_Id DESC`,
+        (err, res) => {
+            if (err) {
+                console.log('Error while selecting', err);
+                result(null, err);
+            }
+            else {
+                console.log('Fetching by id successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
 // Them hoc vien
 HocVien.addNew = (data, result) => {
     dbConnect.query(
@@ -155,8 +199,7 @@ HocVien.deleteById = (id, result) => {
         `
         UPDATE HocVien
         SET
-            HV_IsDelete = 1,
-            HV_DeleteDate = CURRENT_TIMESTAMP()
+            HV_IsDelete = 1
         WHERE HV_Id = ?
         `,
         id,

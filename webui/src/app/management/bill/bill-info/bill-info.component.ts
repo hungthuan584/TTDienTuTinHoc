@@ -18,13 +18,13 @@ export class BillInfoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: billDialogData,
 
     private hoadon: HoaDonService,
-    private tokenStorage: TokenStorageService,
     private hethong: HeThongService
   ) { }
   bill: any;
   center: any;
 
   ngOnInit(): void {
+    console.log(this.data);
     this.hoadon.getById(this.data.id).subscribe(
       (result) => {
         this.bill = result;
@@ -56,7 +56,7 @@ export class BillInfoComponent implements OnInit {
                   title: 'Xác nhận'
                 }).then(
                   () => {
-                    this.ngOnInit();
+                    this.dialogRef.close();
                   }
                 );
               } else {

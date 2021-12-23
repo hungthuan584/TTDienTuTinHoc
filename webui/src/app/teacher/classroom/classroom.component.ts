@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
 import { ThongBaoService } from 'src/app/services/thong-bao.service';
@@ -25,6 +25,7 @@ export class ClassroomComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private route: ActivatedRoute,
     private lophoc: LopHocService,
     private dangkyhoc: DangKyHocService,
@@ -37,26 +38,21 @@ export class ClassroomComponent implements OnInit {
   dsThongBao: any;
 
   ngOnInit(): void {
-    this.route.params.subscribe(
-      (result) => {
-        this.lhId = result.id;
-        this.lophoc.getById(result.id).subscribe(
-          (result) => {
-            this.classInfo = result;
-            this.dangkyhoc.getByLopHoc(result.LH_Id).subscribe(
-              (result) => {
-                this.soluong = result.siso;
-              }
-            );
-          }
-        );
+    this.route.paramMap.subscribe(
+      (params: ParamMap) => {
+        this.lhId = params.get('lhId');
+      }
+    );
 
-        this.thongbao.getByLopHoc(result.id).subscribe(
-          (result) => {
-            this.dsThongBao = result;
-            console.log(result);
-          }
-        );
+    this.lophoc.getById(this.lhId).subscribe(
+      (result) => {
+        this.classInfo = result;
+        console.log(result);
+      }
+    );
+    this.thongbao.getByLopHoc(this.lhId).subscribe(
+      (result) => {
+        this.dsThongBao = result;
       }
     );
 
@@ -77,17 +73,7 @@ export class ClassroomComponent implements OnInit {
   }
 
   showList() {
-    this.dialog.open(
-      ListStudentComponent,
-      {
-        data: { title: 'Danh sách học viên', id: this.lhId },
-        autoFocus: false, restoreFocus: false
-      }
-    ).afterClosed().subscribe(
-      () => {
-        window.location.reload();
-      }
-    );
+    this.router.navigate([`quanlylophoc/lop-hoc/danh-sach-lop/${this.lhId}`]);
   }
 
   addNotify() {

@@ -1,0 +1,39 @@
+.system-box{
+    padding: 2%;
+    width: 100%;
+    form{
+        padding: 2%;
+        width: 100%;
+        // background-color: gray;
+    }
+}
+
+.body{
+    // background-color: aqua;
+    width: 100%;
+    margin: 0;
+}
+
+.title{
+    background-color: #30336b;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 20px;
+    padding: 20px;
+}
+
+.form{
+    width: 55%;
+}
+
+.image-box{
+    padding: 2%;
+    width: 45%;
+    // background-color: red;
+}
+
+.help-block {
+    font-size: 13px;
+    color: red;
+    font-style: italic;
+}

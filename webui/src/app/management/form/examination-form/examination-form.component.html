@@ -1,0 +1,29 @@
+<div class="examination-box" style="width: 450px;">
+    <h2>{{data.title}} - {{dotThi?.DT_Ten}}</h2>
+    <form [formGroup]="examinationForm">
+        <div class="form-group">
+            <mat-form-field appearance="outline" style="width: 63%;">
+                <mat-label>Chứng chỉ</mat-label>
+                <mat-select formControlName="CC_Id" (closed)="logValidationErrors()">
+                    <mat-option *ngFor="let cc of dsChungChi" [value]="cc.CC_Id">
+                        {{cc.CC_Ten}}
+                    </mat-option>
+                </mat-select>
+                <span class="help-block" *ngIf="formErrors.CC_Id">
+                    * {{ formErrors.CC_Id }} <br>
+                </span>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline" style="width: 35%;">
+                <mat-label>Ngày thi</mat-label>
+                <input type="date" matInput formControlName="KT_NgayThi" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.KT_NgayThi">
+                    * {{ formErrors.KT_NgayThi }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="text-center">
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{(!data.id)? 'Lưu':'Cập nhật'}}</button>&nbsp;
+        <button mat-stroked-button color="primary" (click)="closeClick()">Đóng</button>
+    </div>
+</div>

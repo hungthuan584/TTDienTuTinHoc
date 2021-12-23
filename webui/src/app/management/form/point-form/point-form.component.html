@@ -1,0 +1,31 @@
+<div class="point-box">
+    <h2>{{data.title}}</h2>
+    <form [formGroup]="pointForm">
+        <div class="form-group">
+            <span style="padding: 10px;"><b>Thí sinh: </b> &nbsp;&nbsp; {{student?.HV_HoTen}}</span><br>
+            <span style="padding: 10px;"><b>Kỳ thi: </b> &nbsp;&nbsp; {{exam?.CC_Ten}} - {{exam?.KT_Id}}</span>
+        </div>
+        <div class="form-group">
+            <mat-form-field appearance="outline">
+                <mat-label>Điểm lý thuyết</mat-label>
+                <input type="number" matInput formControlName="KQ_LyThuyet" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.KQ_LyThuyet">
+                    * {{ formErrors.KQ_LyThuyet }} <br>
+                </span>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="outline">
+                <mat-label>Điểm thực hành</mat-label>
+                <input type="number" matInput formControlName="KQ_ThucHanh" (blur)="logValidationErrors()">
+                <span class="help-block" *ngIf="formErrors.KQ_ThucHanh">
+                    * {{ formErrors.KQ_ThucHanh }} <br>
+                </span>
+            </mat-form-field>
+        </div>
+        <div class="text-center">
+            <button mat-raised-button color="primary" (click)="onSubmit()">
+                {{(data.isUpdate)? 'Cập nhật':'Lưu điểm'}}
+            </button>&nbsp;
+            <button mat-stroked-button color="primary" (click)="onCancel()">Hủy</button>
+        </div>
+    </form>
+</div>

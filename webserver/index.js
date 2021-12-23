@@ -44,6 +44,11 @@ const chungChiRoute = require('./routes/ChungChi.route');
 const dotThiRoute = require('./routes/DotThi.route');
 const kiThiRoute = require('./routes/KyThi.route');
 const dangKyThiRoute = require('./routes/DangKyThi.route');
+const thongKeRoute = require('./routes/ThongKe.route');
+const moduleRoute = require('./routes/Module.route');
+const phongThiRoute = require('./routes/DanhSachPhongThi.route');
+const thoiGianThiRoute = require('./routes/ThoiGIanThi.route');
+const ketQuaThiRoute = require('./routes/KetQuaThi.route');
 // const sendSMSRoute = require('./routes/sendSMS.route');
 
 // ******************* USE ROUTE ***********************************
@@ -72,6 +77,11 @@ app.use('/api/chungchi', chungChiRoute);
 app.use('/api/dotthi', dotThiRoute);
 app.use('/api/kythi', kiThiRoute);
 app.use('/api/dangkythi', dangKyThiRoute);
+app.use('/api/thongke', thongKeRoute);
+app.use('/api/module', moduleRoute);
+app.use('/api/danhsachphongthi', phongThiRoute);
+app.use('/api/thoigianthi', thoiGianThiRoute);
+app.use('/api/ketquathi', ketQuaThiRoute);
 // app.use('/api/sendSMS', sendSMSRoute);
 
 // ********************************************************************

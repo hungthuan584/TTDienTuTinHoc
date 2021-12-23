@@ -3,28 +3,15 @@
     width: 100%;
     background-color: #021420;
     color: #ffffff;
-    padding: 15px 15px ;
-    h4{
-        margin-bottom: 0;
-    }
-
-    span{
-        font-size: 13px;
+    padding-bottom: 3px;
+    ul{
+        margin: 0px;
     }
     li{
         font-size: 13px;
-        margin-bottom: 5px;
+        margin: 3px;
     }
-    
-}
-
-.contact{
-    a:hover{
-        text-decoration: none;
+    td{
+        padding: 10px;
     }
-}
-
-.title{
-    font-size: 15px;
-    margin-bottom: 5px;
 }

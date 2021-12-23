@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HinhAnhService {
-  private REST_AIP_SERVER = 'http://localhost:3000/api/images';
+  private REST_API_SERVER = 'http://localhost:3000/api/images';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export class HinhAnhService {
 
   public changeAvatar(data: any): Observable<any> {
 
-    const url = `${this.REST_AIP_SERVER}`;
+    const url = `${this.REST_API_SERVER}`;
 
     return this.httpClient.post(url, JSON.stringify(data), this.httpOptions)
       .pipe(
@@ -40,10 +40,11 @@ export class HinhAnhService {
   }
 
   public getAvatar(filename: any): string {
+    
     if (!filename || filename == undefined || filename == '') {
-      return `${this.REST_AIP_SERVER}/default_avatar.png`;
+      return `${this.REST_API_SERVER}/default_avatar.png`;
     } else {
-      return `${this.REST_AIP_SERVER}/${filename}`;
+      return `${this.REST_API_SERVER}/${filename}`;
     }
   }
 }

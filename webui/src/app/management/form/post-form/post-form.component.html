@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Tiêu đề</mat-label>
+                <mat-label>Nội dung</mat-label>
                 <textarea formControlName="BV_NoiDung" rows="7" matInput (blur)="logValidationErrors()"></textarea>
                 <span class="help-block" *ngIf="formErrors.BV_NoiDung">
                     * {{ formErrors.BV_NoiDung }} <br>

@@ -32,12 +32,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       TK_TenDangNhap: ['', Validators.required],
-      TK_MatKhau: ['u$erCit@2021', Validators.required],
+      TK_MatKhau: ['', Validators.required],
       MaAnToan: ['', Validators.required]
     });
 
     this.code = randomCode(6);
-    this.loginForm.controls['MaAnToan'].setValue(this.code);
+    // this.loginForm.controls['MaAnToan'].setValue(this.code);
   }
 
   submit(): void {

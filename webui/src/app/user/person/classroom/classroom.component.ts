@@ -21,20 +21,24 @@ export class ClassroomComponent implements OnInit {
 
   lophocInfo: any;
   dsThongBao: any;
+  lhId: any;
 
   ngOnInit(): void {
-    this.route.params.subscribe(
+    this.route.paramMap.subscribe(
+      (params:ParamMap) => {
+          this.lhId = params.get('LH_Id');
+      }
+    );
+
+    this.lophoc.getById(this.lhId).subscribe(
       (result) => {
-        this.lophoc.getById(result.LH_Id).subscribe(
-          (result) => {
-            this.lophocInfo = result;
-          }
-        );
-        this.thongbao.getByLopHoc(result.LH_Id).subscribe(
-          (result) => {
-            this.dsThongBao = result;
-          }
-        );
+        this.lophocInfo = result;
+        console.log(result);
+      }
+    );
+    this.thongbao.getByLopHoc(this.lhId).subscribe(
+      (result) => {
+        this.dsThongBao = result;
       }
     );
   }

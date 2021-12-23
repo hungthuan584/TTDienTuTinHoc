@@ -4,15 +4,17 @@ var HeThong = function (HeThong) {
     this.Ten = HeThong.Ten;
     this.Email = HeThong.Email;
     this.Password = HeThong.Password;
+    this.DefaultPassword = HeThong.DefaultPassword;
     this.Sdt = HeThong.Sdt;
     this.DiaChi = HeThong.DiaChi;
     this.LinkFB = HeThong.LinkFB;
-    this.HinhAnh = HeThong.HinhAnh;
+    this.Poster = HeThong.Poster;
+    this.Logo = HeThong.Logo;
 }
 
 HeThong.getInfo = (result) => {
     dbConnect.query(
-        `SELECT Ten, Email, Sdt, DiaChi, LinkFB, HinhAnh FROM HeThong`,
+        `SELECT Ten, Email, Sdt, DiaChi, LinkFB, Poster, Logo FROM HeThong`,
         (err, res) => {
             if (err) {
                 console.log('Error while fetching', err);
@@ -47,28 +49,11 @@ HeThong.updateSystem = (data, result) => {
             Ten = ?,
             Email = ?,
             Password = ?,
+            DefaultPassword = ?,
             Sdt = ?,
             DiaChi = ?,
             LinkFB = ?
-        `, [data.Ten, data.Email, data.Password, data.Sdt, data.DiaChi, data.LinkFB],
-        (err, res) => {
-            if (err) {
-                console.log('Error while update', err);
-                result(null, err);
-            } else {
-                console.log('Updated successfully');
-                result(null, res);
-            }
-        }
-    );
-}
-
-HeThong.updateImage = (imageName, result) => {
-    dbConnect.query(
-        `UPDATE HeThong
-        SET
-            HinhAnh = ?
-        `, imageName,
+        `, [data.Ten, data.Email, data.Password, data.DefaultPassword, data.Sdt, data.DiaChi, data.LinkFB],
         (err, res) => {
             if (err) {
                 console.log('Error while update', err);

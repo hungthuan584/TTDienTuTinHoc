@@ -6,11 +6,8 @@ var BaiViet = function (BaiViet) {
     this.BV_NoiDung = BaiViet.BV_NoiDung;
     this.BV_UploadFile = BaiViet.BV_UploadFile;
     this.BV_IsDelete = BaiViet.BV_IsDelete;
-    this.BV_CreateBy = BaiViet.BV_CreateBy;
     this.BV_CreateDate = new Date();
-    this.BV_UpdateBy = BaiViet.BV_UpdateBy;
     this.BV_UpdateDate = new Date();
-    this.BV_DeleteDate = new Date();
 }
 
 BaiViet.getNew = (result) => {
@@ -30,7 +27,7 @@ BaiViet.getNew = (result) => {
 
 BaiViet.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM baiviet ORDER BY BV_IsDelete,BV_CreateDate DESC`,
+        `SELECT * FROM baiviet ORDER BY BV_IsDelete, BV_CreateDate DESC`,
         (err, res) => {
             if (err) {
                 console.log('Error while select', err);
@@ -84,7 +81,6 @@ BaiViet.updateById = (id, data, result) => {
             BV_TieuDe = ?,
             BV_MoTa = ?,
             BV_NoiDung = ?,
-            BV_UpdateBy = ?,
             BV_UpdateDate = CURRENT_TIMESTAMP()
         WHERE BV_Id = ?
         `,
@@ -92,7 +88,6 @@ BaiViet.updateById = (id, data, result) => {
             data.BV_TieuDe,
             data.BV_MoTa,
             data.BV_NoiDung,
-            data.BV_UpdateBy,
             id
         ],
         (err, res) => {
@@ -116,7 +111,6 @@ BaiViet.updateWithFile = (id, data, result) => {
             BV_MoTa = ?,
             BV_NoiDung = ?,
             BV_UploadFile = ?,
-            BV_UpdateBy = ?,
             BV_UpdateDate = CURRENT_TIMESTAMP()
         WHERE BV_Id = ?
         `,
@@ -125,7 +119,6 @@ BaiViet.updateWithFile = (id, data, result) => {
             data.BV_MoTa,
             data.BV_NoiDung,
             data.BV_UploadFile,
-            data.BV_UpdateBy,
             id
         ],
         (err, res) => {
@@ -144,9 +137,9 @@ BaiViet.deleteById = (id, result) => {
     dbConnect.query(
         `
         UPDATE BaiViet
-        SET BV_IsDelete = 1, BV_DeleteDate = CURRENT_TIMESTAMP()
+        SET BV_IsDelete = 1
         WHERE BV_Id = ?
-        `,
+        `, id,
         (err, res) => {
             if (err) {
                 console.log('Error while delete', err);

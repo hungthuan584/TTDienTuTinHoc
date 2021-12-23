@@ -18,17 +18,6 @@ import { StudentDialogData } from '../../student/student.component';
 })
 export class StudentFormComponent implements OnInit {
 
-  fillData = {
-    HV_NgaySinh: '1999-10-06',
-    HV_NoiSinh: 'Cần Thơ',
-    HV_Cmnd: '123456789',
-    HV_NgayCapCmnd: '2017-11-03',
-    HV_NoiCapCmnd: 'Cần Thơ',
-    HV_DanToc: 'Kinh',
-    HV_QuocTich: 'Việt Nam',
-    HV_Sdt: '0987654321',
-    HV_Email: 'abcd@gmail.com',
-  }
   studentForm!: FormGroup;
   dsLopHoc: any;
 
@@ -89,27 +78,27 @@ export class StudentFormComponent implements OnInit {
     private fb: FormBuilder,
     private hocvien: HocVienService,
     private lophoc: LopHocService,
-    private dangky: DangKyHocService,
     private tokenStorage: TokenStorageService,
     private hoadon: HoaDonService
   ) { }
 
   loginAccount = this.tokenStorage.getUser();
+  show = true;
 
   ngOnInit(): void {
     this.studentForm = this.fb.group({
       LH_Id: ['', Validators.required],
       HV_HoTen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       HV_GioiTinh: ['', Validators.required],
-      HV_NgaySinh: ['', Validators.required],
-      HV_NoiSinh: ['', Validators.required],
-      HV_Cmnd: ['', Validators.required],
-      HV_NgayCapCmnd: ['', Validators.required],
-      HV_NoiCapCmnd: ['', Validators.required],
-      HV_DanToc: ['', Validators.required],
-      HV_QuocTich: ['', Validators.required],
-      HV_Sdt: ['', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
-      HV_Email: ['', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
+      HV_NgaySinh: ['1999-10-01', Validators.required],
+      HV_NoiSinh: ['Cần Thơ', Validators.required],
+      HV_Cmnd: ['338786537', Validators.required],
+      HV_NgayCapCmnd: ['2015-12-15', Validators.required],
+      HV_NoiCapCmnd: ['Cần Thơ', Validators.required],
+      HV_DanToc: ['Kinh', Validators.required],
+      HV_QuocTich: ['Việt Nam', Validators.required],
+      HV_Sdt: ['0345678792', [Validators.required, Validators.pattern('^[0][0-9]{9}')]],
+      HV_Email: ['abc@gmail.com', [Validators.required, Validators.email, Validators.minLength(10), Validators.maxLength(200)]],
       HV_Mssv: [''],
       NV_Id: ['']
     });
@@ -132,14 +121,24 @@ export class StudentFormComponent implements OnInit {
       }
     );
 
-    if (this.data.id) {
+    if (this.data.isUpdate) {
+      this.studentForm.controls['LH_Id'].disable();
+      this.hocvien.getById(this.data.id).subscribe(
+        (result) => {
+          this.show = false;
+          this.setValueForm(result);
+        }
+      );
+    } else {
+      this.show = true;
+    }
+
+    if (this.data.dangKyHoc) {
       this.hocvien.getById(this.data.id).subscribe(
         (result) => {
           this.setValueForm(result);
         }
       );
-    } else {
-      this.setValueForm(this.fillData);
     }
 
     this.studentForm.valueChanges.subscribe(
@@ -183,8 +182,6 @@ export class StudentFormComponent implements OnInit {
   }
 
   setValueForm(data: any) {
-    this.studentForm.controls['LH_Id'].setValue(data.LH_Id);
-    // this.studentForm.controls['LH_Id'].disable();
     this.studentForm.controls['HV_HoTen'].setValue(data.HV_HoTen);
     this.studentForm.controls['HV_GioiTinh'].setValue(data.HV_GioiTinh);
     this.studentForm.controls['HV_NgaySinh'].setValue(moment(data.HV_NgaySinh).format('YYYY-MM-DD'));
@@ -200,7 +197,7 @@ export class StudentFormComponent implements OnInit {
   }
 
   onCreate() {
-    if (this.data.id) {
+    if (this.data.isUpdate) {
       if (this.studentForm.valid) {
         Swal.fire({
           title: 'Cập nhật thông tin?',

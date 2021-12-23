@@ -9,12 +9,10 @@ var NhanVien = function (NhanVien) {
     this.NV_Sdt = NhanVien.NV_Sdt;
     this.NV_Email = NhanVien.NV_Email;
     this.CV_Id = NhanVien.CV_Id;
-    this.NV_AnhDaiDien = NhanVien.NV_AnhDaiDien;
     this.TK_TenDangNhap = NhanVien.TK_TenDangNhap;
     this.NV_IsDelete = NhanVien.NV_IsDelete;
     this.NV_CreateDate = new Date();
     this.NV_UpdateDate = new Date();
-    this.NV_DeleteDate = new Date();
 }
 
 NhanVien.getAll = (result) => {
@@ -141,8 +139,7 @@ NhanVien.deleteById = (id, result) => {
         `
         UPDATE NhanVien
         SET
-            NV_IsDelete = 1,
-            NV_DeleteDate = CURRENT_TIMESTAMP()
+            NV_IsDelete = 1
         WHERE NV_Id = ?
         `,
         id,

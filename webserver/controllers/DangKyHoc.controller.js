@@ -68,5 +68,5 @@ exports.deleteByStudent = (req, res) => {
                 return res.json({ status: 1, message: 'Deleted successfully' });
             }
         }
-    )
+    );
 }

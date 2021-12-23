@@ -37,6 +37,9 @@ import { ChangeAvatarComponent } from './form/change-avatar/change-avatar.compon
 import { ContactFormComponent } from './form/contact-form/contact-form.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NotifyDetailComponent } from './notification/notify-detail/notify-detail.component';
+import { ExamComponent } from './exam/exam.component';
+import { RegisterFormComponent } from './form/register-form/register-form.component';
+import { SelectionModuleComponent } from './form/register-form/selection-module/selection-module.component';
 
 
 
@@ -57,6 +60,9 @@ import { NotifyDetailComponent } from './notification/notify-detail/notify-detai
     ContactFormComponent,
     NotificationComponent,
     NotifyDetailComponent,
+    ExamComponent,
+    RegisterFormComponent,
+    SelectionModuleComponent,
   ],
   imports: [
     CommonModule,

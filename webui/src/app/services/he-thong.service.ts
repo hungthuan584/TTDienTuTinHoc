@@ -70,4 +70,35 @@ export class HeThongService {
       )
       .pipe(catchError(this.handleError));
   }
+
+  public changeLogo(data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/logo`;
+
+    return this.httpClient.put<any>(url, data, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+  public changePoster(data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/poster`;
+
+    return this.httpClient.put<any>(url, data, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getImage(filename: any): string {
+    return `${this.REST_API_SERVER}/hinhanh/${filename}`;
+  }
 }

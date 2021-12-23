@@ -4,12 +4,9 @@ var ThongBao = function (ThongBao) {
     this.TB_Id = ThongBao.TB_Id;
     this.LH_Id = ThongBao.LH_Id;
     this.TB_NoiDung = ThongBao.TB_NoiDung;
-    this.TB_CreateBy = ThongBao.TB_CreateBy;
-    this.TB_UpdateBy = ThongBao.TB_UpdateBy;
     this.TB_IsDelete = ThongBao.TB_IsDelete;
     this.TB_CreateDate = new Date();
     this.TB_UpdateDate = new Date();
-    this.TB_DeleteDate = new Date();
 }
 
 ThongBao.getAll = (result) => {
@@ -113,13 +110,11 @@ ThongBao.updateById = (id, data, result) => {
         UPDATE ThongBao
         SET 
             TB_NoiDung = ?,
-            TB_UpdateBy = ?,
             TB_UpdateDate = CURRENT_TIMESTAMP()
         WHERE TB_Id = ?
         `,
         [
             data.TB_NoiDung,
-            data.TB_UpdateBy,
             id
         ],
         (err, res) => {
@@ -140,8 +135,7 @@ ThongBao.deleteById = (id, result) => {
         `
         UPDATE ThongBao
         SET 
-            TB_IsDelete = 1,
-            TB_DeleteDate = CURRENT_TIMESTAMP()
+            TB_IsDelete = 1
         WHERE TB_Id = ?
         `,
         id,

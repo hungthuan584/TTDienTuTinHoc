@@ -1,0 +1,157 @@
+<mat-toolbar>
+    <div class="spacer" style="width: 50px;"></div>
+    <div class="date">
+        <form [formGroup]="dateForm">
+            <div class="row" style="width: 100%; margin: 0;">
+                <mat-form-field appearance="outline" style="width: 25%;">
+                    <mat-label>Từ ngày</mat-label>
+                    <input matInput type="date" formControlName="FromDay" min="2000-01-01" max="2100-01-01">
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline" style="width: 25%;">
+                    <mat-label>Đến ngày</mat-label>
+                    <input matInput type="date" formControlName="ToDay" min="2000-01-01" max="2100-01-01">
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline" style="width: 48%;">
+                    <mat-label>Lớp</mat-label>
+                    <mat-select formControlName="LDT_Id">
+                        <mat-option [value]="">Tất cả</mat-option>
+                        <mat-option *ngFor="let dt of dsLopDaoTao" [value]="dt.LDT_Id">{{dt.LDT_Ten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row" style="width: 100%; margin: 0;">
+                <mat-form-field appearance="outline" style="width: 15%">
+                    <mat-label>Phòng học</mat-label>
+                    <mat-select formControlName="PH_Id">
+                        <mat-option [value]="">Tất cả</mat-option>
+                        <mat-option *ngFor="let ph of dsPhongHoc" [value]="ph.PH_Id">{{ph.PH_Ten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline" style="width: 30%;">
+                    <mat-label>Chứng chỉ</mat-label>
+                    <mat-select formControlName="CC_Id">
+                        <mat-option [value]="">Tất cả</mat-option>
+                        <mat-option *ngFor="let cc of dsChungChi" [value]="cc.CC_Id">
+                            {{cc.CC_Ten}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline" style="width: 32%;">
+                    <mat-label>Giáo viên</mat-label>
+                    <mat-select formControlName="GV_Id">
+                        <mat-option [value]="">Tất cả</mat-option>
+                        <mat-option *ngFor="let gv of dsGiaoVien" [value]="gv.GV_Id">
+                            {{gv.GV_Id}} - {{gv.GV_HoTen}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>&nbsp;
+                <mat-form-field appearance="outline" style="width: 20%;">
+                    <mat-label>Trạng thái</mat-label>
+                    <mat-select formControlName="TrangThai">
+                        <mat-option [value]="">Tất cả</mat-option>
+                        <mat-option [value]="'0'">Đang mở</mat-option>
+                        <mat-option [value]="'1'">Đã hoàn thành</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="spacer" style="width: 50px;"></div>
+    <div class="form-group">
+        <table>
+            <tr>
+                <td style="text-align: center;">
+                    <button mat-raised-button color="primary" (click)="onSubmit()" style="width:120px; height: 50px;">
+                        Tìm kiếm
+                    </button>
+                </td>
+                <td style="text-align: center;">
+                    <button mat-stroked-button color="primary" (click)="reset()" style="width:120px; height: 50px;">
+                        Đặt lại
+                    </button>
+                </td>
+                <td style="text-align: center;">
+                    <button mat-raised-button color="primary" (click)="export()" style="width: 120px; height: 50px;">
+                        <img src="../../../../assets/images/excel-icon.png" width="30px" alt=""> Xuất file
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</mat-toolbar>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="stt">
+        <th mat-header-cell *matHeaderCellDef>
+            STT
+        </th>
+        <td mat-cell *matCellDef="let i = index">
+            {{ i+1 }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>
+            Mã lớp
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.LH_Id }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="tenlop">
+        <th mat-header-cell *matHeaderCellDef>
+            Lớp
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.LDT_Ten }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="thoigian">
+        <th mat-header-cell *matHeaderCellDef>
+            Thời gian học
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.TG_Ten }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="phonghoc">
+        <th mat-header-cell *matHeaderCellDef>
+            Phòng học
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.PH_Ten }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="ngaykhaigiang">
+        <th mat-header-cell *matHeaderCellDef>
+            Ngày khai giảng
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.LH_NgayKhaiGiang | date:'dd-MM-yyyy' }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="giaovien">
+        <th mat-header-cell *matHeaderCellDef>
+            Giảng dạy
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.GV_Id">{{element.GV_Id}} - {{ element.GV_HoTen }}</span>
+            <span *ngIf="!element.GV_Id">Chưa phân công</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hoanthanh">
+        <th mat-header-cell *matHeaderCellDef>
+            Hoàn thành
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.LH_IsComplete == 0">Chưa hoàn thành</span>
+            <span *ngIf="element.LH_IsComplete == 1">Đã hoàn thành</span>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

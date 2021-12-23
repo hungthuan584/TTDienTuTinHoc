@@ -82,6 +82,9 @@ export class ClassFormComponent implements OnInit {
       }
     );
 
+    this.classForm.valueChanges.subscribe((data) => {
+      this.logValidationErrors(this.classForm);
+    });
 
     if (this.data.lhId) {
       this.isUpdate = true;

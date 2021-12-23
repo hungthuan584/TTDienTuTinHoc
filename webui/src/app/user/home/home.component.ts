@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaiKhoanService } from 'src/app/services/tai-khoan.service';
-import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { HeThongService } from 'src/app/services/he-thong.service';
 
 @Component({
   selector: 'app-home',
@@ -10,31 +9,20 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 export class HomeComponent implements OnInit {
 
   constructor(
-    private tokenStorage: TokenStorageService
+    private hethong: HeThongService
   ) { }
+
+  posterSrc: any;
 
   public isLogin = false;
   public data: any;
 
   ngOnInit(): void {
-    // this.isLogin = this.auth.isLogin();
-    // this.auth.getLoginName.subscribe(() => this.setLogin());
-    // if (this.isLogin) {
-    //   this.TK_TenDangNhap = this.auth.getInfo();
-    //   this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-    //     this.data = result;
-    //   });
-    // }
-  }
-
-  setLogin() {
-    // this.isLogin = this.auth.isLogin();
-    // if (this.isLogin) {
-    //   this.TK_TenDangNhap = this.auth.getInfo();
-    //   this.taikhoan.getTaiKhoanByTenDangNhap(this.TK_TenDangNhap).subscribe((result) => {
-    //     this.data = result;
-    //   });
-    // }
+    this.hethong.getInfo().subscribe(
+      (result) => {
+        this.posterSrc = this.hethong.getImage(result.Poster);
+      }
+    );
   }
 
 

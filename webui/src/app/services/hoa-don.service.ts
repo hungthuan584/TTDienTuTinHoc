@@ -114,8 +114,8 @@ export class HoaDonService {
       .pipe(catchError(this.handleError));
   }
 
-  public addExam(data: any): Observable<any> {
-    const url = `${this.REST_API_SERVER}/exam`;
+  public addExam(hvId: any, data: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/exam/${hvId}`;
     return this.httpClient.post<any>(url, data, this.httpOptions)
       .pipe(
         map(
@@ -129,6 +129,20 @@ export class HoaDonService {
 
   public comfirmComplete(id: any): Observable<any> {
     const url = `${this.REST_API_SERVER}/${id}`;
+
+    return this.httpClient.delete<any>(url, this.httpOptions)
+      .pipe(
+        map(
+          (data) => {
+            return data;
+          }
+        )
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public deleteById(id: any): Observable<any> {
+    const url = `${this.REST_API_SERVER}/cancel/${id}`;
 
     return this.httpClient.delete<any>(url, this.httpOptions)
       .pipe(

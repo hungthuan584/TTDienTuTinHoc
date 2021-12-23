@@ -39,13 +39,34 @@ exports.getById = (req, res) => {
 
 exports.addNew = (req, res) => {
     const DotThiReqData = new DotThiModel(req.body);
-    DotThiModel.addNew(
-        DotThiReqData,
-        (err) => {
+    DotThiReqData.DT_IsActive = 1;
+    DotThiReqData.DT_UpdateDate = '-  -     :  :';
+    DotThiReqData.DT_IsComplete = 0;
+
+    DotThiModel.getCurrent(
+        (err, DotThi) => {
             if (err) {
                 return res.json({ status: 0, message: err });
             } else {
-                return res.json({ status: 1, message: 'Created successfully' });
+                DotThiModel.completeById(
+                    DotThi.DT_Id,
+                    (err) => {
+                        if (err) {
+                            return res.json({ status: 0, message: err });
+                        } else {
+                            DotThiModel.addNew(
+                                DotThiReqData,
+                                (err) => {
+                                    if (err) {
+                                        return res.json({ status: 0, message: err });
+                                    } else {
+                                        return res.json({ status: 1, message: 'Created successfully' });
+                                    }
+                                }
+                            );
+                        }
+                    }
+                )
             }
         }
     );

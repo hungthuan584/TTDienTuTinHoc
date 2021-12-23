@@ -41,13 +41,14 @@ exports.getByLH = (req, res) => {
 
 exports.addNew = (req, res) => {
     const GiangDayReqData = new GiangDayModel(req.body);
+    GiangDayReqData.GD_UpdateDate = '-  -     :  :';
     GiangDayModel.getByGV(
         req.body.GV_Id,
         (err, GiaoVien) => {
             if (err) {
                 return res.json({ status: 0, message: err });
             } else {
-                LopHocModel.getById(
+                LopHocModel.getByInCompleteId(
                     req.body.LH_Id,
                     (err, LopHoc) => {
                         if (err) {

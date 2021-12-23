@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { GiangDayService } from 'src/app/services/giang-day.service';
 import { GiaoVienService } from 'src/app/services/giao-vien.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
 import { ThongBaoService } from 'src/app/services/thong-bao.service';
@@ -23,6 +24,7 @@ export class NotifyFormComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private thongbao: ThongBaoService,
     private giaovien: GiaoVienService,
+    private giangday:GiangDayService,
     private lophoc: LopHocService
   ) { }
 
@@ -33,12 +35,10 @@ export class NotifyFormComponent implements OnInit {
   ngOnInit(): void {
     this.notifyForm = this.fb.group({
       LH_Id: [''],
-      TB_NoiDung: ['', Validators.required],
-      TB_CreateBy: [''],
-      TB_UpdateBy: ['']
+      TB_NoiDung: ['', Validators.required]
     });
 
-    this.lophoc.getByTeacher(this.loginAccount.TK_TenDangNhap).subscribe(
+    this.giangday.getByGV(this.loginAccount.TK_TenDangNhap).subscribe(
       (result) => {
         this.dsLopHoc = result;
       }
@@ -51,17 +51,6 @@ export class NotifyFormComponent implements OnInit {
       this.thongbao.getById(this.data.tbId).subscribe(
         (result) => {
           this.notifyForm.controls['TB_NoiDung'].setValue(result.TB_NoiDung);
-        }
-      );
-      this.giaovien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
-        (result) => {
-          this.notifyForm.controls['TB_UpdateBy'].setValue(result.GV_HoTen);
-        }
-      );
-    } else {
-      this.giaovien.getById(this.loginAccount.TK_TenDangNhap).subscribe(
-        (result) => {
-          this.notifyForm.controls['TB_CreateBy'].setValue(result.GV_HoTen);
         }
       );
     }

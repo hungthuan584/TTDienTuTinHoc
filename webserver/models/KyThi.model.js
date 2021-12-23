@@ -1,19 +1,24 @@
-var dbConnect = require('../db.config');
+const dbConnect = require('../db.config');
 
 var KyThi = function (KyThi) {
-    this.KT_Ten = KyThi.KT_Ten;
-    this.KT_NgayThi = new Date();
-    this.KT_GioThi = KyThi.KT_GioThi;
+    this.KT_Id = KyThi.KT_Id;
+    this.CC_Id = KyThi.CC_Id;
+    this.KT_NgayThi = KyThi.KT_NgayThi;
+    this.DT_Id = KyThi.DT_Id;
     this.KT_CreateDate = new Date();
     this.KT_UpdateDate = new Date();
 }
 
 KyThi.getAll = (result) => {
     dbConnect.query(
-        `SELECT * FROM KyThi`,
+        `SELECT *
+        FROM KyThi kt
+        JOIN ChungChi cc ON cc.CC_Id = kt.CC_Id
+        JOIN DotThi dt ON dt.DT_Id = kt.DT_Id
+        ORDER BY kt.KT_NgayThi DESC`,
         (err, res) => {
             if (err) {
-                console.log('Error while fetching', err);
+                console.log('Error while select', err);
                 result(null, err);
             } else {
                 console.log('Selected successfully');
@@ -25,16 +30,58 @@ KyThi.getAll = (result) => {
 
 KyThi.getById = (id, result) => {
     dbConnect.query(
-        `
-        SELECT * FROM KyThi WHERE KT_Id = ?
-        `,
+        `SELECT *
+        FROM KyThi kt
+        JOIN ChungChi cc ON cc.CC_Id = kt.CC_Id
+        JOIN DotThi dt ON dt.DT_Id = kt.DT_Id
+        WHERE kt.KT_Id = ?`,
         id,
         (err, res) => {
             if (err) {
-                console.log('Error while fetching', err);
+                console.log('Error while select', err);
                 result(null, err);
             } else {
-                console.log('Selected by id successfully');
+                console.log('Selected by Id successfully');
+                result(null, res[0]);
+            }
+        }
+    );
+}
+
+KyThi.getByCC = (id, result) => {
+    dbConnect.query(
+        `SELECT *
+        FROM KyThi kt
+        JOIN ChungChi cc ON cc.CC_Id = kt.CC_Id
+        JOIN DotThi dt ON dt.DT_Id = kt.DT_Id
+        WHERE (dt.DT_IsActive != 0) AND (kt.CC_Id = ?)`,
+        id,
+        (err, res) => {
+            if (err) {
+                console.log('Error while select', err);
+                result(null, err);
+            } else {
+                console.log('Selected by CC successfully');
+                result(null, res);
+            }
+        }
+    );
+}
+
+KyThi.getByDT = (id, result) => {
+    dbConnect.query(
+        `SELECT *
+        FROM KyThi kt
+        JOIN ChungChi cc ON cc.CC_Id = kt.CC_Id
+        JOIN DotThi dt ON dt.DT_Id = kt.DT_Id
+        WHERE kt.DT_Id = ?`,
+        id,
+        (err, res) => {
+            if (err) {
+                console.log('Error while select', err);
+                result(null, err);
+            } else {
+                console.log('Selected by DT successfully');
                 result(null, res);
             }
         }
@@ -47,7 +94,7 @@ KyThi.addNew = (data, result) => {
         data,
         (err, res) => {
             if (err) {
-                console.log('Error while creating', err);
+                console.log('Error while create', err);
                 result(null, err);
             } else {
                 console.log('Created successfully');
@@ -59,24 +106,15 @@ KyThi.addNew = (data, result) => {
 
 KyThi.updateById = (id, data, result) => {
     dbConnect.query(
-        `
-        UPDATE KyThi
+        `UPDATE KyThi
         SET
-            KT_Ten = ?,
             KT_NgayThi = ?,
-            KT_GioThi = ?,
             KT_UpdateDate = CURRENT_TIMESTAMP()
-        WHERE KT_Id = ?
-        `,
-        [
-            data.KT_Ten,
-            data.KT_NgayThi,
-            data.KT_GioThi,
-            id
-        ],
+        WHERE KT_Id = ?`,
+        [data.KT_NgayThi, id],
         (err, res) => {
             if (err) {
-                console.log('Error while updating', err);
+                console.log('Error while update', err);
                 result(null, err);
             } else {
                 console.log('Updated successfully');

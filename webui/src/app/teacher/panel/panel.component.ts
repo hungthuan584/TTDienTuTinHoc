@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DangKyHocService } from 'src/app/services/dang-ky-hoc.service';
+import { GiangDayService } from 'src/app/services/giang-day.service';
 import { LopHocService } from 'src/app/services/lop-hoc.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 
@@ -12,8 +13,7 @@ export class PanelComponent implements OnInit {
 
   constructor(
     private tokenStorage: TokenStorageService,
-    private dangkyhoc: DangKyHocService,
-    private lophoc: LopHocService
+    private giangday: GiangDayService
   ) { }
 
   loginAccount = this.tokenStorage.getUser();
@@ -21,7 +21,7 @@ export class PanelComponent implements OnInit {
   show = false;
 
   ngOnInit(): void {
-    this.lophoc.getByTeacher(this.loginAccount.TK_TenDangNhap).subscribe(
+    this.giangday.getByGV(this.loginAccount.TK_TenDangNhap).subscribe(
       (result) => {
         this.dsLopHoc = result;
       }

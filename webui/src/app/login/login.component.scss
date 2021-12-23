@@ -10,19 +10,28 @@
     }
     z-index: 1000 !important;
     background-color: #ffffff;
-    width: 20%;
-    height: 45%;
+    width: 320px;
+    height: 50%;
     border-radius: 5px;
     form {
         margin: 20px;
+        mat-form-field{
+            margin: 0;
+        }
+    }
+
+    table{
+        width: 100%;
     }
 }
 
 .code {
     background-color: #b2bec3;
     color: #000000;
-    padding: 10px 15px;
     font-size: 20px;
-    text-decoration: wavy;
+    width: 120px;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
     font-family: 'Courier New', Courier, monospace;
 }

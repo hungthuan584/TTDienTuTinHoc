@@ -1,12 +1,13 @@
 <div class="container">
     <h2 class="title">TRUNG TÂM ĐIỆN TỬ TIN HỌC THÔNG BÁO CHIÊU SINH CÁC LỚP</h2>
-    <table class="table table-striped">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Mã lớp</th>
                 <th>Tên lớp</th>
                 <th class="text-center">Số lượng</th>
-                <th class="text-center">Thời gian học</th>
+                <th class="text-center">Ngày học</th>
+                <th>Thời gian học</th>
                 <th class="text-center">Ngày khai giảng</th>
                 <th class="text-center">#</th>
             </tr>
@@ -20,16 +21,19 @@
                     {{ lophoc.LDT_Ten }}
                 </td>
                 <td class="text-center">
-                    {{ lophoc.LH_SiSo }}
+                    {{lophoc.soluong}}/{{ lophoc.LH_SiSo }}
                 </td>
                 <td class="text-center">
                     {{lophoc.TG_Ten}}
+                </td>
+                <td>
+                    {{lophoc.TG_ThoiGianHoc}}
                 </td>
                 <td class="text-center">
                     {{ lophoc.LH_NgayKhaiGiang | date: 'dd/MM/yyyy' }}
                 </td>
                 <td class="text-center">
-                    <button mat-raised-button color="accent" [disabled]="lophoc.LH_IsActive==0"
+                    <button mat-raised-button color="accent" [disabled]="lophoc.soluong==lophoc.LH_SiSo || lophoc.LH_IsActive == 0"
                         (click)="registerClick(lophoc.LH_Id)">Đăng ký ngay</button>
                 </td>
             </tr>
@@ -38,7 +42,7 @@
 
     <hr>
     <h2 class="title">LỆ PHÍ CHO CÁC LỚP</h2>
-    <table class="table table-bordered">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Mã lớp</th>

@@ -76,7 +76,7 @@ export class ChangeAvatarComponent implements OnInit {
               } else {
                 Swal.fire({
                   icon: 'error',
-                  title: 'Lỗi'
+                  title: result.message
                 });
               }
             }

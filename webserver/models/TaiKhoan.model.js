@@ -4,13 +4,11 @@ var TaiKhoan = function (TaiKhoan) {
     this.TK_TenDangNhap = TaiKhoan.TK_TenDangNhap;
     this.TK_MatKhau = TaiKhoan.TK_MatKhau;
     this.Q_Id = TaiKhoan.Q_Id;
-    this.TK_XacThuc = TaiKhoan.TK_XacThuc;
     this.TK_NumberOfLogin = TaiKhoan.TK_NumberOfLogin;
     this.TK_AnhDaiDien = TaiKhoan.TK_AnhDaiDien;
     this.TK_IsActive = TaiKhoan.TK_IsActive;
     this.TK_CreateDate = new Date();
     this.TK_UpdateDate = new Date();
-    this.TK_DeactivateDate = new Date();
 }
 
 TaiKhoan.getAll = (result) => {
@@ -143,7 +141,7 @@ TaiKhoan.changeAvatar = (username, data, result) => {
 // Blocked 
 TaiKhoan.blockedByUsername = (username, result) => {
     dbConnect.query(
-        `UPDATE TaiKhoan  SET TK_IsActive = 0, TK_DeactivateDate = CURRENT_TIMESTAMP() WHERE TK_TenDangNhap = ?`,
+        `UPDATE TaiKhoan  SET TK_IsActive = 0 WHERE TK_TenDangNhap = ?`,
         username,
         (err, res) => {
             if (err) {
